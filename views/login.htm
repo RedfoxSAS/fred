@@ -1,0 +1,63 @@
+
+<center>
+<style>
+.form {margin-top:5%;width:50%;padding:20px;}
+.label {font-weight:bold;}
+header {display:none;}
+@media (max-width:991px;){
+
+	.form {margin-top:5%;width:90%;padding:5px;}
+	.table { display: block;width:99%}
+	.table tbody { display: block;}
+	.table tbody tr { display: block;}
+
+	.table thead tr {
+		display:none;
+	}
+
+	.table tbody tr td {
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 0px solid #eee;
+		position: relative;
+		padding:0px;
+		padding-left: 2%;
+		margin:0px;
+		display: block;
+		margin:0px;
+		min-height:1.4em;
+		text-align:left;
+		border:0px solid gray;
+	}
+}
+</style>
+<div>
+<form method="POST" class="form form-horizontal">
+	<h2><img src="/rframe3/icons/logo-rframe.png" width="240px"></h2>
+	<table class="table">
+			<tr>
+				<td>
+					<label for="login" class="label">Login</label>
+					<p>Nombre corto de identificaci&oacute;n</p>
+				</td>
+				<td>
+					<input class="form-control" type="text" class="texto" name="login" value="{login}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="password" class="label">Contrase&ntilde;a</label>
+					<p>Contrase&ntilde;a de inicio de sesi&oacute;n</p>
+				</td>
+				<td>
+					<input class="form-control" type="password" class="texto" name="password" value="">
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" class="texto" name="Sesion" value="1">
+		<input type="submit" name="Ingresar" value=" Iniciar sesi&oacute;n" class="btn btn-info" >
+	</div>
+</form><br>
+
+</center>
+</div>
