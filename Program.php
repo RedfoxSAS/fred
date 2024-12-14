@@ -29,9 +29,9 @@ abstract class Program extends App
 	private $Body = array();
 	private $Menu ;
 
-	protected $Logo = "/includes/fred/img/logo.png";
-	protected $Icon = "/includes/fred/img/favicon.ico";
-	protected $Look = "/includes/fred/css/clasic.css?6";
+	protected $Logo = "/assets/images/logo.png";
+	protected $Icon = "/assets/images/favicon.ico";
+	protected $Look = "/assets/fred.clasic.css?6";
 	protected $Login = "views/login.htm";
 	
 	protected $Modal;
@@ -63,12 +63,13 @@ abstract class Program extends App
 		$this->authorize("program_index",true);
 		
 		//$this->script("/includes/materialize/js/materialize.min.js");
-		$this->script("/includes/jquery/js/cdn.min.js");
-		$this->script("/includes/jquery/js/jquery.slim.min.js");
-		$this->script("/includes/fred/js/fred.js?2");
-		$this->script("/includes/bootstrap/js/bootstrap.min.js");
+		//$this->script("/assets/cdn.min.js");
+		$this->script("/assets/jquery.slim.min.js");
+		$this->script("/assets/fred.js?2");
+		$this->script("/assets/bootstrap.min.js");
 
-		$this->style("/includes/awesome6/css/all.min.css");
+		$this->style("/assets/bootstrap.min.css");
+		$this->style("/assets/awesome/all.min.css");
 		$this->style($this->Look);
 		
 		App::loadCrud(App::$UserActive->Modulos);
@@ -230,7 +231,7 @@ abstract class Program extends App
 		}
 		
 		$out = "<html>";
-		$out.= "<head><link rel='stylesheet' type='text/css' href='/includes/fred/css/print.css?1'/>";
+		$out.= "<head><link rel='stylesheet' type='text/css' href='/assets/fred.print.css?1'/>";
 		$out.= "</head>";
 		$out.= "<body><table><thead><tr><td>" . $body;
 		$out = str_replace("</header>","</header></td></tr></thead>	<tbody>	<tr><td>",$out);

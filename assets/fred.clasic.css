@@ -1,0 +1,655 @@
+@import url("/assets/bootstrap.min.css");
+
+/* Todos los dispositivos */
+body {
+	padding-top:50px;
+	padding-left:16%;
+	background-color:white;
+}
+
+/*HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #2aacb8;
+  padding: 1rem;
+  z-index:20;
+  height:40px;
+  padding-left:4px;
+  padding-right:80px;
+}
+
+.header-logo {
+	height:54px;
+	position:absolute;
+	top:6px;
+	right:20px;
+}
+
+.header-logo img
+{
+	height:58px;
+}
+
+/* BARRA DE NAVERGACION */
+.nav ul {
+	display: block;
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+}
+
+.nav ul li {
+	padding:0px; 
+	margin:0px;
+	display:block;
+}
+
+
+/* FORMULARIOS Y CONTROLES */
+
+form label h5 {
+	color:#000;
+}
+
+form label div {
+	font-size:11pt;
+	color:#a00;
+}
+
+.AppTitle{
+	font-size:24pt;
+}
+
+/* ==============    Estilos para Escritorio =================0*/
+@media all and (min-width: 701px) {
+	/* GENERALES */
+	.body {
+		width:100%;
+		display:inline-block;
+		padding:0% 2% 0% 2%;
+		margin-left:20%;
+	}
+
+	.body h1
+	{
+		font-size:18pt;
+	}
+	
+	.body section:first-child h1
+	{
+		font-size:24pt;
+	}
+	
+	.body header {display:none;}
+	
+	/* PANEL DE OPCIONES */
+	.panel-options {
+		width:16%;
+		display:inline-block;
+		padding:0% 0.7% 0% 0.7%;
+		height:100%;
+		padding-top:60px;
+		position:fixed;
+		background-color:#f4fafa;
+		top:0px;
+		left:0px;
+	}
+	
+	.panel-options h1 { font-size:12pt; }
+	.panel-options form, .panel-options .btn { margin:0px; padding:0px; width:100%;}
+	.panel-options .btn-link { text-align:left;	 color:black; }
+	.panel-options .form-panel label  { width:100%; padding:0px;margin:0px;width:100%;font-size:9pt; 	}
+	.panel-options .form-control  {max-width:178px;padding:0.01rem;height:20pt;	}
+	.panel-options .form-panel table th, .panel-options .form-panel table td
+	{
+		width:5%;vertical-align:top;margin:0px;padding:0.01rem;border:0px solid blue;
+	}
+	
+	
+	/* BARRA DE NAVERGACION */
+	/* Oculta botón de abrir o cerrar */
+	.nav-button,
+	.b-nav-open {
+		display: none;
+	}
+
+	/* Adapta el nav en horizontal */
+	.nav ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.nav ul li {
+		display: inline-block;
+		padding:0px;
+		text-decoration: none;
+		color: black;
+		transition: 0.5s;
+	}
+	  
+	.nav ul li:hover {}
+	
+	.nav ul li a {
+		display: flex;
+		padding: 0.5rem;
+		text-decoration: none;
+		color: #191C26;
+	}
+	
+	.nav ul li a:hover {
+		background-color: #009;
+		border-radius: 2px 2px 0px 0px;
+		color:white;
+	}
+	
+	.nav ul li a:hover + ul, .nav ul li ul:hover {
+		display: block;
+		position:absolute;
+	}	
+	
+	.nav ul li ul {
+		display: none;
+		border: 1px solid black;
+		background-color: white;
+		border-radius: 4px;
+		box-shadow:1px 2px 3px #2aacb8;
+	}
+
+	.nav ul li ul li 
+	{
+		border-bottom: 1px solid silver;
+		border-radius: 0px;
+		display:block;
+	}
+
+	.nav ul li ul li a:hover {
+		background-color: #dcc;
+	}
+	
+	.nav i
+	{
+		margin-right:0.2rem;
+	}
+	
+	.nav-options
+	{
+		width:100%;
+		padding:1rem 0rem 1rem 0rem;
+	}
+	
+	.nav-options a
+	{
+		font-size:12pt;
+	}
+	
+	/* ESTILO PARA LAS TABLAS LISTAS O COLECCION*/
+	.collection 
+	{
+		width:100%;
+	}
+	
+	.collection i 
+	{
+		display:inline-block;
+	}
+	
+	.collection-text
+	{
+		max-height:54pt;
+		overflow:clip;
+	}	
+	
+	.collection-text p
+	{
+		margin:0px;margin-left:0px;
+	}
+	
+	.collection-crud
+	{
+		border: 0px solid white;
+	}
+
+		
+	/* ESTILO PARA LAS TABLAS EN LOS DATASHEETS*/
+	.data-sheet 
+	{
+		width:100%;
+		vertical-align:top;
+		border-bottom:1px solid silver;
+		padding:4px;
+		margin-bottom:8px;
+	}
+	.data-sheet th, .data-sheet td { padding:0.15rem; }
+	.data-sheet th { color:silver; font-size:13px; font-family:arial; }
+	.data-sheet td { font-size:16px; padding-right:14px;}
+	
+	.data-sheet-print {
+		width:100%;
+		height:72vh;
+		overflow:scroll;
+	}
+	
+	/*FORMULARIOS Y CONTROLES */
+	
+	/* Estilo para la rejilla tabla de los paneles*/
+	.form-panel table
+	{
+		width:100%;
+	}
+	
+	.form-panel table th, .form-panel table td
+	{
+		width:5%;vertical-align:top;margin:0px;padding:0.1rem;border:0px solid blue;
+	}
+	.form-panel label
+	{
+		width:100%;margin:0px;padding:0.3rem;border:0px solid red;
+	}
+	
+	/* Caja de Botones */
+	form .form-buttons
+	{
+		border-top:1px solid #ccc;
+		text-align:center;
+		margin-top:18pt;
+	}
+	
+	form td button 
+	{
+		margin-top:20pt;
+	}
+	
+	.table td button 
+	{
+		margin-top:0pt;
+	}
+	
+	.check-label 
+	{ 
+		display:inline-block;
+		padding:0.2rem;
+		width:98%;
+		color:black;
+	}
+	
+	.check-group 
+	{
+		margin-bottom:12px;
+	}
+	
+	.group-title 
+	{
+		margin:0px;
+		background-color:#fff;
+		width:100%;
+		font-size:11pt;
+		border-bottom:1px solid silver;
+	}
+	.group-group-title 
+	{
+		margin:0px;
+		background-color:#fbf3f3;
+		width:100%;
+		padding:2px;
+		text-align:center;
+		font-size:12pt;
+		font-weight:bold;
+	}
+	
+	/* Estilos para el calendario */
+	.calendar div { display:inline-block;}
+	.calendar table {width:100%;}
+	
+	.calendar table
+	{
+		border-collapse:collapse;
+	}
+
+	.calendar td, .calendar th
+	{
+		border:1px solid gray;
+	}
+		
+	.calendar th { background-color:silver; text-align:center;}
+	
+	.calendar-head 
+	{
+		width:100%;
+		margin-left:1%;
+		text-align:left;
+		font-size:24pt;
+		border:0px solid gray;
+		background-color: #fff;
+	}
+	
+	.calendar-month
+	{
+		display:inline-block;
+		margin:12px;
+		width:100%;
+	}
+	
+	.calendar-inactive { background-color:#f7f7fa;}
+		
+	.calendar-month .td-body
+	{
+		height:84px;
+		max-height:84px;
+		padding-left:24px;
+		position:relative;
+		vertical-align:top;
+	}
+	
+	.calendar-month .day-head 
+	{
+		position:absolute;
+		top:0px;left:1px;
+		font-size:9pt;
+		color:gray;
+	}
+	
+	.calendar-month .day-body 
+	{
+		color:blue;
+		padding-top:0px;
+	}
+	
+	.calendar-month .head 
+	{
+		font-size:20pt;
+		background-color: #2aacb8;
+		color: white;
+	}
+	
+	.calendar-mini 
+	{
+		display:inline-block;
+		margin:0.65%;
+		width:32%;
+	}
+	
+	.calendar-mini .td-body
+	{
+		height:40px;
+		max-height:40px;
+		position:relative;
+		text-align:center;
+	}
+		
+	.calendar-mini .day-head 
+	{
+		position:absolute;
+		top:0px;left:1px;
+		font-size:8pt;
+		color:gray;
+	}
+	
+	.calendar-mini .day-body
+	{
+		color:red;
+		font-size:14pt;
+		background-color:pink;
+		border-radius:50%;
+		width:86%;
+		height:86%;
+		text-align:center;
+		vertical-align:middle;
+	}
+		
+	.calendar-mini .head 
+	{
+		font-size:16pt;
+		background-color: #2aacb8;
+		color: white;
+	}
+	
+	.calendar-mini a, .calendar-month a
+	{
+		color:white;
+	}
+	
+	.calendar-controls {float:right;}
+			
+}
+
+/*Estilos para móvil/celular                      CELULARES */
+@media all and (max-width: 700px) {
+
+	/* BARRA DE NAVERGACION */
+	/*Oculta el nav en la parte izquiera */
+	.nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: #2aacb8;
+		transform: translateX(-100vw);
+		transition: 0.5s;
+	}
+	
+	/* Muestra el nav */
+	.nav-show {
+		transform: translateX(0);
+	}
+
+	.nav-button {
+		text-align: right;
+		margin: 1rem;
+	}
+	
+	.nav ul {
+		padding: 0;
+		margin: 0;
+	} 
+
+	.nav ul li {
+		display: block;
+		padding: 1rem;
+		font-size: 1.1rem;
+		text-align: center;
+		text-decoration: none;
+		color: black;
+	}
+		
+	.nav ul li a {
+		display: flex;
+		padding: 0.1rem 1rem;
+		text-decoration: none;
+		color: #fff;
+	}
+	
+	.nav ul li a:hover {
+		color: white;
+		text-decoration: underline;
+	}
+	
+	.nav ul li a:hover + ul, .nav ul li ul:hover {
+		display: block;
+		position:absolute;
+	}	
+	
+	.nav ul li ul {
+		display: block;
+		padding-left: 1rem;
+	}
+
+	.nav ul li ul li 
+	{
+		border-radius: 0px;
+	}
+
+	.nav ul li ul li a:hover {
+		color: #dcc;
+	}
+	
+	.nav i
+	{
+		margin-right:0.2rem;
+	}
+}
+
+
+
+
+/*
+
+   
+
+
+header {
+
+}
+
+
+header div {
+	display:inline-block;
+	border:0px solid blue;
+}
+
+
+
+header .user {
+	position:absolute;	right:10px; top:6px;
+	color:white;
+	vertical-align:top;
+}
+
+header .user-icon {
+	color:white;
+	font-size:18px;
+}
+
+header .home-icon {
+	color:white;
+	font-size:24px;
+}
+
+header .btn-toggle {
+	color:white;
+	background-color:transparent;
+	font-size:30px;
+	position:absolute;right:0px;top:-6px;
+	border:0px solid white;
+	display:none;
+}
+
+header .btn-toggle:hover {
+	color:#ccf;
+}
+
+
+.modal-dialog {
+	height:92%;
+}
+
+.modal-lg{
+	width:100%;
+}
+.modal-content{
+	height:100%;
+}
+.modal-header{
+	padding:0px;
+	margin:0px;
+}
+.modal-title{
+	border:1px solid blue;
+}
+.modal-body{
+	height:100%;
+}
+
+.modal-frame {
+	width:100%;
+	height:100%;
+	border:0px;
+}
+
+.rWindowBody
+{
+	height:100%;
+	padding:10px 0px 10px 0px;
+}
+
+.btn-search {
+	background-color:silver;
+	border-radius:0px 4px 4px 0px; 
+}
+
+.mapa {
+  border-bottom:1px solid #ddf; 
+}
+
+.btn-light {
+	background-color:#eef;
+}
+.btn { min-width:32px;margin:0px;}
+
+div.form-boton .btn {border:0px solid blue;width:100%;}
+
+.WordPage {
+	border:1px solid #eee;
+}
+
+
+
+
+
+@media (max-width:576px) {
+
+	.form {
+		width:98%;
+	}
+
+	header .user {
+		position:relative;
+		width:100%;
+		text-align:center;
+		margin-bottom:14px;
+	}
+
+	header .btn-toggle {
+		display:block;
+	}
+	
+	.menu
+	{
+		position:absolute;
+		top:40px;
+		display:none;
+		width:100%;
+		background-color:rgb(0,0,90);
+	}
+
+	.menu-main, .menu-main-li 
+	{
+		position:relative;
+		display:block;
+		margin-top:6px;
+	}
+	
+	.menu-down {
+		position:relative;
+		width:100%;
+	}
+
+}
+
+*/
+
+
+
+
+
+
+
+
+
+

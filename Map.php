@@ -64,7 +64,7 @@ class Map
 		$motor = $this->Motor;
 		$prove = "";
 		
-		if($motor=="Google"){
+		if($motor=="google"){
 			$apikey[0] = "AIzaSyCABSe3WDQyaeHxrDwbAP52lfCeDBZ7Wss";  //wendy   02 - 12 -2018
 			$apikey[1] = "AIzaSyCtPOpHgkPXUis01IZHMu_DYK8ShO0sODI";  //raul    01 - 06 -2018
 			$apikey[2] = "AIzaSyC2L0zKlHeJTR9O6YdDb6JoH45yRXctxvw";  //andres  27 - 06 -2018
@@ -74,21 +74,21 @@ class Map
 			$api = $apikey[ rand(0, 4) ];
 			$prove = "<script type=\"text/javascript\" src=\"https://maps.google.com/maps/api/js?key=$api\"></script>";
 		
-		}else if($motor=="Box"){
+		}else if($motor=="mapbox"){
 	
 	    	$prove = "
 				<script src=\"https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js\"></script>
 				<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
 			";	
 		
-		}else if($motor=="Arcgis"){
+		}else if($motor=="arcgis"){
 		
 			$prove = "
 				<link rel=\"stylesheet\" href=\"https://js.arcgis.com/4.24/esri/themes/light/main.css\">
 				<script src=\"https://js.arcgis.com/4.24/\"></script>
 			";
 		
-		}else if($motor=="Open"){
+		}else if($motor=="osm"){
 		
 			$prove = "
 				<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet/dist/leaflet.css\" />
@@ -104,9 +104,9 @@ class Map
 		$htm = "
 
 		$prove
-		<script type=\"text/javascript\" src=\"/includes/fred/js/map.js?2\"></script>
-		<script type=\"text/javascript\" src=\"/includes/fred/js/map$motor.js?1\"></script>
-		<link rel=\"stylesheet\" href=\"/includes/fred/css/maps.css?1\">
+		<script type=\"text/javascript\" src=\"/assets/fred.map.js?2\"></script>
+		<script type=\"text/javascript\" src=\"/assets/fred.map-$motor.js?1\"></script>
+		<link rel=\"stylesheet\" href=\"/assets/fred.maps.css?1\">
 		<div class=\"map-container\" style=\"width:$w;height:400px;\" id='map-container'>
 			<div class='map-title'>
 				<h1>$tl</h1>
@@ -136,10 +136,10 @@ class Map
 		}
 		
 		$htm.= "
-		<button class='btn' type='submit' name='mapMotor' value='Arcgis' tilte='ArcGis'><img src='/includes/fred/img/arcgis.png'></button>
-		<button class='btn' type='submit' name='mapMotor' value='Open' tilte='Open Street Map'><img src='/includes/fred/img/osmap.png'></button>
-		<button class='btn' type='submit' name='mapMotor' value='Box' tilte='MapBox'><img src='/includes/fred/img/mapbox.png'></button>
-		<button class='btn' type='submit' name='mapMotor' value='Google' tilte='Google Maps'><img src='/includes/fred/img/mapggl.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='arcgis' tilte='ArcGis'><img src='/assets/images/arcgis.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='osm' tilte='Open Street Map'><img src='/assets/images/osmap.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='mapbox' tilte='MapBox'><img src='/assets/images/mapbox.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='google' tilte='Google Maps'><img src='/assets/images/mapggl.png'></button>
 		";
 		if($this->Select){
 			$htm.= $this->Select;

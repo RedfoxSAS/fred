@@ -61,8 +61,8 @@ class Chart
 		$h = ($this->H)? "height:" . $this->H: "";
 		$w = "width:" . $this->W;
 		$htm = "
-		<script src=\"/includes/charjs/Chart.min.js\"></script>
-		<script src=\"/includes/charjs/utils.js\"></script>
+		<script src=\"/assets/chartjs.min.js\"></script>
+		<script src=\"/assets/chartjs.utils.js\"></script>
 		<div id=\"chart-container\" style=\"$w;$h\">
 			<canvas id=\"chart-canvas\" style=\"$w;$h\"></canvas>
 		</div>
