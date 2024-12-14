@@ -104,9 +104,9 @@ class Map
 		$htm = "
 
 		$prove
-		<script type=\"text/javascript\" src=\"/assets/fred.map.js?2\"></script>
-		<script type=\"text/javascript\" src=\"/assets/fred.map-$motor.js?1\"></script>
-		<link rel=\"stylesheet\" href=\"/assets/fred.maps.css?1\">
+		<script type=\"text/javascript\" src=\"/fred/assets/fred.map.js?2\"></script>
+		<script type=\"text/javascript\" src=\"/fred/assets/fred.map-$motor.js?1\"></script>
+		<link rel=\"stylesheet\" href=\"/fred/assets/fred.maps.css?1\">
 		<div class=\"map-container\" style=\"width:$w;height:400px;\" id='map-container'>
 			<div class='map-title'>
 				<h1>$tl</h1>
@@ -136,10 +136,10 @@ class Map
 		}
 		
 		$htm.= "
-		<button class='btn' type='submit' name='mapMotor' value='arcgis' tilte='ArcGis'><img src='/assets/images/arcgis.png'></button>
-		<button class='btn' type='submit' name='mapMotor' value='osm' tilte='Open Street Map'><img src='/assets/images/osmap.png'></button>
-		<button class='btn' type='submit' name='mapMotor' value='mapbox' tilte='MapBox'><img src='/assets/images/mapbox.png'></button>
-		<button class='btn' type='submit' name='mapMotor' value='google' tilte='Google Maps'><img src='/assets/images/mapggl.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='arcgis' tilte='ArcGis'><img src='/fred/assets/images/arcgis.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='osm' tilte='Open Street Map'><img src='/fred/assets/images/osmap.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='mapbox' tilte='MapBox'><img src='/fred/assets/images/mapbox.png'></button>
+		<button class='btn' type='submit' name='mapMotor' value='google' tilte='Google Maps'><img src='/fred/assets/images/mapggl.png'></button>
 		";
 		if($this->Select){
 			$htm.= $this->Select;
