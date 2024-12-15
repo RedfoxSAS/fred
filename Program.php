@@ -2,12 +2,10 @@
 /**
  * Program.php version 4
  * 
- * Clase para modelar un formulario principal para una aplicacion, esta
- * suministra las funciones basicas para crear apliaciones para la web
+ * Modela el programa principal del sistema
  * 
  * @Autor:	Raul E. Ramos Guzman
- * @Fecha:	05/05/2016
- * @Modificado: 30/01/2023
+ * @Fecha:	05/05/2024
  * 
  * */
 
@@ -23,6 +21,7 @@ include_once "Controller.php";
  
 abstract class Program extends App
 {		
+	public static $num = 0;
 	public static $Panel = "";
 	public static $View = "";
 	
@@ -62,13 +61,10 @@ abstract class Program extends App
 		$this->authorize("program_logoff",true);
 		$this->authorize("program_index",true);
 		
-		//$this->script("/includes/materialize/js/materialize.min.js");
-		//$this->script("/assets/cdn.min.js");
 		$this->script("/fred/assets/jquery.slim.min.js");
 		$this->script("/fred/assets/fred.js?2");
 		$this->script("/fred/assets/bootstrap.min.js");
 
-		$this->style("/fred/assets/bootstrap.min.css");
 		$this->style("/fred/assets/awesome/all.min.css");
 		$this->style($this->Look);
 		
@@ -172,13 +168,15 @@ abstract class Program extends App
 	private function ejecutar($app, $nme, $met, $datos)
 	{
 		$metodos = get_class_methods(get_class($app));
+
 		if(in_array($met,$metodos)){
 			if($this->authorize($nme."_".$met)){
 				$this->Body[] = $app->$met($datos);
 			}else{
 				$this->Body[] = $this->deny($datos);
 			}
-		}else{
+		}else if($met!=""){
+			$datos["Metodo"] = "$nme.$met";
 			$this->Body[] = $this->error($datos);
 		}
 	}
@@ -187,6 +185,7 @@ abstract class Program extends App
 	public function __toString()
 	{
 		$body = (string) implode("",$this->Body);
+		
 		$this->export($body);
 		
 		if(Program::$View instanceof View){
@@ -212,13 +211,19 @@ abstract class Program extends App
 	
 	protected function export($body)
 	{
+		//crer el nombre del archivo a exportar
 		$host = App::$Setting->Host;
-		$data =  $this->Db->Database;
-		$id = session_id();
-		//$name = "/$host/$data/doc/" . $this->User->Login . ".html";
-		$name = "/$host/$data/doc/" . $id . ".html";
-		$ruta = "d:/xampp/htdocs$name";
-	
+		$user = (empty($this->User->Login))? "anonimo": $this->User->Login;
+		$name = uniqid() . ".html";
+		$path = "/$host/doc/$user";
+		$ruta = App::$Setting->Web . $path;
+		if (!file_exists($ruta)) {
+			mkdir($ruta, 0777, true); // Crea la carpeta de destino con permisos adecuados
+		}
+		$this->_clearfiles($ruta);	
+
+		//buscar la existencia de una plantilla
+		$data = (!empty($this->Db->Database))? $this->Db->Database: "fred";
 		$vnam = App::$Setting->Data . "/$data/FORMATOS/Header.html";
 		
 		if(file_exists($vnam)){
@@ -230,25 +235,39 @@ abstract class Program extends App
 			}
 		}
 		
-		$out = "<html>";
-		$out.= "<head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?1'/>";
-		$out.= "</head>";
-		$out.= "<body><table><thead><tr><td>" . $body;
-		$out = str_replace("</header>","</header></td></tr></thead>	<tbody>	<tr><td>",$out);
-		$out.= "</td></tr></tbody><tfoot><tr><td></td></tr></tfoot></table></body></html>";
+		//genera salida
+		$salida = "<html>";
+		$salida.= "<head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?1'/></head>";
+		$salida.= "<body><table><thead><tr><td>" . $body;
+		$salida = str_replace("</header>","</header></td></tr></thead><tbody><tr><td>",$salida);
+		$salida.= "</td></tr></tbody><tfoot><tr><td></td></tr></tfoot></table></body></html>";
+		file_put_contents($ruta."/".$name, $salida);
 		
-		$file = fopen($ruta, "w");
-		fwrite($file, $out);
-		fclose($file);		
-		//file_put_contents($file, $out);
-		
-		//$this->jsvar("filename","\"$name\"");
+		//crea icono para imprimer y lo agrega al panel
+		$url = "$path/$name";
 		$b1 = new Button("Imprimir",8);
 		$b1->Icon = "print";
-		$b1->event("click","modal_print('$name')");
-		//$b1->event("click","printApp()");
-		
-		Program::$Panel->Btnprint = $b1;		
+		$b1->event("click","modal_print('$url')");
+		Program::$Panel->Btnprint = $b1;
+			
+	}
+
+	private function _clearfiles($folder)
+	{
+		$archivos = array_diff(scandir($folder), array('.', '..'));
+
+		foreach ($archivos as $archivo) {
+			$rutaArchivo = $folder ."/". $archivo;
+			if (is_file($rutaArchivo)) {
+				$ultimoAcceso = filemtime($rutaArchivo);
+				$tiempoActual = time();
+				$tiempoExpiracion = 60; // un minuto
+				
+				if (($tiempoActual - $ultimoAcceso) > $tiempoExpiracion) {
+					unlink($rutaArchivo); 
+				}
+			}
+		}
 	}
 
 	#carga los modulos de la barra de menu
@@ -333,7 +352,11 @@ abstract class Program extends App
 
 	public function error($data)
 	{
-		return new View("views/error.htm");
-	}			
+		$view = new View("views/error.htm");
+		$view->setVar($data);
+		return $view;
+	}
+	
+	
 
 }

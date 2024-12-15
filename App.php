@@ -67,19 +67,21 @@ abstract class App
 
 	#funciones estaticas  =================================
 	//setea la configuracion de la aplicacion
-	public static function setting($host,$default)
+	public static function setting($host,$default,$fred,$public)
 	{
 		App::$Setting = AppSetting::load($host,$default);
+		App::$Setting->Fred = $fred;
+		App::$Setting->Web = $public;
 		$controlador =  App::$Setting->Path."/main.php";
 		if(file_exists($controlador)){
 			$inc_path = get_include_path();
 			$inc_path.= PATH_SEPARATOR;
 			$inc_path.= App::$Setting->Path; 
 			set_include_path($inc_path);
-			return $controlador;
 		}else{
-			return false;
+			$controlador =  App::$Setting->Fred."/main.php";
 		}
+		return $controlador;
 	}
 
 	public static function loadCrud($modulos)
