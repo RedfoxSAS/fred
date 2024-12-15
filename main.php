@@ -68,5 +68,6 @@ class Main extends Program
 
 	private function prueba()
 	{
+		return "esta es una prueba";
 	}
 }
