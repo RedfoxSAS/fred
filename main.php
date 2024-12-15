@@ -65,4 +65,8 @@ class Main extends Program
 			}
 		}
 	}
+
+	private function prueba()
+	{
+	}
 }
