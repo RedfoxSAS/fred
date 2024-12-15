@@ -3,6 +3,7 @@
 var map;
 var markers = [];
 var infowin = [];
+var icono = false;
 
 var mapStatus = {
 	Pause: true,
@@ -91,16 +92,16 @@ function mapShow(point,next=false)
 	if(point < points.length){
 		
 		points[point].Info = infoString(points[point]);
+		
 		//cambia el icono del punto anterior en modo reproduccion
 		if( (point > 0) && mapStatus.Player==true){
 			var icon = points[point-1].Icon
 			markSetIcon((point-1),icon);
 		}
+		
 		//agregar un nuevo punto al mapa
 		var mark = Object.assign({}, points[point]);
-		if(icono!=undefined){
-			mark.Icon = icono;
-		}
+		mark.Icon = (icono != false) ? icono : points[point].Icon;
 		mapAddMark(mark);
 		
 		//centrar el mapa en el nuevo punto	
@@ -108,15 +109,13 @@ function mapShow(point,next=false)
 
 		//mostrar avance en el comentario
 		avance = parseInt((point+1) / points.length * 100 );
-		mapComment(avance + " % : " + points[point].Title);
+		mapComment(avance + " % : " + formatFecha(points[point].Datetime) + " " + points[point].Title);
 		
 		//programar el nuevo punto
 		mapStatus.Point = point+1;
 		if(mapStatus.Pause == false && next==true){
 			setTimeout("mapShow("+mapStatus.Point+",true)",mapStatus.Frecuency);
 		}
-	}else{
-		mapAutoZoom();
 	}
 }
 
@@ -125,13 +124,16 @@ function mapShowAll()
 {
 	var cant = points.length;
 	mapClean();
-	if(cant>0){
+	if(cant>1){
 		for(i=0;i<cant;i++){
 			points[i].Info = infoString(points[i]);
 			mapAddMark(points[i]);
 		}
+		setTimeout("mapAutoZoom()",1500);
+	}else if(cant>0){
+		mapShow(0);
 	}
-	setTimeout("mapAutoZoom()",1500);
+	
 }
 
 
@@ -202,4 +204,24 @@ function mapResize() {
 		child.style.height = mapStatus.Height + 'px';
 	}
 	child.style.height = mapStatus.Height + 'px';
+}
+
+
+function formatFecha(fechaStr) {
+    // Crear el objeto Date desde la cadena de fecha
+    const fecha = new Date(fechaStr.replace(' ', 'T')); // Reemplazar espacio por "T" para compatibilidad ISO
+
+    // Obtener los componentes de la fecha
+    const anio = fecha.getFullYear();
+    const mes = fecha.toLocaleString('es-ES', { month: 'long' }); // Nombre del mes en español
+    const dia = fecha.getDate();
+
+    // Formatear la hora
+    let horas = fecha.getHours();
+    const minutos = fecha.getMinutes().toString().padStart(2, '0'); // Añadir ceros a la izquierda
+    const periodo = horas >= 12 ? 'pm' : 'am';
+    horas = horas % 12 || 12; // Convertir de formato 24 horas a 12 horas
+
+    // Formar la cadena final
+    return `${anio}, ${mes.charAt(0).toUpperCase() + mes.slice(1)} ${dia} / ${horas}:${minutos} ${periodo}`;
 }

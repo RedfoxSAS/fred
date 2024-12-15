@@ -1,10 +1,11 @@
+
 function mapLoad() {
   // Create a map object and specify the DOM element for display.
 	map = new google.maps.Map(document.getElementById('map-body'), {
 		center: {lat: 7.063198, lng: -73.851371},
 		scrollwheel: true,
 		mapTypeId: "OSM",
-		zoom: 13,
+		zoom: 16,
 		disableDefaultUI: false,
 		navigationControl: true,
 		streetViewControl: true,

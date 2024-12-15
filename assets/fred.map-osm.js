@@ -3,10 +3,10 @@ function mapLoad() {
 
 	map = L.map('map-body', {
 		center: [7.063198, -73.851371], // Coordenadas del centro
-		zoom: 13, // Nivel de zoom inicial
+		zoom: 16, // Nivel de zoom inicial
 		zoomControl: true, // Mostrar control de zoom
 		minZoom: 7, // Nivel de zoom mínimo
-		maxZoom: 18, // Nivel de zoom máximo
+		maxZoom: 25, // Nivel de zoom máximo
 		scrollWheelZoom: true, // Habilitar zoom con rueda del ratón
 		doubleClickZoom: false, // Deshabilitar zoom con doble clic
 		dragging: true, // Habilitar arrastre del mapa

@@ -40,15 +40,17 @@
 .map-title
 {
 	background-color: white;
+	height:36px;
+	
 }
 
 .map-title h1
 {
 	display:inline-block;
-	border-right:1px solid silver;
-	height:36px;
 	padding-right:8px;
+	font-size:14pt;
 	margin:0px;
+	border-right:1px solid silver;
 }
 
 
