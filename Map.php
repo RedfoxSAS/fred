@@ -1,7 +1,7 @@
 <?php
 
 /* Map
- * 
+ * Modulo para la gestion de Mapas.
  * @author: Raul Ramos
  * @date: 16/5/2024
  * 
