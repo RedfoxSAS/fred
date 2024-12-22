@@ -15,7 +15,7 @@ class Map
 {
 	private $Width = "100%";
 	private $Height = "200";
-	private $Motor = "Google";
+	private $Motor = "google";
 	
 	private $Ctr = false;
 	
