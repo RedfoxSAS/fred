@@ -1,7 +1,8 @@
 <?php
 
 /* Map
- * Modulo para la gestion de Mapas.
+ * Modulo para la gestion de Mapas
+ * Se incluye, google, arcgis, mapbox y open street maps
  * @author: Raul Ramos
  * @date: 16/5/2024
  * 
