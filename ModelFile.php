@@ -30,7 +30,13 @@ class ModelFile
 	{
 		$this->Type = str_replace("\\","",get_class($model));
 		$this->File = App::$Setting->Data   ;
-		$this->File.= ($this->Db==true)?  "/" . App::dbname(): "";	
+		if($this->Db===true){
+			$this->File.= "/" . App::dbname();
+		}else if($this->Db===false){
+			$this->File.= "";
+		}else{
+			$this->File.= "/" . $this->Db;
+		}
 		
 		$key = $model->Setting->Key;
 		$this->File.= ($this->Folder!=false)? "/".$this->Folder."/" : "" ;		
