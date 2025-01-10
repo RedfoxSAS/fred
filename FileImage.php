@@ -14,22 +14,26 @@ include_once "ModelFile.php";
 class FileImage extends ModelFile
 {
 	public $Default;
+	private $Encode = true;
 	
-	public function setText($text)
+	public function setText($text, $encode=true)
 	{
 		if(strlen($text)>20){
 			$this->Text = $text;
+			$this->Encode = $encode;
 		}
 	}
 	
 	public function save()
 	{
-		//if(!is_null($this->Text)){
+		if($this->Encode==true){
 			@list(, $Base64Img) = explode(';', $this->Text);
 			@list(, $Base64Img) = explode(',', $Base64Img);
 			$Base64Img = base64_decode($Base64Img);
 			file_put_contents($this->File, $Base64Img);
-		//}
+		}else{
+			file_put_contents($this->File, $this->Text);
+		}
 	}
 	
 	public function open()

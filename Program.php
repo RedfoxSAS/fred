@@ -184,7 +184,9 @@ abstract class Program extends App
 	
 	public function __toString()
 	{
+		
 		$body = (string) implode("",$this->Body);
+		$body = View::clean($body);
 		
 		$this->export($body);
 		

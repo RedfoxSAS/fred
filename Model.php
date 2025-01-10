@@ -89,6 +89,15 @@ class ModelJson
 		}
 		return $r;
 	}
+	
+	public function value($field)
+	{
+		if(!empty($this->$field)){
+			return $this->$field;
+		}else{
+			return "";
+		}
+	}
 }
 
 class ModelSetting

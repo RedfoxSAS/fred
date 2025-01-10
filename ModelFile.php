@@ -17,6 +17,7 @@ class ModelFile
 	protected $File = "";
 	protected $Folder = false;
 	protected $Ext = "txt";
+	private $vars = array();
 	public $Text = "";
 	
 	public function __construct($ext="txt",$folder=false,$db=false)
@@ -72,4 +73,5 @@ class ModelFile
 	{
 		return $this->Text;	
 	}
+	
 }
