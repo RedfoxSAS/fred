@@ -101,7 +101,6 @@ abstract class Program extends App
 	//abstract protected function finishComponents();
 	public function run($route)
 	{
-		//$datos = $this->getVar("Data");
 
 		$datos = (empty($route[0]))? array():$route[0];
 		if(!isset($datos["confirm"])) { $datos["confirm"] = false;}
@@ -128,6 +127,7 @@ abstract class Program extends App
 						$this->Body[] = $app->view($datos);
 					}
 					$met = false;
+					
 				}
 			}else{
 				if(file_exists(App::$Setting->Path."/".$item)){
@@ -153,9 +153,9 @@ abstract class Program extends App
 		//corre los metodos del controlador
 		if($met!=false){
 			$this->ejecutar($app, $nme, $met,$datos);
-		}else{
+		}else if($mod!=false){
 			$met = $mod;
-			$this->ejecutar($this, $nme, $met,$datos);
+			//$this->ejecutar($this, $nme, $met,$datos);
 		}
 			
 		Program::$Panel->crud(Controller::$Cruds,Controller::$Keys);
