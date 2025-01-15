@@ -12,6 +12,8 @@
  
 namespace Fred;
 
+include_once "App.php";
+
 Class View
 {
 	public $Text;
@@ -30,6 +32,7 @@ Class View
 				$this->Text = $str;
 			}
 		}
+		
 	}
 	
 	public function setVar($var, $val=false)
@@ -46,6 +49,7 @@ Class View
 	}
 	
 	public function proccess(){
+		$this->vars["My"] = "/" . App::$Setting->Host . "/usr/" . App::dbname();
 		$this->Text = str_replace("'","\'",$this->Text);
 		$this->Text = str_replace("\r","",$this->Text);
 		$this->Text = preg_replace('#\{([a-z0-9\-_]*?)\}#is', "' . $\\1 . '", $this->Text);
