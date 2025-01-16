@@ -234,12 +234,12 @@ abstract class Program extends App
 			$view->setVar("Body", $body);
 			$salida = (string) $view;
 			if(strpos($salida,"<head>")!==false){
-				$salida = str_replace("<head>","<head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?3'/>",$salida);
+				$salida = str_replace("<head>","<head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?4'/>",$salida);
 			}
 			
 		}else{
-			$salida = "<html><head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?3'/></head>";
-			$salida.= "<body><div class='WordPage'><table>";
+			$salida = "<html><head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?4'/></head>";
+			$salida.= "<body><div class='document'><table>";
 			$salida.= "<thead><tr><td><header></header></td></tr></thead>";
 			$salida.= "<tbody><tr><td>$body</td></tr></tbody>";
 			$salida.= "<tfoot><tr><td><footer></footer></td></tr></tfoot>";

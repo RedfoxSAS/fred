@@ -77,10 +77,13 @@ section h4 { font-size: 14pt; margin:0px; margin-top:12pt; margin-bottom:6pt;}
 	body {
         -webkit-print-color-adjust: exact;
     }
-    
-	.WordPage {
-        page-break-after: always; /* Asegura que cada página tenga su corte */
+
+	.document {
         padding: 0cm 2cm 0cm 2cm;
+    }
+       
+	.page {
+        page-break-after: always; /* Asegura que cada página tenga su corte */
     }
     
     thead header {
