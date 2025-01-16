@@ -1,15 +1,49 @@
-body { font-size: 11pt; font-family:calibri;}
-thead { display:table-header-group; }
+
+@page {
+	margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: calibri, Arial, sans-serif;
+  font-size: 11pt;
+}
+
+.background {
+	z-index : -1;
+	width:0px;
+	position:fixed;
+	top:0px;
+	left:0px;
+	margin:0px;
+	padding:0px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+   display: table-header-group; /* Encabezado que se repite en cada página */
+}
+
+tfoot {
+  display: table-footer-group; /* Pie de página que se repite en cada página */
+}
+
+tbody {
+     display: table-row-group;
+}
+
 header, img, h1 { margin:0px; }
 header { padding:0px; vertical-align:center;}
-header img { height:40pt; display:inline-block;margin-right:10pt;}
+header > img { height:40pt; display:inline-block;margin-right:10pt;}
 header h1 {font-size:40pt; display:inline-block;}
 
 .AppTitle{
 	display:block;
 }
-
-table { width:100%;border-collapse:collapse;}
 
 .collection th, .collection td {border:1px solid #ccc; vertical-align:top;padding:4px;}
 .collection th {background-color: #ccc;}
@@ -36,6 +70,29 @@ section h4 { font-size: 14pt; margin:0px; margin-top:12pt; margin-bottom:6pt;}
 
 .data-sheet th { background-color:#eee; font-size:8.5pt;}
 .data-sheet table, .data-sheet th, .data-sheet td { border:1px solid gray;}
+
+
 @media print{
-	.page-next {page-break-before:always;}
+
+	body {
+        -webkit-print-color-adjust: exact;
+    }
+    
+	.WordPage {
+        page-break-after: always; /* Asegura que cada página tenga su corte */
+        padding: 0cm 2cm 0cm 2cm;
+    }
+    
+    thead header {
+		   padding-top:2cm;
+	}
+		
+	tfoot footer {
+		   padding-bottom:2cm;
+	}
+    
+    .background {
+		z-index : -1;
+		width:22cm;
+	}
 }
