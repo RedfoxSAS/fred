@@ -19,6 +19,7 @@ class ModelFile
 	protected $Ext = "txt";
 	private $vars = array();
 	public $Text = "";
+	public $Path = "";
 	
 	public function __construct($ext="txt",$folder=false,$db=false)
 	{
@@ -40,7 +41,8 @@ class ModelFile
 		}
 		
 		$key = $model->Setting->Key;
-		$this->File.= ($this->Folder!=false)? "/".$this->Folder."/" : "" ;		
+		$this->File.= ($this->Folder!=false)? "/".$this->Folder."/" : "" ;	
+		$this->Path = $this->File;	
 		$this->File.= $this->Type . ".";
 		$this->File.= $model->$key ;
 		$this->File.= (!empty($field))? ".$field".$this->Ext : $this->Ext ;		

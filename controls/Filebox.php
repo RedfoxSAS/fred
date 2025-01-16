@@ -42,8 +42,8 @@ class Filebox extends Control
 		$this->help("No hay formato cargado");
 		if(!empty($this->Text)){
 			$my = "/" . App::$Setting->Host . "/usr/" . App::dbname();
-			$this->Text = str_replace("{My}",$my,$this->Text);
-			file_put_contents($this->file, $this->Text);					
+			$Text = str_replace("{My}",$my,$this->Text);
+			file_put_contents($this->file, $Text);					
 			$url = $this->url;
 			$this->help("<a href=\"javascript:onclick:modal_print('$url')\">Ver formato</a>");
 		}

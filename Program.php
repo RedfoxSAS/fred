@@ -226,23 +226,26 @@ abstract class Program extends App
 
 		//buscar la existencia de una plantilla
 		$data = (!empty($this->Db->Database))? $this->Db->Database: "fred";
-		$vnam = App::$Setting->Data . "/$data/FORMATOS/Header.html";
+		
+		$vnam = App::$Setting->Data . "/$data/FORMATOS/FPMG.htm";
 		
 		if(file_exists($vnam)){
 			$view = new View($vnam);
 			$view->setVar("Body", $body);
-			
-			if(strpos($body,"header")===false){
-				$body = (string) $view . $body;
+			$salida = (string) $view;
+			if(strpos($salida,"<head>")!==false){
+				$salida = str_replace("<head>","<head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?3'/>",$salida);
 			}
+			
+		}else{
+			$salida = "<html><head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?3'/></head>";
+			$salida.= "<body><div class='WordPage'><table>";
+			$salida.= "<thead><tr><td><header></header></td></tr></thead>";
+			$salida.= "<tbody><tr><td>$body</td></tr></tbody>";
+			$salida.= "<tfoot><tr><td><footer></footer></td></tr></tfoot>";
+			$salida.= "</table></div></body></html>";
 		}
-		
 		//genera salida
-		$salida = "<html>";
-		$salida.= "<head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?1'/></head>";
-		$salida.= "<body><table><thead><tr><td>" . $body;
-		$salida = str_replace("</header>","</header></td></tr></thead><tbody><tr><td>",$salida);
-		$salida.= "</td></tr></tbody><tfoot><tr><td></td></tr></tfoot></table></body></html>";
 		file_put_contents($ruta."/".$name, $salida);
 		
 		//crea icono para imprimer y lo agrega al panel
