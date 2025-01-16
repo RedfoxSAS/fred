@@ -238,7 +238,8 @@ abstract class Program extends App
 			}
 			
 		}else{
-			$salida = "<html><head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?4'/></head>";
+			$salida = "<html><head><meta charset='UTF-8'>";
+			$salida.= "<link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?4'/></head>";
 			$salida.= "<body><div class='document'><table>";
 			$salida.= "<thead><tr><td><header></header></td></tr></thead>";
 			$salida.= "<tbody><tr><td>$body</td></tr></tbody>";

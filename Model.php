@@ -341,8 +341,10 @@ class Model
 			if(isset($model->$key)){
 				$f->Key = $model->Setting->Table . "." . $f->Key;
 				$this->Setting->Filters[$idx][] = $f; 
+				
 			}else{
 				$keys = $model->expose();
+				
 				foreach($keys as $key){
 					$dato = $model->$key ;
 					if($dato instanceof Model){
@@ -367,35 +369,38 @@ class Model
 		unset($keys["Active"]);
 		
 		$vars = array_keys($keys);
+		
 		foreach($vars as $var){
-			if(isset($this->Setting->Filters[$var])){
-				unset($this->Setting->Filters[$var]);
-			}
-			if($this->$var instanceof Model){
-					$key = $this->$var->Setting->Key;
-					$val = $this->$var->$key;
-			}else if($this->$var instanceof ModelStatic){
-					$val = $this->$var->Id;
-			}else if($this->$var instanceof ModelFile){
-			}else{
-				$val = $this->$var;
-				
-			}
-			if(!empty($val)){
-				if(is_string($val)) {
-					if(strpos($val,"%")===false){
-						$this->filter(new ModelFilter($var,$val,"LIKE"),$var);
-					}else{
+			if(!isset($this->Setting->Filters[$var])){
+				if($this->$var instanceof Model){
+						$key = $this->$var->Setting->Key;
+						$val = $this->$var->$key;
+				}else if($this->$var instanceof ModelStatic){
+						$val = $this->$var->Id;
+				}else if($this->$var instanceof ModelFile){
+				}else{
+					$val = $this->$var;
+					
+				}
+				if(!empty($val)){
+					if(is_string($val)) {
+						if(strpos($val,"%")===false){
+							$this->filter(new ModelFilter($var,$val,"LIKE"),$var);
+						}else{
+							$this->filter(new ModelFilter($var,$val),$var);
+						}
+					}else if(is_numeric($val)){
 						$this->filter(new ModelFilter($var,$val),$var);
 					}
-				}else if(is_numeric($val)){
-					$this->filter(new ModelFilter($var,$val),$var);
 				}
 			}
 		}
 	
 		if(count($this->Setting->Filters)>0){
 			$where = array();
+			//echo "<br><br>";
+			//print_r($this->Setting->Filters);
+			//echo "<br><br>";
 			foreach($this->Setting->Filters as $filters){
 				$where[] = "(". implode(" OR ", $filters) .")";
 			}
@@ -521,16 +526,19 @@ class Model
 	public function value($field, $value=false)
 	{
 		if($value===false){
-			if($this->$field instanceof ModelStatic){
-				return $this->$field->Id;
-			}else if($this->$field instanceof Model){
-				$k = $this->$field->Setting->Key;
-				return $this->$field->$k;
-			}else if($this->$field instanceof ModelFile){
-				//$this->$field->setName($this,$field);
-				return $this->$field->getText();
+			if(isset($this->$field)){
+				if($this->$field instanceof ModelStatic){
+					return $this->$field->Id;
+				}else if($this->$field instanceof Model){
+					$k = $this->$field->Setting->Key;
+					return $this->$field->$k;
+				}else if($this->$field instanceof ModelFile){
+					return $this->$field->getText();
+				}else{
+					return $this->$field;
+				}
 			}else{
-				return $this->$field;
+				return "";
 			}			
 		}else{
 			if(isset($this->$field)){

@@ -230,6 +230,7 @@ Class MotorMySql implements MotorDbi
 					}
 				}
 			}
+			
 			return $lista;
 		}
 		return false;

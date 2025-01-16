@@ -41,6 +41,7 @@ class FrmPanel extends Form
 				if($control->Source != false){				
 					$signo = "LIKE";
 					$campos = explode(",",$control->Source);
+					
 					$cdin = "%";
 					if($control instanceof Datebox){
 						//$signo = (strpos($control->Name,"Inicio")>0)? "<=" : ">=" ;
@@ -68,8 +69,10 @@ class FrmPanel extends Form
 						}
 						foreach($campos as $c){
 							if( strlen($control->Text) > 0) {
+								
 								$f = new ModelFilter($c, $cdin . $control->text() . $cdin , $signo);
 								$model->filter($f, $control->Name);
+								
 							}
 						}
 					}
