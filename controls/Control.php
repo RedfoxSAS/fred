@@ -50,7 +50,7 @@ abstract class Control //extends rRoot
 		$this->Id = get_class($this) . Control::$Numero;
 		$this->Id = str_replace("Fred\\","",$this->Id);
 		$this->Label = $label;
-		$this->Name = str_replace(" ","",$label);
+		$this->Name = ($label)? str_replace(" ","",$label) : $this->Id;
 		$this->Type = $t;
 		$this->Source = $s ; 
 		$this->Comment = $c ;

@@ -16,7 +16,7 @@ include_once "Control.php";
 class Panel extends Control
 {
 	
-	private $Controls = array();
+	protected $Controls = array();
 	
 	public function __construct()
 	{

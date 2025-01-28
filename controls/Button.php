@@ -19,7 +19,7 @@ class Button extends Control
 	private $_classExtra = "";
 	
 	public $Icon = false;
-	public $Target = "_blank";	
+	public $Target = "_self";	
 	public $ignore = true;
 	
 	public function control(){}
