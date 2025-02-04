@@ -178,7 +178,7 @@ class Model
 	public string $UserRegistro = "";
 	public string $UserModifica = "";
 	
-	public ModelSetting $Setting;
+	protected ModelSetting $Setting;
 
 	public function __construct()
 	{
@@ -190,6 +190,15 @@ class Model
 		if(!empty(App::$UserActive)){
 			$this->UserRegistro = App::$UserActive->Login;
 			$this->UserModifica = App::$UserActive->Login;
+		}
+	}
+
+	public function setting($key=false,$value=false)
+	{
+		if($key===false){
+			return $this->Setting;
+		}else{
+			$this->Setting->$key = $value;
 		}
 	}
 	
@@ -227,8 +236,8 @@ class Model
 		foreach($fields as $f){
 			if($this->$f instanceof Model){
 				$t1 = $this->Setting->Table;
-				$t2 = $this->$f->Setting->Table;
-				$k = $this->$f->Setting->Key;
+				$t2 = $this->$f->setting()->Table;
+				$k = $this->$f->setting()->Key;
 				$rel = "LEFT JOIN $t2 ON $t1.$f = $t2.$k";
 				$relation[] = $rel;
 				$relation = array_merge($relation,$this->$f->getRelations());
@@ -251,7 +260,7 @@ class Model
 			if($dato instanceof Model){
 				if($plano==true){
 					$datos = array_merge($datos, $dato->data($plano));
-					$k = $dato->Setting->Key;
+					$k = $dato->setting()->Key;
 					$datos[$key] = $dato->$k;
 				}else{
 					$datos[$key] = $dato->data();
@@ -321,7 +330,7 @@ class Model
 					if($dato instanceof Model){
 							echo $key . "<br>";		
 						if(isset($dato->$key)){
-							$f->Key = $dato->Setting->Table . "." . $f->Key;
+							$f->Key = $dato->setting()->Table . "." . $f->Key;
 							$this->Setting->Filters[$idx][] = $f; 
 						}
 					}
@@ -339,7 +348,7 @@ class Model
 		$key = $f->Key;
 		if(strpos($f->Key,".")===false){
 			if(isset($model->$key)){
-				$f->Key = $model->Setting->Table . "." . $f->Key;
+				$f->Key = $model->setting()->Table . "." . $f->Key;
 				$this->Setting->Filters[$idx][] = $f; 
 				
 			}else{
@@ -373,7 +382,7 @@ class Model
 		foreach($vars as $var){
 			if(!isset($this->Setting->Filters[$var])){
 				if($this->$var instanceof Model){
-						$key = $this->$var->Setting->Key;
+						$key = $this->$var->setting()->Key;
 						$val = $this->$var->$key;
 				}else if($this->$var instanceof ModelStatic){
 						$val = $this->$var->Id;
@@ -491,7 +500,7 @@ class Model
 				
 				$clase = get_class($this->$field);
 				$this->$field = new $clase();
-				$k = $this->$field->Setting->Key;
+				$k = $this->$field->setting()->Key;
 				if(isset($row->$field) && !is_null($row->$field)){
 					//echo $field.":".$row->$field."-".$k;
 					//$this->$field->$k = $row->$field;
@@ -530,7 +539,7 @@ class Model
 				if($this->$field instanceof ModelStatic){
 					return $this->$field->Id;
 				}else if($this->$field instanceof Model){
-					$k = $this->$field->Setting->Key;
+					$k = $this->$field->setting()->Key;
 					return $this->$field->$k;
 				}else if($this->$field instanceof ModelFile){
 					return $this->$field->getText();
@@ -556,7 +565,7 @@ class Model
 					if(empty($this->$field)){
 						$this->$field = new $clase();
 					}
-					$k = $this->$field->Setting->Key;
+					$k = $this->$field->setting()->Key;
 					$this->$field->$k = $value;
 				}else{
 					$this->$field = $value;
@@ -585,7 +594,7 @@ class Model
 		foreach($keys as $key){
 			$dato = $this->$key;
 			if($dato instanceof Model){
-				$t[] = $dato->Setting->Table;
+				$t[] = $dato->setting()->Table;
 			}
 		}
 		return $t;		

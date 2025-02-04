@@ -40,7 +40,7 @@ class ModelFile
 			$this->File.= "/" . $this->Db;
 		}
 		
-		$key = $model->Setting->Key;
+		$key = $model->setting()->Key;
 		$this->File.= ($this->Folder!=false)? "/".$this->Folder."/" : "" ;	
 		$this->Path = $this->File;	
 		$this->File.= $this->Type . ".";

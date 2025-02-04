@@ -77,7 +77,7 @@ class Detail extends Panel
 			if($text instanceof ModelStatic){
 				$text = $text->Id;
 			}else if($text instanceof Model){
-				$key = $text->Setting->Key;
+				$key = $text->setting()->Key;
 				$text = $text->$key;
 			}
 			if(is_array($text)){

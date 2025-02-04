@@ -66,9 +66,9 @@ class Listbox extends Control
 			
 	public function view($view, $key = false)
 	{
-		$key = ($key===false)? $this->Model->Setting->Key : $key;
+		$key = ($key===false)? $this->Model->setting()->Key : $key;
 		$this->View = "<option value='{{$key}}' {Active} >$view</option>";
-		$this->Model->Setting->Key = $key;
+		$this->Model->setting("Key", $key);
 	}	
 	
 	public function control()

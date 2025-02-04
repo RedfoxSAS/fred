@@ -24,10 +24,13 @@ abstract class Program extends App
 	public static $num = 0;
 	public static $Panel = "";
 	public static $View = "";
+	public static $Type = "html";
+	public static $Json;
 	
 	private $Body = array();
 	private $Menu ;
 
+	public $Titles = array();
 	protected $Logo = "/fred/assets/images/logo.png";
 	protected $Icon = "/fred/assets/images/favicon.ico";
 	protected $Look = "/fred/assets/fred.clasic.css?6";
@@ -45,7 +48,11 @@ abstract class Program extends App
 	{
 		session_start();
 		$this->ignore("/login");
-		
+		Program::$Json = new \stdClass();
+		Program::$Json->success = true;
+		Program::$Json->message = false;
+		Program::$Json->code = 200;
+
 		Program::$View = "views/main.htm";
 		$this->Modal = new Modal();
 		Program::$Panel = new FrmPanel("Opciones de filtrado");
@@ -140,7 +147,7 @@ abstract class Program extends App
 							include_once $ctr;
 							$met = "main";
 							$nme = $item;
-							$this->Body[] = $app;
+							if(!empty($app->Title)) { $this->Titles[] = $app->Title;}
 						}else{
 							$met = $item;
 						}
@@ -184,31 +191,41 @@ abstract class Program extends App
 	
 	public function __toString()
 	{
-		
-		$body = (string) implode("",$this->Body);
-		$body = View::clean($body);
-		
-		$this->export($body);
-		
-		if(Program::$View instanceof View){
-			$view = Program::$View;
-		}else{
-			$view = new View(Program::$View);
+		if(Program::$Type=="html"){
+			$body = (string) implode("",$this->Body);
+			$body = View::clean($body);
+			$body = "<section class='AppTitle'><h1>".implode(" / ",$this->Titles)."</h1></section>" . $body;
+			$this->export($body);
+			
+			if(Program::$View instanceof View){
+				$view = Program::$View;
+			}else{
+				$view = new View(Program::$View);
+			}
+			$view->setVar((array) App::$Setting);
+			$view->setVar("Scripts",App::$script);
+			$view->setVar("Styles",App::$styles);
+			$view->setVar("Jsvars",App::$jsvars);
+			$view->setVar("Menu", $this->Menu);
+			$view->setVar("User", $this->User->headView());
+			$view->setVar("Body", $body);
+			$view->setVar("Logo", $this->Logo);
+			$view->setVar("Icon", $this->Icon);
+			$view->setVar("Window", $this->Modal);
+			$view->setVar("Panel", Program::$Panel);
+			$text = (string) $view;
+			
+			return $text;
+
+		}else if(Program::$Type=="json"){
+			$body = (count($this->Body)>1)? $this->Body: reset($this->Body);
+			$return = Program::$Json;
+			$return->data = $body;
+			if(Program::$Json->code!=200){
+				http_response_code(Program::$Json->code);
+			}
+			return json_encode($return);
 		}
-		$view->setVar((array) App::$Setting);
-		$view->setVar("Scripts",App::$script);
-		$view->setVar("Styles",App::$styles);
-		$view->setVar("Jsvars",App::$jsvars);
-		$view->setVar("Menu", $this->Menu);
-		$view->setVar("User", $this->User->headView());
-		$view->setVar("Body", $body);
-		$view->setVar("Logo", $this->Logo);
-		$view->setVar("Icon", $this->Icon);
-		$view->setVar("Window", $this->Modal);
-		$view->setVar("Panel", Program::$Panel);
-		$text = (string) $view;
-		
-		return $text;
 	}
 	
 	protected function export($body)
@@ -287,7 +304,7 @@ abstract class Program extends App
 
 	private function _login()
 	{	
-		if(!$this->User->Setting->Exists){
+		if(!$this->User->setting()->Exists){
 			$ruta = $_SERVER["REQUEST_URI"];
 			$rutas = $this->Ignore;
 			if( !in_array($ruta, $rutas)){
@@ -309,7 +326,7 @@ abstract class Program extends App
 		$user = new User();
 		if(!empty($_POST["login"])){
 			$user->load($_POST["login"]);
-			if($user->Setting->Exists){
+			if($user->setting()->Exists){
 				if($user->password($_POST["password"])){
 					$this->setVar("UserActive",$_POST["login"]);
 					header("location:/wellcome");
@@ -343,7 +360,13 @@ abstract class Program extends App
 	
 	public function deny($data)
 	{
-		return new View("views/deny.htm");
+		if(Program::$Type="json"){
+			Program::$Json->success = false;
+			Program::$Json->message = "Acceso denegado";
+			return "Accceso denegado";
+		}else{
+			return new View("views/deny.htm");
+		}
 	}
 	
 	public function main($data)
@@ -358,9 +381,15 @@ abstract class Program extends App
 
 	public function error($data)
 	{
-		$view = new View("views/error.htm");
-		$view->setVar($data);
-		return $view;
+		if(Program::$Type="json"){
+			Program::$Json->success = false;
+			Program::$Json->message = "Recurso no existe";
+			return "Recurso solicitado no existe";
+		}else{
+			$view = new View("views/error.htm");
+			$view->setVar($data);
+			return $view;
+		}
 	}
 	
 	

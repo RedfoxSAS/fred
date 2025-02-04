@@ -22,12 +22,12 @@ class Checklist extends Listbox
 		$w = 100 / $this->Columns;
 		$name = $this->Name;
 		$name.= ($this->Multiple==true)? "[]" : "";
-		$key = ($key===false)? $this->Model->Setting->Key : $key;
+		$key = ($key===false)? $this->Model->setting()->Key : $key;
 		$str = "<div class='check-label' style='width:$w%;display:inline-block;'>";
 		$str.= "<input type='$tipo' value='{{$key}}' {Active} name='$name'> $view";
 		$str.= "</div>";
 		$this->View = $str;
-		$this->Model->Setting->Key = $key;
+		$this->Model->setting("Key", $key);
 	}	
 	
 	public function control()

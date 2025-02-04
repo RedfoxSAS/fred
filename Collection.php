@@ -72,7 +72,7 @@ class Collection
 			}
 		}
 		$a = "";
-		foreach($this->Model->Setting->Cruds as $name){
+		foreach($this->Model->setting()->Cruds as $name){
 			$c = App::$Crud->get($name);
 			$a = ($c!=false)? $a." <a href=\"".$c[1]."\" title='".$c[0]."'><i class=\"" . $c[2] . "\"></i></a>":$a;
 		}

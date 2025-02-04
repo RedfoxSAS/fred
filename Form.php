@@ -173,7 +173,7 @@ abstract class Form extends App
 		/*
 		$ctrid = "";
 		if(isset($this->Model)){
-			$nam = $this->Model->Setting->Key;
+			$nam = $this->Model->setting()->Key;
 			$val = $this->Model->$nam;
 			$ctrid = "<input type='hidden' name='$nam' value='$val'>";
 		}
@@ -317,8 +317,8 @@ abstract class Form extends App
 	public function finish()
 	{
 		if(!empty($this->Model)){
-			if($this->Model->Setting->Exists && $this->Create==true){
-				$key = $this->Model->Setting->Key;
+			if($this->Model->setting()->Exists && $this->Create==true){
+				$key = $this->Model->setting()->Key;
 				$val = $this->Model->$key;
 				$url = ($this->UrlSave!=false)? $this->UrlSave : "$val/update";
 				header("location:$url");
@@ -343,7 +343,7 @@ abstract class Form extends App
 	
 	public function delete()
 	{
-		if($this->Model->Setting->Exists){
+		if($this->Model->setting()->Exists){
 			$this->Db->delete($this->Model);
 			$this->Status = 2;
 			$url = ($this->UrlDel!=false)? $this->UrlDel : $this->getVar("UriBack");

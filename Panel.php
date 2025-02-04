@@ -26,13 +26,13 @@ class FrmPanel extends Form
 	public function filters(Model $model)
 	{
 		$controls = $this->expose();
-		if(isset($model->Setting->Filters["Fecha"])){
-			unset($model->Setting->Filters["Fecha"]);
+		if(isset($model->setting()->Filters["Fecha"])){
+			unset($model->setting()->Filters["Fecha"]);
 		}
 		foreach($controls as $control){
 			if($control instanceof Control){
-				if(isset($model->Setting->Filters[$control->Name])){
-					unset($model->Setting->Filters[$control->Name]);
+				if(isset($model->setting()->Filters[$control->Name])){
+					unset($model->setting()->Filters[$control->Name]);
 				}
 			}
 		}

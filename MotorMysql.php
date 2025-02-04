@@ -111,14 +111,14 @@ Class MotorMySql implements MotorDbi
 				
 				$clase = get_class($modelo->$field);
 				$modelo->$field = new $clase();
-				$k = $modelo->$field->Setting->Key;
+				$k = $modelo->$field->setting()->Key;
 				if(isset($row->$k) && !is_null($row->$k)){
 					$modelo->$field->$k = $row->$k;
 					$this->set($modelo->$field, $row);
 				}
 			}else if($modelo->$field instanceof Collection){
 				if($open==true){
-					$k = $modelo->Setting->Key;
+					$k = $modelo->setting()->Key;
 					$modelo->$field->filter(new ModelFilter($k,$row->$k,"="));
 					$this->query($modelo->$field);
 				}
@@ -134,7 +134,7 @@ Class MotorMySql implements MotorDbi
 		foreach($keys as $key){
 			//$modelo->$key = $row->$key;
 		}
-		$modelo->Setting->Exists = true;
+		$modelo->setting("Exists", true);
 		return $modelo;
 		*/	
 	}
@@ -156,7 +156,7 @@ Class MotorMySql implements MotorDbi
 					$model->Id = 1;
 					$model->set($row);
 					$model->openFiles();
-					$metodo = $model->Setting->Method;
+					$metodo = $model->setting()->Method;
 					if($metodo!=false){
 						$model->$metodo();
 					}
@@ -172,16 +172,16 @@ Class MotorMySql implements MotorDbi
 	{
 		#realizando peticion al servidor
 		//$this->dataString = "";
-		$sql = $model->Setting->Sql;
+		$sql = $model->setting()->Sql;
 		if($sql==false){
 			$sql = $this->createSqlQuery($model);
-			$sql = ($model->Setting->Group != false)? $sql." GROUP BY ".$model->Setting->Group : $sql;
-			$sql = (count($model->Setting->Order)>0)? $sql.= " ORDER BY " . implode(",", $model->Setting->Order): $sql; 
-			$sql = ($model->Setting->Limit > 0)? $sql." LIMIT ".$model->Setting->Limit : $sql;
+			$sql = ($model->setting()->Group != false)? $sql." GROUP BY ".$model->setting()->Group : $sql;
+			$sql = (count($model->setting()->Order)>0)? $sql.= " ORDER BY " . implode(",", $model->setting()->Order): $sql; 
+			$sql = ($model->setting()->Limit > 0)? $sql." LIMIT ".$model->setting()->Limit : $sql;
 		}
 
 		$lista = ($instr==true)? "" : array();
-		$summa = ($model->Setting->Summary!=false)? explode(",",$model->Setting->Summary):false;
+		$summa = ($model->setting()->Summary!=false)? explode(",",$model->setting()->Summary):false;
 		if($sql!=false){
 			
 			$this->Sql =  $sql;
@@ -190,7 +190,7 @@ Class MotorMySql implements MotorDbi
 			$this->_disconn();
 			#creando arreglo para devolver;
 
-			$key = $model->Setting->Key;
+			$key = $model->setting()->Key;
 			$class = get_class($model);
 			if($request){
 				$i = 0;
@@ -206,7 +206,7 @@ Class MotorMySql implements MotorDbi
 					//$nuevo = $this->set(new $class(), $row);
 					$nuevo->Id = $i;
 					$nuevo->set($row);
-					$metodo = $model->Setting->Method;
+					$metodo = $model->setting()->Method;
 					if($metodo!=false){
 						$nuevo->$metodo();
 					}
@@ -222,7 +222,7 @@ Class MotorMySql implements MotorDbi
 					}
 				}
 				if($summa){
-					$sumar->Setting->Summary = true;
+					$sumar->setting()->Summary = true;
 					if($instr==true){
 						$lista.= (string) $sumar;
 					}else{
@@ -329,7 +329,7 @@ Class MotorMySql implements MotorDbi
 		$this->Msg = $msg;
 		$sql = "";
 		$r = false;
-		if($model->Setting->Exists){
+		if($model->setting()->Exists){
 			$sql = $this->createMdlUpdate($model);
 			
 			$r = $this->runMdl($sql);
@@ -344,13 +344,13 @@ Class MotorMySql implements MotorDbi
 			$sql = $this->createMdlInsert($model);
 			$r = $this->runMdl($sql);
 			$e = (empty($model->Estado))? "": ". Registro " . $model->Estado;
-			$key = $model->Setting->Key;
+			$key = $model->setting()->Key;
 			$val = $model->value($key);
 			if($r > 0){
 				if($r > $val){
 					$model->value($key,$r);
 				}
-				$model->Setting->Exists = true;
+				$model->setting("Exists", true);
 				$this->msg("Nuevo registro creado exitosamente $e",0);
 				$model->saveFiles();
 			}else{
@@ -381,8 +381,8 @@ Class MotorMySql implements MotorDbi
 
 	public function createSqlOpen(Model $model)
 	{
-		$tab = $model->Setting->Table;
-		$key = $model->Setting->Key;
+		$tab = $model->setting()->Table;
+		$key = $model->setting()->Key;
 		
 		$rel = $this->createRelations($model);
 		
@@ -406,8 +406,8 @@ Class MotorMySql implements MotorDbi
 	
 	public function createMdlUpdate(Model $model)
 	{
-		$table = $model->Setting->Table;
-		$key = $model->Setting->Key;
+		$table = $model->setting()->Table;
+		$key = $model->setting()->Key;
 		$data = $model->data(true);
 		
 		$fields = $this->getColumns($table);
@@ -431,7 +431,7 @@ Class MotorMySql implements MotorDbi
 	
 	public function createMdlInsert(Model $model)
 	{
-		$table = $model->Setting->Table;
+		$table = $model->setting()->Table;
 		$data = $model->data(true);
 		
 		$fields = $this->getColumns($table);
@@ -454,8 +454,8 @@ Class MotorMySql implements MotorDbi
 	//Crea el sql delete para borrar un registro a partir de un modelo
 	public function createMdlDelete(Model $model)
 	{		
-		$table = $model->Setting->Table;
-		$key =  $model->Setting->Key;
+		$table = $model->setting()->Table;
+		$key =  $model->setting()->Key;
 		$sql = "DELETE FROM " . $table;
 		$sql.= " WHERE ";
 		$sql.= $key . "=" . $model->$key;
@@ -487,31 +487,31 @@ Class MotorMySql implements MotorDbi
 
 		foreach($fields as $f){
 			if($model->$f instanceof Model){
-				$t1 = $model->Setting->Table;
-				$t2 = $model->$f->Setting->Table;
-				$k = $model->$f->Setting->Key;
+				$t1 = $model->setting()->Table;
+				$t2 = $model->$f->setting()->Table;
+				$k = $model->$f->setting()->Key;
 				$rel = "LEFT JOIN $t2 ON $t1.$f = $t2.$k";
 				$relation[] = $rel;
 				$relation = array_merge($relation,$this->createRelations($model->$f,$i));
 			}
 		}
-		if($model->Setting->Relations!=false){
-			$relation[] = $model->Setting->Relations;
+		if($model->setting()->Relations!=false){
+			$relation[] = $model->setting()->Relations;
 		}
 		return $relation;	
 	}
 		
 	public function createSqlQuery(Model $model)
 	{
-		$tab = $model->Setting->Table;
-		$key = $model->Setting->Key;
+		$tab = $model->setting()->Table;
+		$key = $model->setting()->Key;
 		
 		$rel = $this->createRelations($model);
 		
 		$cols = $this->getColumns($tab);
 		
 		$sql = "SELECT ";
-		$sql.= ($model->Setting->Columns!=false)? $model->Setting->Columns:"*";
+		$sql.= ($model->setting()->Columns!=false)? $model->setting()->Columns:"*";
 			
 		if(isset($cols["Estado"])){
 			$sql.= ", $tab.Estado as Estado";

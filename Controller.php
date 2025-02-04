@@ -28,7 +28,7 @@ abstract class Controller extends App
 	protected $CrudList = false;
 	protected $CrudView = false;
 	
-	protected $Title;
+	public $Title;
 	protected Form $Form;
 	protected Model $Model;
 	//protected $ModelCrud;
@@ -55,15 +55,9 @@ abstract class Controller extends App
 		$this->startComponents();
 	}
 	
-	public function __toString()
-	{
-		$title = $this->Title;
-		return "<section class='AppTitle'><h1>$title</h1></section>";
-	}
-	
 	public function setPrimaryKey($val)
 	{
-		$key = $this->Model->Setting->Key;
+		$key = $this->Model->setting()->Key;
 		Controller::$Keys[$key] = $val;
 	}
 	
@@ -188,7 +182,7 @@ abstract class Controller extends App
 		$this->Db->open($this->Model);
 		
 		//regresa a la viata anterior si no existe el objeto
-		if($this->Model->Setting->Exists==false){
+		if($this->Model->setting()->Exists==false){
 			header("location:".$this->getVar("UriBack"));
 		}
 		
@@ -208,7 +202,7 @@ abstract class Controller extends App
 		//(creo que es para combinar con el ID para los documentos)
 		/*
 		if($this->Reference!==false){
-			$k = $this->Model->Setting->Key;
+			$k = $this->Model->setting()->Key;
 			$val =  $this->Reference . "-" . $this->Model->$k;
 			Controller::$Filters[] = new ModelFilter("Referencia",$val); //Filters fue eliminado
 		}*/
@@ -277,7 +271,7 @@ abstract class Controller extends App
 	
 	public function printer($data)
 	{
-		$key = $this->Model->Setting->Key;
+		$key = $this->Model->setting()->Key;
 		$name = get_class($this->Model) . "_";
 		$name = str_replace("\\","",$name);
 		$name.= $this->Model->$key;
