@@ -347,6 +347,7 @@ abstract class Form extends App
 			$this->Db->delete($this->Model);
 			$this->Status = 2;
 			$url = ($this->UrlDel!=false)? $this->UrlDel : $this->getVar("UriBack");
+			$url = preg_replace('/\/\d+$/', '', $url);
 			header("location:$url");
 			exit;
 		}

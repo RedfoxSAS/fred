@@ -75,6 +75,15 @@ abstract class WebService extends App
             }
 
         }
+
+        //identificar el usuario
+        if(!empty(WebService::$Data["username"])){
+            $this->User = new User();
+            $this->User->load(WebService::$Data["username"]);
+            if(!empty($this->User->Db)){
+                $this->Db->Database =  $this->User->Db;
+            }
+        }
     }
 
 	

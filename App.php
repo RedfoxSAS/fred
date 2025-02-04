@@ -194,19 +194,19 @@ abstract class App
 	}
 	
 	//regresa a la pagina anterior
-
-	
-	//regresa a la pagina anterior
 	public function back()
 	{
 		$this->location($this->getVar("UriBack"));
 	}	
 	
-	####    NO REVISADOS    ########
 	public function location($location)
 	{
 		$this->jsvar("window.location.href","'$location'");
 	}
+	
+	
+	####    NO REVISADOS    ########
+
 	
 	protected function captureData()
 	{

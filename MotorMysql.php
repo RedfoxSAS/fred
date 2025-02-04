@@ -329,21 +329,24 @@ Class MotorMySql implements MotorDbi
 		$this->Msg = $msg;
 		$sql = "";
 		$r = false;
+		$ms = $model->className();
 		if($model->setting()->Exists){
 			$sql = $this->createMdlUpdate($model);
 			
 			$r = $this->runMdl($sql);
-			$e = (empty($model->Estado))? "": ". Registro " . $model->Estado;
+			
+			$e = (empty($model->Estado))? "": ", registro " . $model->Estado;
 			if($r > 0){
-				$this->msg("($r) Registro actualizado exitosamente $e",0);
+				
+				$this->msg("($r) $ms actualizado exitosamente$e.",0);
 				$model->saveFiles();
 			}else{
-				$this->msg("El registro no se pudo modificar",3);
+				$this->msg("El regsitro $ms no se pudo modificar",3);
 			}
 		}else{
 			$sql = $this->createMdlInsert($model);
 			$r = $this->runMdl($sql);
-			$e = (empty($model->Estado))? "": ". Registro " . $model->Estado;
+			$e = (empty($model->Estado))? "": ", registro " . $model->Estado;
 			$key = $model->setting()->Key;
 			$val = $model->value($key);
 			if($r > 0){
@@ -351,10 +354,10 @@ Class MotorMySql implements MotorDbi
 					$model->value($key,$r);
 				}
 				$model->setting("Exists", true);
-				$this->msg("Nuevo registro creado exitosamente $e",0);
+				$this->msg("Nuevo registro $ms creado exitosamente$e.",0);
 				$model->saveFiles();
 			}else{
-				$this->msg("Error al crear el registro, Verifique los datos",3);
+				$this->msg("Error al crear el registro $ms, Verifique los datos.",3);
 			}
 			
 			
@@ -365,14 +368,16 @@ Class MotorMySql implements MotorDbi
 	}
 	
 	// borra un registro en una base de datos a partir de un modelo
-	public function delete(Model $model)
+	public function delete(Model $model, $key=false)
 	{
 		
-		$sql = $this->createMdlDelete($model);
+		$sql = $this->createMdlDelete($model, $key);
 		$r = $this->runMdl($sql);
 		if($r){
-			$this->msg("El registro se elimino correctamente");
-			return true;
+			$ms = $model->className();
+			$pl = ($key)? "s" : "";
+			$this->msg("$ms$pl elimina$pl correctamente");
+			return $r;
 		}
 		return false;
 	}
@@ -452,10 +457,10 @@ Class MotorMySql implements MotorDbi
 	}
 	
 	//Crea el sql delete para borrar un registro a partir de un modelo
-	public function createMdlDelete(Model $model)
+	public function createMdlDelete(Model $model, $key)
 	{		
 		$table = $model->setting()->Table;
-		$key =  $model->setting()->Key;
+		$key =  ($key)? $key: $model->setting()->Key;
 		$sql = "DELETE FROM " . $table;
 		$sql.= " WHERE ";
 		$sql.= $key . "=" . $model->$key;

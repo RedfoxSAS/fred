@@ -221,12 +221,13 @@ class Model
 	public function getReference()
 	{
 		$key = $this->Setting->Key;
-		if($this->Setting->Name != false){
-			return $this->Setting->Name . "-" . $this->$key;
-		}else{
-			return false;
-			return $this->key;
-		}
+		$name = $this->className();
+		return $name . "-" . $this->$key;
+	}
+
+	public function className()
+	{
+		return basename(get_class($this));
 	}
 	/*
 	public function getRelations()
