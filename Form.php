@@ -217,8 +217,10 @@ abstract class Form extends App
 	{
 		if(!empty($_POST)){
 			$this->fillControlsForm();
-		}else{
+		}else if(!empty($this->Model)){
 			$this->fillControlsModel();
+		}else{
+			$this->fillControlsStore();
 		}
 	}
 	
@@ -252,20 +254,26 @@ abstract class Form extends App
 		$controls = $this->expose();
 		foreach($controls as $control){
 			if($control instanceof Control){
-				if(!empty($this->Model)){
-					if($control->Source != false){
-						$field = $control->Source;
-						//if(isset($this->Model->$field)){
-							if(!empty($this->Model->$field)){
-								$control->text($this->Model->value($field));
-							//}
-						}else if(!is_null($control->TextDefault)){
-							$control->Text = $control->TextDefault;
-						}
-						//else{
-							//$control->Text = "";
-						//}
+				if($control->Source != false){
+					$field = $control->Source;
+					if(!empty($this->Model->$field)){
+						$control->text($this->Model->value($field));
+					}else if(!is_null($control->TextDefault)){
+						$control->Text = $control->TextDefault;
 					}
+				}
+			}
+		}		
+	}
+	
+	protected function fillControlsStore()
+	{
+		$controls = $this->expose();
+		foreach($controls as $control){
+			if($control instanceof Control){
+				$name = "Fred." . $this->Name . "." . $control->Name;
+				if(!empty($_SESSION[$name] )){
+					$control->text($_SESSION[$name]);
 				}
 			}
 		}		
