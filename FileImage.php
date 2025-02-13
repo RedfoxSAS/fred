@@ -26,13 +26,15 @@ class FileImage extends ModelFile
 	
 	public function save()
 	{
-		if($this->Encode==true){
-			@list(, $Base64Img) = explode(';', $this->Text);
-			@list(, $Base64Img) = explode(',', $Base64Img);
-			$Base64Img = base64_decode($Base64Img);
-			file_put_contents($this->File, $Base64Img);
-		}else{
-			file_put_contents($this->File, $this->Text);
+		if(!empty($this->Text)){
+			if($this->Encode==true){
+				@list(, $Base64Img) = explode(';', $this->Text);
+				@list(, $Base64Img) = explode(',', $Base64Img);
+				$Base64Img = base64_decode($Base64Img);
+				file_put_contents($this->File, $Base64Img);
+			}else{
+				file_put_contents($this->File, $this->Text);
+			}
 		}
 	}
 	

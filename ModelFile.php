@@ -46,7 +46,12 @@ class ModelFile
 		$this->File.= $this->Type . ".";
 		$this->File.= $model->$key ;
 		$this->File.= (!empty($field))? ".$field".$this->Ext : $this->Ext ;		
-		//echo $this->File."<br>";
+		
+		if (!is_dir($this->Path)) {
+			// Intentar crear el directorio con permisos (por ejemplo, 0755)
+			if (mkdir($this->Path, 0777, true)) {
+			}
+		}
 	}
 
 	public function save()

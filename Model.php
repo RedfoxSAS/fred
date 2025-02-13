@@ -49,19 +49,48 @@ class ModelStatic
 class ModelJson
 {
 	
-	public function __construct($text="{}")
+	public function __construct($value="{}")
 	{
-		$this->setText($text);
+		$this->setValue($value);
+	}
+	
+	public function setValue($value)
+	{
+		if (is_string($value)) {
+			$this->setText($value);
+			
+		} elseif (is_object($value)) {
+			$this->setObject($value);
+			
+		} elseif (is_array($value)) {
+			$this->setArray($value);
+			
+		} else {
+			$this->setText("{}");
+		}
 	}
 	
 	public function setText($text)
 	{
 		if($text!=""){
 			$json = json_decode($text);
-			$campos = array_keys(get_object_vars($json));
-			foreach($campos as $c){
-				$this->$c = $json->$c;
-			}
+			$this->setValue($json);
+		}
+	}
+	
+	public function setObject($object)
+	{
+		$campos = array_keys(get_object_vars($object));
+		foreach($campos as $c){
+			$this->$c = $object->$c;
+		}
+	}
+	
+	public function setArray($array)
+	{
+		$campos = array_keys($array);
+		foreach($campos as $c){
+			$this->$c = $array[$c];
 		}
 	}
 	
@@ -382,6 +411,8 @@ class Model
 		
 		foreach($vars as $var){
 			if(!isset($this->Setting->Filters[$var])){
+				$val = false;
+				//se busca el valor del filtro
 				if($this->$var instanceof Model){
 						$key = $this->$var->setting()->Key;
 						$val = $this->$var->$key;
@@ -392,6 +423,7 @@ class Model
 					$val = $this->$var;
 					
 				}
+				//se agrega el filtro si se encuentra valores en las propiedades
 				if(!empty($val)){
 					if(is_string($val)) {
 						if(strpos($val,"%")===false){
@@ -557,7 +589,7 @@ class Model
 					$this->$field = new $cl($value); 
 				}else if($this->$field instanceof ModelJson){
 					//$this->$field->setName($this,$field);
-					$this->$field->setText($value);
+					$this->$field->setValue($value);
 				}else if($this->$field instanceof ModelFile){
 					//$this->$field->setName($this,$field);
 					$this->$field->setText($value);
@@ -620,6 +652,7 @@ class Model
 		foreach($keys as $key){
 			$value = $this->$key;
 			if($value instanceof ModelFile){
+				$value->setName($this,$key);
 				$value->save();
 			}
 		}		

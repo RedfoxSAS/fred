@@ -39,6 +39,7 @@ abstract class WebService extends App
 		if(strpos($name,"\\")>0){
 			list($space,$name) = explode("\\",$name);
 		}
+		Program::$Type = "json";
 		$this->startComponents();
         
         
@@ -85,6 +86,11 @@ abstract class WebService extends App
             }
         }
     }
+    
+    public function getData()
+    {
+		return WebService::$Data;
+	}
 
 	
 	public function setPrimaryKey($val)

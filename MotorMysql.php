@@ -349,9 +349,10 @@ Class MotorMySql implements MotorDbi
 			$e = (empty($model->Estado))? "": ", registro " . $model->Estado;
 			$key = $model->setting()->Key;
 			$val = $model->value($key);
+			
 			if($r > 0){
 				if($r > $val){
-					$model->value($key,$r);
+					$model->$key = $r;
 				}
 				$model->setting("Exists", true);
 				$this->msg("Nuevo registro $ms creado exitosamente$e.",0);

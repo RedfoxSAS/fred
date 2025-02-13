@@ -381,7 +381,7 @@ abstract class Program extends App
 
 	public function error($data)
 	{
-		if(Program::$Type="json"){
+		if(Program::$Type=="json"){
 			Program::$Json->success = false;
 			Program::$Json->message = "Recurso no existe";
 			return "Recurso solicitado no existe";
