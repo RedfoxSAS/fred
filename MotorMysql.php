@@ -140,9 +140,9 @@ Class MotorMySql implements MotorDbi
 	}
 	
 	#consulta los datos de un unico registro, regresa true exito ----- revisado	
-	public function open(Model $model)
+	public function open(Model $model,$sql=false)
 	{
-		$sql = $this->createSqlOpen($model);
+		$sql = ($sql!=false)? $sql:  $this->createSqlOpen($model);
 		$this->SqlOpen = $sql;
 		if($sql){
 			$this->Sql.=  $sql . " ; ";
