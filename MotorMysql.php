@@ -21,6 +21,7 @@ Class MotorMySql implements MotorDbi
 	
 	public $Sql;
 	public $Msg = true;
+	public $Len = 0;
 	
 	public string $Database = "";
 	public string $Server = "";
@@ -230,7 +231,7 @@ Class MotorMySql implements MotorDbi
 					}
 				}
 			}
-			
+			$this->Len = $i;
 			return $lista;
 		}
 		return false;
@@ -320,6 +321,16 @@ Class MotorMySql implements MotorDbi
 			$this->tableExists = false;
 		}
 		return $data ;
+	}
+
+	//cuenta la cantidad de registros en una tabla
+	public function count(Model $model)
+	{
+		$sql = "SELECT COUNT(*) AS Total FROM ";
+		$sql.= " ". $model->setting()->Table;
+		$sql.= " ". $model->filters();
+		$r = $this->runSql($sql);
+		return $r[0]['Total'];
 	}
 	
 	

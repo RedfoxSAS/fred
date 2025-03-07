@@ -395,6 +395,8 @@ class Model
 			$this->Setting->Filters[$idx][] = $f;
 		} 
 	}
+
+
 	
 	#Construye los filtros SQL desde las variables publicas del modelo
 	public function filters()
@@ -606,6 +608,15 @@ class Model
 			}else{
 				$this->$field = $value;
 			}
+		}
+	}
+
+	//setea una variable con un valor del tipo referencia Clase-Id
+	public function valueRef($field,$value)
+	{
+		if (preg_match('/\d+/', $value, $matches)) {
+			$numero = $matches[0]; // El número extraído
+			$this->value($field,$numero);
 		}
 	}
 	
