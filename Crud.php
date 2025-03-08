@@ -127,6 +127,17 @@ class Crud
 			$this->Items[$name][0] = $title;
 		}
 	}
+
+	public function linkFather($name,$father)
+	{
+		if(!empty($this->Items[$father])){
+			$coincidencias = preg_grep("/" . preg_quote($name, "/") . "/i", array_keys($this->Items));
+			$lista = array_values($coincidencias); 
+			foreach($lista as $key){
+				$this->Items[$key][1] = $this->Items[$father][1].$this->Items[$key][1];
+			}
+		}
+	}
 	
 }
 

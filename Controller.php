@@ -97,6 +97,11 @@ abstract class Controller extends App
 	{
 		App::$Crud->link($name, $link, $icon, $title);
 	}
+
+	public function linkFather($name, $father)
+	{
+		App::$Crud->linkFather($name, $father);
+	}
 		
 	protected function loadFormFilter()
 	{
