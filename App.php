@@ -117,7 +117,7 @@ abstract class App
 	}
 	
 	//setea la pagina anterior en la pagi
-	public static function backPage()
+	public static function backPage2()
 	{
 		$actual = $_SERVER["REQUEST_URI"];
 		$actual = '/' . trim($actual, '/');
@@ -126,6 +126,18 @@ abstract class App
 		$uri = implode("/",$partes);
 		App::setVar("UriBack",$uri);
 		App::$jsvars[] = "uriBack = \"$uri\";";
+	}
+
+	public static function backPage()
+	{
+		$actual = $_SERVER["REQUEST_URI"];
+		$uri = App::getVar("UriCurrent");
+		if($actual != $uri){
+			App::setVar("UriBack",$uri);
+			App::setVar("UriCurrent",$actual);
+		}
+		$bck = App::getVar("UriBack");
+		App::$jsvars[] = "uriBack = \"$bck\";";
 	}
 	
 	public static function dbname()

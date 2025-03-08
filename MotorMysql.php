@@ -77,6 +77,9 @@ Class MotorMySql implements MotorDbi
 	private function _connect()
 	{
 		$this->_conn = mysqli_connect($this->Server,$this->User,$this->Password,$this->Database);
+		if (!mysqli_set_charset($this->_conn, "utf8")) {
+			die("Error al configurar la codificación UTF-8: " . mysqli_error($this->_conn));
+		}
 	}
 	
 	# desconecta la base de datos ----- revisado

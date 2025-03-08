@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>{Title}</title>
-	<meta http-equiv=Content-Type content='text/html' />
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-	
-	<link rel='icon' sizes='192x192' href='{Icon}' />
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta
+      name="application-name"
+      content="Servicio web de rastreo de automoviles"
+    />
+    <meta name="author" content="Raul Ramos" />
+    <meta name="copyright" content="Redfox S.A.S." />
+    <meta
+      name="description"
+      content="Empresa de Rastreo Satelital, Seguimiento de Vehiculos con tecnologia GPS"
+    />
+    <meta
+      name="keywords"
+      content="Rastreo, Satelital, GPS, Tracking, Seguimiento Satelital"
+    />
+    <meta name="robots" content="index,follow" />
+    <meta http-equiv="Content-Type" content="text/html" />
 
-	{Styles}
-	{Scripts}
-	
-</head>
+    <title>{Title}</title>
 
-<body>
-	<header class="header" x-data="{ open: false }" >
-		<div class="header-logo">
-			<a href="/">
-				<img src="{Logo}" >
-			</a>
-		</div>
-		{Menu}
-		{User}
-	</header>
-	
-	<div class="panel-options">
-		{Panel}
-	</div>
-	
-	<div id="appbody" class="body" style="z-index:0;margin:0px;">
-		{Body}
-	</div>
-	
-	<footer>
-	
-	</footer>
-		
-	{Window}
+    <link rel="icon" sizes="192x192" href="{Icon}" />
 
-</body>
+    {Styles} {Scripts}
+  </head>
 
-<script language="javascript">
-	{Jsvars}
-</script>
+  <body>
+    <header class="header" x-data="{ open: false }">
+      <div class="header-logo">
+        <a href="/">
+          <img src="{Logo}" />
+        </a>
+      </div>
+      {Menu} {User}
+    </header>
 
+    <div class="panel-options">{Panel}</div>
+
+    <div id="appbody" class="body" style="z-index: 0; margin: 0px">{Body}</div>
+
+    <footer></footer>
+
+    {Window}
+  </body>
+
+  <script language="javascript">
+    {Jsvars}
+  </script>
 </html>
