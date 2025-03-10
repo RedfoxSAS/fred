@@ -196,8 +196,8 @@ Class MotorMySql implements MotorDbi
 
 			$key = $model->setting()->Key;
 			$class = get_class($model);
+			$i = 0;
 			if($request){
-				$i = 0;
 				$sumar = new $class();
 				if($summa){
 					foreach($summa as $s){
