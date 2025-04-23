@@ -129,7 +129,7 @@ class Map
 	public function controls()
 	{
 		$htm = "";
-		if($this->Motor=="Arcgis"){
+		if($this->Motor=="arcgis"){
 			$htm.= "
 			<button class='btn' type='button' name='' onclick='arcHyb();'><i class='fa fa-satellite' tilte='Vista de satelite'></i></button>
 			<button class='btn' type='button' name='' onclick='arcNav();'><i class='fa fa-road' tilte='Vista navegacion'></i></button>
