@@ -218,7 +218,19 @@ abstract class Program extends App
 			return $text;
 
 		}else if(Program::$Type=="json"){
-			$body = (count($this->Body)>1)? $this->Body: reset($this->Body);
+			// Aquí agregamos los encabezados CORS antes de devolver JSON
+			header("Access-Control-Allow-Origin: *");  // Puedes poner el dominio específico en lugar de '*'
+			header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+			header("Access-Control-Allow-Headers: Content-Type, Authorization");
+			header("Content-Type: application/json");
+
+			// Responder a la petición OPTIONS para preflight CORS
+			if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+				http_response_code(200);
+				exit();
+			}
+
+			$body = (count($this->Body) > 1) ? $this->Body : reset($this->Body);
 			$return = Program::$Json;
 			$return->data = $body;
 			if(Program::$Json->code!=200){
