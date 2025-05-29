@@ -325,8 +325,8 @@ abstract class Program extends App
 			}
 		}else{
 			if($this->User->Estado == "SUSPENDIDO"){
-				if($_SERVER["REQUEST_URI"]!= "/suspend"){
-					header("location:/suspend");
+				if($_SERVER["REQUEST_URI"]!= "/suspended"){
+					header("location:/suspended");
 				}				
 			}
 		}
@@ -388,7 +388,7 @@ abstract class Program extends App
 
 	public function suspended($data)
 	{
-		return new View("views/suspended.htm");
+		return new View("views/suspend.htm");
 	}
 
 	public function error($data)
