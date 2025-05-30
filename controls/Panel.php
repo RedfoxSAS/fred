@@ -125,5 +125,10 @@ class Panel extends Control
 			return (string) $clas;
 		}
 	}
+
+	public function clear()
+	{
+		$this->Controls = array();
+	}
 	
 }

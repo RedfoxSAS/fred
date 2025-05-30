@@ -31,25 +31,6 @@ Class MotorMySql implements MotorDbi
 	static private $_currentTable;
 	static private $_currentFields;
 	
-	
-	///REVISADO 
-	/*
-	private $_conn;
-	
-	
-	private $_filters = array();
-	private $_order = array();
-	private $_limit = false;
-	private $_sqlTotal = "";
-
-	public $base;
-	public $dataString = "";
-	public $tableExists = false;
-	public $position = false;
-	public $length = false;
-	* */
-	
-	
 	public function __construct($base=false,$serv=false,$user=false,$pass=false)
 	{
 		if($base instanceof MotorMySql){

@@ -85,6 +85,12 @@ abstract class Form extends App
 	{
 		return $this->Body;
 	}
+
+	public function clear()
+	{
+		$this->Body->clear();
+		$this->Buttons = array();
+	}
 	
 	//adiciona controles al cuerpo del formulario
 	public function add(Control $control, $w = false)
@@ -106,19 +112,19 @@ abstract class Form extends App
 	public function ActiveButtonSave($url=false)
 	{
 		$this->UrlSave = $url;
-		$save = new Button("Guardar",8);
-		$save->command("save","save");
-		$this->Buttons[1] = $save;
+		$this->btnSave = new Button("Guardar",8);
+		$this->btnSave->command("save","save");
+		$this->Buttons[1] = $this->btnSave;
 	}
 	
 	//activar boton close / back
 	public function ActiveButtonClose($url=false)
 	{
 		if($url!=false) {$url = "'$url'";}
-		$close = new Button("Cerrar",8);
-		$close->event("click","back($url)");
-		$close->Icon = "angle-left";
-		$this->Buttons[0] = $close;
+		$this->btnClose = new Button("Cerrar",8);
+		$this->btnClose->event("click","back($url)");
+		$this->btnClose->Icon = "angle-left";
+		$this->Buttons[0] = $this->btnClose;
 	}
 	
 	//activar boton eliminar
@@ -129,12 +135,12 @@ abstract class Form extends App
 		$msg = "Un registro eliminado no se puede recuperar, ";
 		$msg.= "es posible que se eliminen registros de otras listas relacionadas.";
 		$msg.= "<br>Desea continuar con el proceso?";
-		$del = new Button("Eliminar",8);
-		$del->Name = "delete";
-		$id = $del->Id;		
-		$del->event("click","modal_confirm('$tit','$msg','CmdYes$id();$nam.submit()','CmdNo$id()')");
-		$del->Icon = "times";
-		$this->Buttons[2] = $del;
+		$this->btnDel = new Button("Eliminar",8);
+		$this->btnDel->Name = "delete";
+		$id = $this->btnDel->Id;		
+		$this->btnDel->event("click","modal_confirm('$tit','$msg','CmdYes$id();$nam.submit()','CmdNo$id()')");
+		$this->btnDel->Icon = "times";
+		$this->Buttons[2] = $this->btnDel;
 	}
 	
 	public function crud($crud,$vars=false)
@@ -375,8 +381,9 @@ abstract class Form extends App
 		}
 	}
 	
-	public function audit($action,$text,$ref)
+	public function audit($action,$text,$ref=false)
 	{
+		$ref = (!$ref)? $this->Model->getReference() : $ref;
 		$audi = new Auditoria();
 		$audi->Accion = $action;
 		$audi->Comentario = $text;

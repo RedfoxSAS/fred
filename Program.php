@@ -67,6 +67,7 @@ abstract class Program extends App
 		$this->authorize("program_login",true);
 		$this->authorize("program_logoff",true);
 		$this->authorize("program_index",true);
+		$this->authorize("program_suspended",true);
 		
 		$this->script("/fred/assets/jquery.slim.min.js");
 		$this->script("/fred/assets/fred.js?2");
