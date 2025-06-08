@@ -373,7 +373,7 @@ abstract class Program extends App
 	
 	public function deny($data)
 	{
-		if(Program::$Type="json"){
+		if(Program::$Type=="json"){
 			Program::$Json->success = false;
 			Program::$Json->message = "Acceso denegado";
 			return "Accceso denegado";
