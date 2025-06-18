@@ -319,10 +319,14 @@ abstract class Program extends App
 	{	
 		if(!$this->User->setting()->Exists){
 			$ruta = $_SERVER["REQUEST_URI"];
-			$rutas = $this->Ignore;
-			if( !in_array($ruta, $rutas)){
+			
+			// parse_url para analizar la URL
+			$parsedUrl = parse_url($ruta);
+			// La parte de la ruta sin el query string
+			$rutaLimpia = $parsedUrl['path'];
+
+			if( !in_array($rutaLimpia, $this->Ignore)){
 				header("location:/login");
-				//header("location:/spaniel/rastreo.php?login");
 			}
 		}else{
 			if($this->User->Estado == "SUSPENDIDO"){
