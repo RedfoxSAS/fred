@@ -585,6 +585,7 @@ class Model
 				return "";
 			}			
 		}else{
+			
 			if(isset($this->$field)){
 				if($this->$field instanceof ModelStatic){
 					$cl = get_class($this->$field);
@@ -593,7 +594,8 @@ class Model
 					//$this->$field->setName($this,$field);
 					$this->$field->setValue($value);
 				}else if($this->$field instanceof ModelFile){
-					//$this->$field->setName($this,$field);
+					$this->$field->setName($this,$field);
+					//echo $field. "-" . $value . "<br>";
 					$this->$field->setText($value);
 				}else if($this->$field instanceof Model){
 					$clase = get_class($this->$field);

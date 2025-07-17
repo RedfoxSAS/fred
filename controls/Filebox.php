@@ -6,10 +6,12 @@ include_once "Control.php";
 
 class Filebox extends Control
 {
-	private $N = 0;
 	public $Accept = "";
+
+	private $N = 0;
 	private $file;
 	private $url;
+	private $ReturnPath = false; 
 
 	public function __construct($label=false,$t=1,$s=false,$c="")
 	{
@@ -19,9 +21,15 @@ class Filebox extends Control
 
 		$host = App::$Setting->Host;
 		$user = App::$UserActive->Login;
-		$this->url = "/$host/tmp/out.$user."  . $this->Id . ".html";
+		$this->url = "/$host/tmp/out.$user."  . $this->Id ;
 		$this->file = "d:/xampp/htdocs". $this->url;
 		
+	}
+
+	public function accept($ext,$mode=false)
+	{
+		$this->Accept = $ext;
+		$this->ReturnPath = $mode;
 	}
 		
 	public function control()
@@ -41,11 +49,20 @@ class Filebox extends Control
 	{
 		$this->help("No hay formato cargado");
 		if(!empty($this->Text)){
-			$my = "/" . App::$Setting->Host . "/usr/" . App::dbname();
-			$Text = str_replace("{My}",$my,$this->Text);
-			file_put_contents($this->file, $Text);					
 			$url = $this->url;
-			$this->help("<a href=\"javascript:onclick:modal_print('$url')\">Ver formato</a>");
+			$extension = ".html";
+			if ($this->ReturnPath === true) {
+				if ($this->ReturnPath === true && file_exists($this->Text)) {
+					$extension = "." . pathinfo($this->Text, PATHINFO_EXTENSION);
+					copy($this->Text, $this->file . $extension);
+				}
+			}else{
+				//$my = "/" . App::$Setting->Host . "/usr/" . App::dbname();
+				//$Text = str_replace("{My}",$my,$this->Text);
+				file_put_contents($this->file . $extension , $this->Text);
+			}				
+			$url.= $extension;
+			$this->help("<a href=\"javascript:onclick:modal_print('$url')\">Ver documento</a>");
 		}
 		$hlp = $this->Help;
 		$hli = $this->Helpi;
@@ -78,17 +95,24 @@ class Filebox extends Control
 	
 	public function readFile()
 	{
-		if(!empty($_FILES[$this->Id]['tmp_name'])){
+		if (!empty($_FILES[$this->Id]['tmp_name'])) {
 			$name = $_FILES[$this->Id]['tmp_name'];
-			@$text = file_get_contents($name);
-			if(!empty($text)){
-				return $text;
-			}else{
+
+			if ($this->ReturnPath === true) {
+				// Devuelve ruta temporal para archivos binarios
+				return $name;
+			}
+
+			$text = @file_get_contents($name);
+			return (!empty($text)) ? $text : false;
+
+		} else {
+			// No se subió archivo nuevo, revisa archivo temporal
+			if ($this->ReturnPath === true) {
 				return false;
 			}
-		}else{
-			@$text = file_get_contents($this->file);
-			return $text;
+			$text = @file_get_contents($this->file);
+			return (!empty($text)) ? $text : false;
 		}
 	}
 

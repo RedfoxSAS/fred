@@ -17,41 +17,69 @@ class ModelFile
 	protected $File = "";
 	protected $Folder = false;
 	protected $Ext = "txt";
+	protected $Field = false;
+
+	protected $Key = false;
+	
 	private $vars = array();
+	
 	public $Text = "";
 	public $Path = "";
+	public $Base = "";
+	public $Name = "";
 	
-	public function __construct($ext="txt",$folder=false,$db=false)
+	public function __construct($ext="txt",$folder=false,$db=false,$key=true,$field=true,$type=true)
 	{
 		$this->Db = $db;
 		$this->Folder = $folder;
 		$this->Ext = ".$ext";
+		$this->Field = $field;
+		$this->Key = $key;
+		$this->Type = $type;
 	}
 	
 	public function setName($model,$field=false)
 	{
-		$this->Type = str_replace("\\","",get_class($model));
-		$this->File = App::$Setting->Data   ;
+		
+		$this->Base = App::$Setting->Data   ;
 		if($this->Db===true){
-			$this->File.= "/" . App::dbname();
+			$this->Base.= "/" . App::dbname();
 		}else if($this->Db===false){
-			$this->File.= "";
+			$this->Base.= "";
 		}else{
-			$this->File.= "/" . $this->Db;
+			$this->Base.= "/" . $this->Db;
 		}
-		
+
+		if($this->Folder!=false){
+			$w = new View();
+			$w->Text = $this->Folder;
+			$data = $model->dataview();
+			$w->setVar($data);
+			$this->Path = (string) $w;
+		}
+
+		$this->Type = ($this->Type)? str_replace("\\","",get_class($model)):"";
 		$key = $model->setting()->Key;
-		$this->File.= ($this->Folder!=false)? "/".$this->Folder."/" : "" ;	
-		$this->Path = $this->File;	
-		$this->File.= $this->Type . ".";
-		$this->File.= $model->$key ;
-		$this->File.= (!empty($field))? ".$field".$this->Ext : $this->Ext ;		
-		
-		if (!is_dir($this->Path)) {
+		$name = $this->Type;
+		$name.= ($this->Key)? ".".$model->$key: "";
+		$nf =  $this->Field;
+		if ($nf === true) {
+			$nf = $field;
+		} elseif ($nf != false) {
+			$nf = $model->$nf;
+		}
+		$name.= (!empty($name))? "." . $nf : $nf;
+		$name.= $this->Ext;
+		$this->Name = $name;
+
+		$this->File = $this->Base . "/" . $this->Path . "/" . $name;
+		$dir = $this->Base . "/" . $this->Path;
+		if (!is_dir($dir)) {
 			// Intentar crear el directorio con permisos (por ejemplo, 0755)
-			if (mkdir($this->Path, 0777, true)) {
+			if (mkdir($dir, 0777, true)) {
 			}
 		}
+		//echo "<br>" .  $this->File;
 	}
 
 	public function save()
@@ -78,7 +106,7 @@ class ModelFile
 
 	public function __toString()
 	{
-		return $this->Text;	
+		return (string) $this->Text;	
 	}
 	
 }
