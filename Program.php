@@ -48,6 +48,7 @@ abstract class Program extends App
 	{
 		session_start();
 		$this->ignore("/login");
+		$this->ignore("/wellcome");
 		Program::$Json = new \stdClass();
 		Program::$Json->success = true;
 		Program::$Json->message = false;
@@ -66,15 +67,14 @@ abstract class Program extends App
 		$this->authorize("program_wellcome",true);
 		$this->authorize("program_login",true);
 		$this->authorize("program_logoff",true);
-		$this->authorize("program_index",true);
 		$this->authorize("program_suspended",true);
 		
 		$this->script("/fred/assets/jquery.slim.min.js");
 		$this->script("/fred/assets/fred.js?2");
 		$this->script("/fred/assets/bootstrap.min.js");
 
-		$this->style("/fred/assets/awesome/all.min.css");
-		$this->style($this->Look);
+		$this->style("/fred/assets/awesome/all.min.css?3");
+		
 		
 		App::loadCrud(App::$UserActive->Modulos);
 		$this->_login();
@@ -117,7 +117,7 @@ abstract class Program extends App
 		
         $nme = "program";
         $app = $this;
-        $met = "wellcome";
+        $met = "dashboard";
         $mod = false;
         $tot = count($route);
         for($i=1; $i<$tot; $i++){
@@ -192,6 +192,7 @@ abstract class Program extends App
 	
 	public function __toString()
 	{
+		$this->style($this->Look);
 		if(Program::$Type=="html"){
 			$body = (string) implode("",$this->Body);
 			$body = View::clean($body);
@@ -326,7 +327,7 @@ abstract class Program extends App
 			$rutaLimpia = $parsedUrl['path'];
 
 			if( !in_array($rutaLimpia, $this->Ignore)){
-				header("location:/login");
+				header("location:/wellcome");
 			}
 		}else{
 			if($this->User->Estado == "SUSPENDIDO"){
@@ -346,7 +347,7 @@ abstract class Program extends App
 			if($user->setting()->Exists){
 				if($user->password($_POST["password"])){
 					$this->setVar("UserActive",$_POST["login"]);
-					header("location:/wellcome");
+					header("location:/dashboard");
 				}else{
 					Modal::msg("Contraseña incorrecta");
 				}
@@ -373,7 +374,12 @@ abstract class Program extends App
 	public function wellcome($data)
 	{
 		return new View("views/wellcome.htm");
-	}	
+	}
+	
+	public function dashboard($data)
+	{
+		return new View("views/dashboard.htm");
+	}
 	
 	public function deny($data)
 	{
