@@ -133,7 +133,9 @@ form label div {
 		transition: 0.5s;
 	}
 	  
-	.nav ul li:hover {}
+	.nav ul li:hover {
+		display:inherit;
+	}
 	
 	.nav ul li a {
 		display: flex;
