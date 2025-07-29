@@ -29,11 +29,12 @@ abstract class Program extends App
 	
 	private $Body = array();
 	private $Menu ;
+	private $Route = "";
 
 	public $Titles = array();
 	protected $Logo = "/fred/assets/images/logo.png";
 	protected $Icon = "/fred/assets/images/favicon.ico";
-	protected $Look = "/fred/assets/fred.clasic.css?6";
+	protected $Look = "/fred/assets/fred.clasic.css?10";
 	protected $Login = "views/login.htm";
 	
 	protected $Modal;
@@ -109,7 +110,7 @@ abstract class Program extends App
 	//abstract protected function finishComponents();
 	public function run($route)
 	{
-
+		$links = array();
 		$datos = (empty($route[0]))? array():$route[0];
 		if(!isset($datos["confirm"])) { $datos["confirm"] = false;}
 		if(!isset($datos["crud"])) { $datos["crud"] = true;}
@@ -120,8 +121,12 @@ abstract class Program extends App
         $met = "dashboard";
         $mod = false;
         $tot = count($route);
+		$href="";
         for($i=1; $i<$tot; $i++){
 			$item = $route[$i];
+			$href.="/".$item;
+			$title = $item;
+			
 			$met = $item;
 			if(is_numeric($item)){
 				$datos[$nme] = $item;
@@ -148,16 +153,20 @@ abstract class Program extends App
 							include_once $ctr;
 							$met = "main";
 							$nme = $item;
-							if(!empty($app->Title)) { $this->Titles[] = $app->Title;}
+							if(!empty($app->Title)) { 
+								$this->Titles[] = $app->Title;
+								$title = $app->Title;
+							}
 						}else{
 							$met = $item;
 						}
 					}
 				}
 			}
+			$links[] = "<a href='$href'> " . ucfirst($title) . " </a>";
 		}
-		
-		
+		unset($links[0]);
+		$this->Route=implode("/",$links);
 		//corre los metodos del controlador
 		if($met!=false){
 			$this->ejecutar($app, $nme, $met,$datos);
@@ -196,7 +205,8 @@ abstract class Program extends App
 		if(Program::$Type=="html"){
 			$body = (string) implode("",$this->Body);
 			$body = View::clean($body);
-			$body = "<section class='AppTitle'><h1>".implode(" / ",$this->Titles)."</h1></section>" . $body;
+			//$body = "<section class='AppTitle'><h1>".implode(" / ",$this->Titles)."</h1></section>" . $body;
+			$body = "<div class='app-title'>".$this->Route."</div>" . $body;
 			$this->export($body);
 			
 			if(Program::$View instanceof View){
@@ -210,6 +220,7 @@ abstract class Program extends App
 			$view->setVar("Jsvars",App::$jsvars);
 			$view->setVar("Menu", $this->Menu);
 			$view->setVar("User", $this->User->headView());
+			$view->setVar("Route", $this->Route);
 			$view->setVar("Body", $body);
 			$view->setVar("Logo", $this->Logo);
 			$view->setVar("Icon", $this->Icon);

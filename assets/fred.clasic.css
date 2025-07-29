@@ -62,8 +62,14 @@ form label div {
 	color:#a00;
 }
 
-.AppTitle{
-	font-size:24pt;
+.app-title{
+	font-size:18pt;
+	position:fixed;
+	background-color:white;
+	z-index:9;
+	margin-top:-42px;
+	width:100%;
+	padding-top:8px;
 }
 
 /* ==============    Estilos para Escritorio =================0*/
@@ -72,7 +78,7 @@ form label div {
 	.body {
 		width:100%;
 		display:inline-block;
-		padding:0% 2% 0% 2%;
+		padding:28px 2% 0% 2%;
 		margin-left:20%;
 	}
 
@@ -87,7 +93,7 @@ form label div {
 	}
 	
 	.body header {display:none;}
-	
+
 	/* PANEL DE OPCIONES */
 	.panel-options {
 		width:16%;
@@ -134,7 +140,7 @@ form label div {
 	}
 	  
 	.nav ul li:hover {
-		display:inherit;
+		text-decoration: none;
 	}
 	
 	.nav ul li a {

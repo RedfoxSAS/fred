@@ -117,7 +117,7 @@ abstract class App
 	}
 	
 	//setea la pagina anterior en la pagi
-	public static function backPage2()
+	public static function backPage()
 	{
 		$actual = $_SERVER["REQUEST_URI"];
 		$actual = '/' . trim($actual, '/');
@@ -128,7 +128,7 @@ abstract class App
 		App::$jsvars[] = "uriBack = \"$uri\";";
 	}
 
-	public static function backPage()
+	public static function backPage2()
 	{
 		$actual = $_SERVER["REQUEST_URI"];
 		$uri = App::getVar("UriCurrent");
