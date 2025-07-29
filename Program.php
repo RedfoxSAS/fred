@@ -34,7 +34,7 @@ abstract class Program extends App
 	public $Titles = array();
 	protected $Logo = "/fred/assets/images/logo.png";
 	protected $Icon = "/fred/assets/images/favicon.ico";
-	protected $Look = "/fred/assets/fred.clasic.css?10";
+	protected $Look = "/fred/assets/fred.clasic.css?11";
 	protected $Login = "views/login.htm";
 	
 	protected $Modal;
