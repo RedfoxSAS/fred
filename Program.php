@@ -29,12 +29,12 @@ abstract class Program extends App
 	
 	private $Body = array();
 	private $Menu ;
-	private $Route = "";
+	protected $Route = "";
 
 	public $Titles = array();
 	protected $Logo = "/fred/assets/images/logo.png";
 	protected $Icon = "/fred/assets/images/favicon.ico";
-	protected $Look = "/fred/assets/fred.clasic.css?11";
+	protected $Look = "/fred/assets/fred.clasic.css?13";
 	protected $Login = "views/login.htm";
 	
 	protected $Modal;

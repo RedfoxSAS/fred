@@ -67,11 +67,12 @@ form label div {
 	position:fixed;
 	background-color:white;
 	z-index:9;
-	margin-top:-42px;
+	margin-top:-56px;
 	width:100%;
 	padding-top:8px;
 	min-height:40px;
 	display:block;
+	padding-bottom:8px;
 }
 
 /* ==============    Estilos para Escritorio =================0*/
@@ -80,7 +81,7 @@ form label div {
 	.body {
 		width:100%;
 		display:inline-block;
-		padding:28px 2% 0% 2%;
+		padding:40px 2% 0% 2%;
 		margin-left:20%;
 	}
 
