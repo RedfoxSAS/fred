@@ -28,6 +28,7 @@ Class View
 		if($str!=false){
 			if(@$text = file_get_contents($str,FILE_USE_INCLUDE_PATH)){
 				$this->Text = $text;
+				$this->exists = true;
 			}else{
 				$this->Text = $str;
 			}
