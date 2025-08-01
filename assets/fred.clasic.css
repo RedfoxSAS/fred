@@ -199,6 +199,12 @@ form label div {
 		font-size:12pt;
 	}
 	
+	.nav-help
+	{
+		color:black;
+		
+	}
+	
 	/* ESTILO PARA LAS TABLAS LISTAS O COLECCION*/
 	.collection 
 	{

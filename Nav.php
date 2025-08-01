@@ -63,6 +63,7 @@ class Nav
 				<button class=\"b-nav-close\">Cerrar</button>
 			</div>
 			$ul
+			<a href=\"/help\" class='nav-help'><i class=\"fa fa-circle-question\"></i> Ayuda</a>
 		</ul>
 		</nav>
 		";
