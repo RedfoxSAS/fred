@@ -1,59 +1,54 @@
 
 function mapLoad() {
-  // Create a map object and specify the DOM element for display.
+	// Create a map object and specify the DOM element for display.
 	mapboxgl.accessToken = 'pk.eyJ1IjoicmF1bHJhbW9zZ3UiLCJhIjoiY2pwN3VlYTdlMXQzejNxcnc2eHhsMmt4diJ9.B2xAvJGh5R40R8bw1fqrsw';
 	map = new mapboxgl.Map({
-		container: 'map-body', 
+		container: 'map-body',
 		style: 'mapbox://styles/mapbox/streets-v10',
-		center: [-73.851371, 7.063198], 
-		zoom: 15 
-	}); 
-    map.addControl(new mapboxgl.NavigationControl());
-    mapStatus.Limits = new mapboxgl.LngLatBounds();
-    mapLoadShow();
+		center: [-73.851371, 7.063198],
+		zoom: mapStatus.Zoom
+	});
+	map.addControl(new mapboxgl.NavigationControl());
+	mapStatus.Limits = new mapboxgl.LngLatBounds();
+	mapLoadShow();
 }
 
 
-function mapClean()
-{
+function mapClean() {
 	markers.forEach(marker => marker.remove());
-	markers.length = 0;	
+	markers.length = 0;
 }
 
-function mapAutoZoom()
-{
+function mapAutoZoom() {
 	map.fitBounds(mapStatus.Limits);
 }
 
-function mapSetCenter(lat,lon, zoom)
-{
-	map.flyTo({center: [lon, lat]});
+function mapSetCenter(lat, lon, zoom) {
+	map.flyTo({ center: [lon, lat] });
 }
 
-function mapAddMark(data)
-{
+function mapAddMark(data) {
 	var i = markers.length;
-	var imagen = document.createElement("img"); 
-    imagen.setAttribute("src", data.Icon);
+	var imagen = document.createElement("img");
+	imagen.setAttribute("src", data.Icon);
 
-	markers[i] = new mapboxgl.Marker({element:imagen, offset:[0,-25]});
+	markers[i] = new mapboxgl.Marker({ element: imagen, offset: [0, -25] });
 	markers[i].setLngLat(new mapboxgl.LngLat(data.Longitude, data.Latitude));
 	markers[i].setDraggable(false);
 	markers[i].addTo(map);
 
 	var popup = new mapboxgl.Popup({ offset: 25 })
-    	popup.setHTML(data.Info);
-    
+	popup.setHTML(data.Info);
+
 	markers[i].setPopup(popup);
-	mapStatus.Limits.extend(markers[i].getLngLat());	
-		
+	mapStatus.Limits.extend(markers[i].getLngLat());
+
 }
 
-function markSetIcon(id,icon)
-{
-	var imagen  = markers[id].getElement();
+function markSetIcon(id, icon) {
+	var imagen = markers[id].getElement();
 	imagen.setAttribute("src", icon);
-	markers[id].setOffset([0,0]);
+	markers[id].setOffset([0, 0]);
 }
 
 
@@ -70,10 +65,10 @@ function mapAddCircle(lat,lon,radio,color="orange",border=1,opacidad=0.5)
 	//setTimeout( function() {
 	
 		map.addSource(col, {
-		        "type": "geojson",
-		        "data": {
-			     "type": "Point",
-			     "coordinates": [lon,lat]
+				"type": "geojson",
+				"data": {
+				 "type": "Point",
+				 "coordinates": [lon,lat]
 			}
 		});
 			
@@ -82,15 +77,15 @@ function mapAddCircle(lat,lon,radio,color="orange",border=1,opacidad=0.5)
 			"source": col,
 			"type": "circle",
 			"paint": {
-			    "circle-radius": { 
-				    stops: [ 
-				    [0, 0], 
-				    [20, metersToPixelsAtMaxZoom(radio, lat)] 
-				    ], 
-				    base: 2 
-			     } ,
-			    "circle-opacity": opacidad,
-			    "circle-color": color
+				"circle-radius": { 
+					stops: [ 
+					[0, 0], 
+					[20, metersToPixelsAtMaxZoom(radio, lat)] 
+					], 
+					base: 2 
+				 } ,
+				"circle-opacity": opacidad,
+				"circle-color": color
 			}
 		});
 	

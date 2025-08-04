@@ -1,25 +1,26 @@
 
 function mapLoad() {
-  // Create a map object and specify the DOM element for display.
+	// Create a map object and specify the DOM element for display.
 	map = new google.maps.Map(document.getElementById('map-body'), {
-		center: {lat: 7.063198, lng: -73.851371},
+		center: { lat: 7.063198, lng: -73.851371 },
 		scrollwheel: true,
 		mapTypeId: "OSM",
-		zoom: 16,
+		zoom: mapStatus.Zoom,
 		disableDefaultUI: false,
 		navigationControl: true,
 		streetViewControl: true,
 		keyboardShortcuts: true
 	});
-  
+
 	mapStatus.Limits = new google.maps.LatLngBounds();
-  
+
 	map.mapTypes.set("OSM", new google.maps.ImageMapType({
-		getTileUrl: function(coord, zoom) {
+		getTileUrl: function (coord, zoom) {
 			var tilesPerGlobe = 1 << zoom;
 			var x = coord.x % tilesPerGlobe;
 			if (x < 0) {
-				x = tilesPerGlobe+x;}
+				x = tilesPerGlobe + x;
+			}
 			return "http://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
 		},
 		tileSize: new google.maps.Size(256, 256),
@@ -29,61 +30,56 @@ function mapLoad() {
 	mapLoadShow();
 }
 
-function mapClean()
-{
+function mapClean() {
 	markers.forEach(marker => marker.setMap(null));
 	markers.length = 0;
 }
 
-function mapAutoZoom()
-{
+function mapAutoZoom() {
 	map.fitBounds(mapStatus.Limits);
 }
 
-function mapSetCenter(lat,lon,zoom)
-{
-	map.setCenter(new google.maps.LatLng(lat,lon));
-	if(zoom!=false){
+function mapSetCenter(lat, lon, zoom) {
+	map.setCenter(new google.maps.LatLng(lat, lon));
+	if (zoom != false) {
 		map.setZoom(zoom);
 	}
 }
 
-function mapAddMark(data)
-{
+function mapAddMark(data) {
 	var i = markers.length;
 	markers[i] = new google.maps.Marker({
-		position:new google.maps.LatLng(data.Latitude,data.Longitude),
-		title:data.Title,
-		map:map,
-		icon:data.Icon,
-		id:i
+		position: new google.maps.LatLng(data.Latitude, data.Longitude),
+		title: data.Title,
+		map: map,
+		icon: data.Icon,
+		id: i
 	});
-	if(data.Info!=false){
+	if (data.Info != false) {
 		infowin[i] = new google.maps.InfoWindow({
 			content: data.Info
 		});
-		markers[i].addListener('click',function () {
-				infowin[this.id].open(map,markers[this.id]);
+		markers[i].addListener('click', function () {
+			infowin[this.id].open(map, markers[this.id]);
 		});
 	}
-	mapStatus.Limits.extend(markers[i].position);		
+	mapStatus.Limits.extend(markers[i].position);
 }
 
-function markSetIcon(id,image)
-{
+function markSetIcon(id, image) {
 	markers[id].setIcon(image);
 }
 
 /*
 function mapAddCircle(lat,lon,radio,color="orange",border=1,opacidad=0.5)
 {
-	new google.maps.Circle({ 
-		center: new google.maps.LatLng(lat, lon), 
-		fillColor: color, 
-		fillOpacity: opacidad , 
-		map: map, 
-		radius: radio, 
-		strokeWeight: border 
+	new google.maps.Circle({
+		center: new google.maps.LatLng(lat, lon),
+		fillColor: color,
+		fillOpacity: opacidad ,
+		map: map,
+		radius: radio,
+		strokeWeight: border
 	});
 	mapStatus.Limits.extend(new google.maps.LatLng(lat,lon));
 }

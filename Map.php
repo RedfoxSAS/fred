@@ -15,7 +15,7 @@ namespace Fred;
 class Map
 {
 	private $Width = "100%";
-	private $Height = "200";
+	private $Height = 0;
 	private $Motor = "google";
 	
 	private $Ctr = false;
@@ -24,6 +24,7 @@ class Map
 	private $Auto = false;
 	private $Icon = false;
 	private $Select = false;
+	public $Zoom = 15;
 	
 	//public $form = "formMapa";
 	//public $Style = "";
@@ -46,7 +47,7 @@ class Map
 	function size($w,$h)
 	{
 		$this->Width = $w;
-		$this->Height = $w;
+		$this->Height = $h;
 	}
 	
 	public function points($points,$auto=false)
@@ -98,6 +99,7 @@ class Map
 		}		//$style = $this->Style;
 		
 		$w = $this->Width;
+		$h = $this->Height;
 		$sc = $this->script();
 		$fr = $this->controls();
 		$tl = $this->Title;
@@ -105,10 +107,10 @@ class Map
 		$htm = "
 
 		$prove
-		<script type=\"text/javascript\" src=\"/fred/assets/fred.map.js?2\"></script>
-		<script type=\"text/javascript\" src=\"/fred/assets/fred.map-$motor.js?1\"></script>
+		<script type=\"text/javascript\" src=\"/fred/assets/fred.map.js?3\"></script>
+		<script type=\"text/javascript\" src=\"/fred/assets/fred.map-$motor.js?2\"></script>
 		<link rel=\"stylesheet\" href=\"/fred/assets/fred.maps.css?1\">
-		<div class=\"map-container\" style=\"width:$w;height:400px;\" id='map-container'>
+		<div class=\"map-container\" style=\"width:$w;height:200px;\" id='map-container'>
 			<div class='map-title'>
 				<h1>$tl</h1>
 				<span id='map-comment'></span>
@@ -163,12 +165,16 @@ class Map
 		$point = $this->Points;
 		$auto = ($this->Auto)? 'true' : 'false';
 		$icon = ($this->Icon)? "icono = \"".$this->Icon."\";" : "";
+		$alto = $this->Height;
+		$zoom = $this->Zoom;
 		$htm = "
 		<script>
 			$icon
 			var autoShow = $auto;
 			var points = [];
 			$point
+			mapStatus.Height = $alto;
+			mapStatus.Zoom = $zoom;
 			function windowLoad()
 			{
 				mapResize();

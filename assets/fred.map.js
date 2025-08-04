@@ -12,7 +12,7 @@ var mapStatus = {
 	Player: false,
 	Limits: false,
 	Center: false,
-	Zoom: false,
+	Zoom: 15,
 	Height: 0
 };
 
@@ -180,8 +180,8 @@ function mapFullScreen() {
 }
 
 function mapResize() {
+	var child = document.getElementById('map-container');
 	if (mapStatus.Height == 0) {
-		var child = document.getElementById('map-container');
 		var parent = child.parentElement;
 		var parentHeight = parent.offsetHeight;
 		var windowHeight = window.innerHeight;
@@ -192,8 +192,9 @@ function mapResize() {
 			mapStatus.Height = windowHeight - childOffsetTop - 20;
 		}
 		child.style.height = mapStatus.Height + 'px';
+	} else {
+		child.style.height = mapStatus.Height + 'px';
 	}
-	child.style.height = mapStatus.Height + 'px';
 }
 
 

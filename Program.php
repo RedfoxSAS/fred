@@ -71,7 +71,7 @@ abstract class Program extends App
 		$this->authorize("program_suspended",true);
 		
 		$this->script("/fred/assets/jquery.slim.min.js");
-		$this->script("/fred/assets/fred.js?2");
+		$this->script("/fred/assets/fred.js?3");
 		$this->script("/fred/assets/bootstrap.min.js");
 
 		$this->style("/fred/assets/awesome/all.min.css?3");

@@ -3,7 +3,7 @@ function mapLoad() {
 
 	map = L.map('map-body', {
 		center: [7.063198, -73.851371], // Coordenadas del centro
-		zoom: 16, // Nivel de zoom inicial
+		zoom: mapStatus.Zoom, // Nivel de zoom inicial
 		zoomControl: true, // Mostrar control de zoom
 		minZoom: 7, // Nivel de zoom mínimo
 		maxZoom: 25, // Nivel de zoom máximo
@@ -14,39 +14,35 @@ function mapLoad() {
 		tap: false, // Deshabilitar soporte para eventos tap en dispositivos táctiles
 		preferCanvas: false // Usar SVG en lugar de Canvas
 	});
-	
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
 	mapLoadShow();
 }
 
-function mapClean()
-{
+function mapClean() {
 	markers.forEach(marker => marker.remove());
 	markers.length = 0;
 }
 
-function mapAutoZoom()
-{
+function mapAutoZoom() {
 	if (markers.length === 0) {
-         return;
-    }
-    var bounds = L.latLngBounds(markers.map(marker => marker.getLatLng()));
-    map.fitBounds(bounds);
+		return;
+	}
+	var bounds = L.latLngBounds(markers.map(marker => marker.getLatLng()));
+	map.fitBounds(bounds);
 }
 
-function mapSetCenter(lat,lon,zoom)
-{
-	if(zoom!=false){
+function mapSetCenter(lat, lon, zoom) {
+	if (zoom != false) {
 		map.setView([lat, lon], zoom);
-	}else{
+	} else {
 		map.setView([lat, lon]);
 	}
 }
 
-function mapAddMark(data)
-{
+function mapAddMark(data) {
 	var i = markers.length;
 
 	var icon = L.icon({
@@ -55,16 +51,15 @@ function mapAddMark(data)
 		popupAnchor: [44, 0] // Punto desde el cual se abrirá el popup relativo al icono
 		//iconSize: [38, 38], // Tamaño del icono
 	});
-	
-	markers[i] = L.marker([data.Latitude, data.Longitude],{ icon: icon }).addTo(map)
+
+	markers[i] = L.marker([data.Latitude, data.Longitude], { icon: icon }).addTo(map)
 		.bindPopup(data.Info);
-		//.openPopup();	
+	//.openPopup();	
 }
 
-function markSetIcon(id,image)
-{
+function markSetIcon(id, image) {
 	var icon = L.icon({
-		iconUrl: image, 
+		iconUrl: image,
 		iconAnchor: [0, 0], // Punto del icono que se ubicará en la coordenada del marcador
 		popupAnchor: [0, 0]
 	});
@@ -74,13 +69,13 @@ function markSetIcon(id,image)
 /*
 function mapAddCircle(lat,lon,radio,color="orange",border=1,opacidad=0.5)
 {
-	new google.maps.Circle({ 
-		center: new google.maps.LatLng(lat, lon), 
-		fillColor: color, 
-		fillOpacity: opacidad , 
-		map: map, 
-		radius: radio, 
-		strokeWeight: border 
+	new google.maps.Circle({
+		center: new google.maps.LatLng(lat, lon),
+		fillColor: color,
+		fillOpacity: opacidad ,
+		map: map,
+		radius: radio,
+		strokeWeight: border
 	});
 	mapStatus.Limits.extend(new google.maps.LatLng(lat,lon));
 }
