@@ -410,6 +410,7 @@ class Model
 		unset($keys["Active"]);
 		
 		$vars = array_keys($keys);
+		$filters = unserialize(serialize($this->Setting->Filters));
 		
 		foreach($vars as $var){
 			if(!isset($this->Setting->Filters[$var])){
@@ -429,24 +430,27 @@ class Model
 				if(!empty($val)){
 					if(is_string($val)) {
 						if(strpos($val,"%")===false){
-							$this->filter(new ModelFilter($var,$val,"LIKE"),$var);
+							//$this->filter(new ModelFilter($var,$val,"LIKE"),$var);
+							$filters[$var][] = new ModelFilter($var,$val,"LIKE");
 						}else{
-							$this->filter(new ModelFilter($var,$val),$var);
+							//$this->filter(new ModelFilter($var,$val),$var);
+							$filters[$var][] = new ModelFilter($var,$val);
 						}
 					}else if(is_numeric($val)){
-						$this->filter(new ModelFilter($var,$val),$var);
+						//$this->filter(new ModelFilter($var,$val),$var);
+						$filters[$var][] = new ModelFilter($var,$val);
 					}
 				}
 			}
 		}
 	
-		if(count($this->Setting->Filters)>0){
+		if(count($filters)>0){
 			$where = array();
 			//echo "<br><br>";
 			//print_r($this->Setting->Filters);
 			//echo "<br><br>";
-			foreach($this->Setting->Filters as $filters){
-				$where[] = "(". implode(" OR ", $filters) .")";
+			foreach($filters as $filter){
+				$where[] = "(". implode(" OR ", $filter) .")";
 			}
 			if(count($where)>0){
 				$str = " WHERE (" . implode(" AND ", $where) . ")";
