@@ -179,6 +179,7 @@ Class MotorMySql implements MotorDbi
 			$class = get_class($model);
 			$i = 0;
 			if($request){
+				$metodo = $model->setting()->Method;
 				$sumar = new $class();
 				if($summa){
 					foreach($summa as $s){
@@ -191,7 +192,7 @@ Class MotorMySql implements MotorDbi
 					//$nuevo = $this->set(new $class(), $row);
 					$nuevo->Id = $i;
 					$nuevo->set($row);
-					$metodo = $model->setting()->Method;
+					
 					if($metodo!=false){
 						$nuevo->$metodo();
 					}
@@ -208,6 +209,9 @@ Class MotorMySql implements MotorDbi
 				}
 				if($summa){
 					$sumar->setting()->Summary = true;
+					if($metodo!=false){
+						$sumar->$metodo();
+					}
 					if($instr==true){
 						$lista.= (string) $sumar;
 					}else{
