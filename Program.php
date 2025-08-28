@@ -49,7 +49,7 @@ abstract class Program extends App
 	{
 		session_start();
 		$this->ignore("/login");
-		$this->ignore("/wellcome");
+		$this->ignore("/welcome");
 		Program::$Json = new \stdClass();
 		Program::$Json->success = true;
 		Program::$Json->message = false;
@@ -65,7 +65,7 @@ abstract class Program extends App
 		parent::__construct();
 		$this->startComponents();
 
-		$this->authorize("program_wellcome",true);
+		$this->authorize("program_welcome",true);
 		$this->authorize("program_login",true);
 		$this->authorize("program_logoff",true);
 		$this->authorize("program_suspended",true);
@@ -338,7 +338,7 @@ abstract class Program extends App
 			$rutaLimpia = $parsedUrl['path'];
 
 			if( !in_array($rutaLimpia, $this->Ignore)){
-				header("location:/wellcome");
+				header("location:/welcome");
 			}
 		}else{
 			if($this->User->Estado == "SUSPENDIDO"){
@@ -379,12 +379,12 @@ abstract class Program extends App
 		foreach($keys as $key){
 			unset ($_SESSION[$key]);
 		}
-		header("location:/wellcome");
+		header("location:/welcome");
 	}
 
-	public function wellcome($data)
+	public function welcome($data)
 	{
-		return new View("views/wellcome.htm");
+		return new View("views/welcome.htm");
 	}
 	
 	public function dashboard($data)
