@@ -74,7 +74,7 @@ class Collection
 		$a = "";
 		foreach($this->Model->setting()->Cruds as $name){
 			$c = App::$Crud->get($name);
-			$a = ($c!=false)? $a." <a href=\"".$c[1]."\" title='".$c[0]."'><i class=\"" . $c[2] . "\"></i></a>":$a;
+			@$a = ($c!=false)? $a." <a href=\"".$c[1]."\" title='".$c[0]."'><i class=\"" . $c[2] . "\"></i></a>":$a;
 		}
 		$str = ($a!="")? $str."<td class='collection-crud'>$a</td>" : $str;
 		$str.= "</tr>";
@@ -92,9 +92,9 @@ class Collection
 		$this->view_th = $str;		
 	}
 	
-	public function loadItems($str=false)
+	public function loadItems()
 	{
-		return $this->Db->query($this->Model, $str);
+		$this->Items = $this->Db->query($this->Model);
 	}
 	
 	public function __toString()
@@ -106,7 +106,9 @@ class Collection
 			$this->Model->view($this->view_item);
 		}		
 		if(empty($this->Items)){
-			$items = $this->loadItems(true);
+			$this->Db->setDataStringEnabled(true);
+			$this->loadItems(true);
+			$items = $this->Db->getDataString();
 		}else{
 			$items = implode("",$this->Items);
 		}

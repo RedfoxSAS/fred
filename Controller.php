@@ -292,6 +292,12 @@ abstract class Controller extends App
 		return $str;
 	}
 
+	public function openModel()
+	{
+		$this->setKeysToModel();
+		$this->Db->open($this->Model);
+	}
+
 
 }
 

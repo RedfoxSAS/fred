@@ -35,19 +35,17 @@ class Datebox extends Control
 		$f = $this->Format;
 		$format = (isset($this->F[$f]))? $this->F[$f] : "Y-m-d" ;
 		if($text===false){
-			if(!$this->Text){
-				$this->Text = date($format);
+			if(empty($this->Text)){
+				if(!empty($this->TextDefault)){
+					$this->Text = $this->TextDefault;
+				}else if($this->Type > 0){
+					$this->Text = date($format);
+				}
 			}
+			return $this->Text;
 		}else{
 			$this->Text = $text;
 		}
-		$fecha = strtotime($this->Text);
-		if($fecha < 0){
-			$this->Text = date($format);
-		}else{
-			$this->Text = date($format,$fecha);
-		}
-		return $this->Text;
 	}
 
 	public function control()

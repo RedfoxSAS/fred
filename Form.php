@@ -48,6 +48,8 @@ abstract class Form extends App
 	protected $Body;
 	protected $UrlSave = false;
 	protected $UrlDel = false;
+	protected $Script = "";
+	protected $Style = "";
 	
 	public $Buttons = array();
 	//protected $Buttint = array();
@@ -165,8 +167,8 @@ abstract class Form extends App
 					$c[1] = $c0;				
 				}
 				if($c != false){
-					$b = new Button($c[0],8);
-					$b->link($c[1],$c[2],"_self");
+					@$b = new Button($c[0],8);
+					@$b->link($c[1],$c[2],"_self");
 					$this->Buttons[$name] = $b;
 				}
 			}
@@ -200,11 +202,15 @@ abstract class Form extends App
 			$title =  $this->Title;
 			$body = $this->Body;
 			$buttons = implode(" ",$this->Buttons);
-			$print = $this->Btnprint;		
+			$print = $this->Btnprint;
+			$srp = $this->Script;
+			$stl = $this->Style;
 			$str = "
+			<style>$stl</style>
+			<script language='javascript'>$srp</script>
 			<h1>$title</h1>	
 			<form name='$name' id='$name' method='POST' enctype='multipart/form-data' style='width:100%;'>
-				<input type='hidden' name='$name' value='$name'>
+				<input type='hidden' name='fred_form_name' value='$name'>
 				<section>
 					$body
 				</section>
@@ -213,6 +219,7 @@ abstract class Form extends App
 				</section>
 				$print
 			</form>
+			
 			";
 			return $str;
 		}
@@ -221,7 +228,7 @@ abstract class Form extends App
 	//pasar datos a los controles
 	protected function fillControls()
 	{
-		if(!empty($_POST)){
+		if(!empty($_POST) && $_POST["fred_form_name"] == $this->Name){
 			$this->fillControlsForm();
 		}else if(!empty($this->Model)){
 			$this->fillControlsModel();
@@ -277,9 +284,9 @@ abstract class Form extends App
 		$controls = $this->expose();
 		foreach($controls as $control){
 			if($control instanceof Control){
-				$name = "Fred." . $this->Name . "." . $control->Name;
-				if(!empty($_SESSION[$name] )){
-					$control->text($_SESSION[$name]);
+				$idx = "Fred_" . $this->Name . "_" . $control->Name;
+				if(!empty($_SESSION[$idx] )){
+					$control->text($_SESSION[$idx]);
 				}
 			}
 		}		
@@ -291,7 +298,7 @@ abstract class Form extends App
 		$controls = $this->expose();
 		foreach($controls as $control){
 			if($control instanceof Control){
-				if($control->Source != false && $control->Active ==true){
+				if($control->Source != false && $control->Active ==true && isset($_POST[$control->Name]) ){
 					$field = $control->Source;
 					if(isset($this->Model->$field)){
 						$this->Model->value($field,$control->text());
@@ -311,17 +318,19 @@ abstract class Form extends App
 		}
 		
 		$this->fillControls();
-				
-        $metodos = get_class_methods(get_class($this));
-		$claves = array_keys($_POST);
-		$llamadas = array_intersect($metodos,$claves);
-	
-		if(count($llamadas)>0){
-			foreach($llamadas as $metodo){
-				if($this->authorize($metodo)){
-					$this->$metodo();
-				}else{
-					Modal::msg("Accion no autorizada",3);
+		
+		if(!empty($_POST) && $_POST["fred_form_name"] == $this->Name){
+			$metodos = get_class_methods(get_class($this));
+			$claves = array_keys($_POST);
+			$llamadas = array_intersect($metodos,$claves);
+		
+			if(count($llamadas)>0){
+				foreach($llamadas as $metodo){
+					if($this->authorize($metodo)){
+						$this->$metodo();
+					}else{
+						Modal::msg("Accion no autorizada",3);
+					}
 				}
 			}
 		}
@@ -375,7 +384,8 @@ abstract class Form extends App
 			foreach($controls as $control){
 				if($control instanceof Control){
 					$text = $control->text();
-					$_SESSION["Fred." . $this->Name . "." . $control->Name] = $text;
+					$idx = "Fred_" . $this->Name . "_" . $control->Name;
+					$_SESSION[$idx] = $text;
 				}
 			}
 		}

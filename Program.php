@@ -34,7 +34,7 @@ abstract class Program extends App
 	public $Titles = array();
 	protected $Logo = "/fred/assets/images/logo.png";
 	protected $Icon = "/fred/assets/images/favicon.ico";
-	protected $Look = "/fred/assets/fred.clasic.css?15";
+	protected $Look = "/fred/assets/fred.clasic.css?19";
 	protected $Login = "views/login.htm";
 	
 	protected $Modal;
@@ -91,12 +91,13 @@ abstract class Program extends App
 	{
 		if($auto==true)
 		{
-			$db->Server = App::$Setting->Server;
-			$db->User = App::$Setting->User;
-			$db->Password = App::$Setting->Password;
-			$db->Database = App::$Setting->Database;
+			$s = App::$Setting->Server;
+			$u = App::$Setting->User;
+			$p = App::$Setting->Password;
+			$d = App::$Setting->Database;
+			$db->setCredentials($d,$s,$u,$p);
 			if(!empty(App::$UserActive->Db)){
-				$db->Database = App::$UserActive->Db;
+				$db->setDatabase(App::$UserActive->Db);
 			}
 		}
 		App::$Database = $db;

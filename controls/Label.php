@@ -27,10 +27,11 @@ class Label extends Control
 	
 	public function __toString()
 	{
+		$hid = ($this->Type==3)? " style='display:none' ":"";
 		$typ = ($this->Type>0)? "h" . $this->Type : "span";
 		$lbl = $this->Label;
 		$txt = $this->Text;
-		$str = "<div class='Control-label'>";
+		$str = "<div class='Control-label' $hid>";
 		$str.= "<$typ>$lbl</$typ>";
 		$str.= "<div>$txt</div>";
 		$str.= "<div>";

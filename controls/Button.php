@@ -61,6 +61,7 @@ class Button extends Control
 		$atr = $this->attrib();
 		$atr.= " class='btn btn-$cla' ";
 		$atr.= " title='$com' ";
+		$atr.= " style='white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;'";
 		$icon = ($this->Icon!=false)?  "<i class='fa fa-" . $this->Icon . "'></i>":"";
 		$id = $this->Id;
 				

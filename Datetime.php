@@ -20,6 +20,38 @@ class Datetime
     public $d;
     public $m;
     public $y;
+
+	public static function months()
+	{
+		 $meses = [
+            "01" => "Enero",
+            "02" => "Febrero",
+            "03" => "Marzo",
+            "04" => "Abril",
+            "05" => "Mayo",
+            "06" => "Junio",
+            "07" => "Julio",
+            "08" => "Agosto",
+            "09" => "Septiembre",
+            "10" => "Octubre",
+            "11" => "Noviembre",
+            "12" => "Diciembre"
+        ];
+		return $meses;
+	}
+
+	public static function days()
+	{
+		$dias = array();
+		$dias[1] = "Lunes";
+		$dias[2] = "Martes";
+		$dias[3] = "Miercoles";
+		$dias[4] = "Jueves";
+		$dias[5] = "Viernes";
+		$dias[6] = "Sabado";
+		$dias[7] = "Domingo";
+		return $dias;
+	}
    
     public function __construct($date=false)
     {
@@ -41,13 +73,7 @@ class Datetime
     public function day()
     {
 		$dia = date("N",strtotime($this->Text));
-		$dias[1] = "Lunes";
-		$dias[2] = "Martes";
-		$dias[3] = "Miercoles";
-		$dias[4] = "Jueves";
-		$dias[5] = "Viernes";
-		$dias[6] = "Sabado";
-		$dias[7] = "Domingo";
+		$dias = Datetime::days();
 		return $dias[$dia];
 	}
 	
@@ -56,18 +82,7 @@ class Datetime
 		if(!$mes){
 			$mes = date("m",strtotime($this->Text));
 		}
-		$meses["01"] = "Enero";
-		$meses["02"] = "Febrero";
-		$meses["03"] = "Marzo";
-		$meses["04"] = "Abril";
-		$meses["05"] = "Mayo";
-		$meses["06"] = "Junio";
-		$meses["07"] = "Julio";
-		$meses["08"] = "Agosto";
-		$meses["09"] = "Septiembre";
-		$meses["10"] = "Octubre";
-		$meses["11"] = "Noviembre";
-		$meses["12"] = "Diciembre";
+		$meses = Datetime::months();
 		return $meses[$mes];
 	}
 	

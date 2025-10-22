@@ -318,6 +318,17 @@ form label div {
 		font-size:12pt;
 		font-weight:bold;
 	}
+	/* Table de datalle en los formulario */
+	.CtrDetailTable, .CtrDetailTable th
+	{
+		border: 1px solid gray;
+	}
+	.CtrDetailTable td
+	{
+		border-left: 1px solid gray;
+		border-right: 1px solid gray;
+	}
+
 	
 	/* Estilos para el calendario */
 	.calendar div { display:inline-block;}

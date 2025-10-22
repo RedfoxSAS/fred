@@ -30,4 +30,5 @@ class Textbox extends Control
 		}			
 		return $str;	
 	}
+
 }

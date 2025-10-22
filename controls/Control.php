@@ -18,10 +18,10 @@ abstract class Control //extends rRoot
 	
 	public $Id;
 	public $Label;
-	protected $Type;
+	public $Type;
 	protected $Events = array();
 	protected $Help = "";
-	protected $Helpi = "white";
+	protected $Helpi = "black";
 	
 	public $Name;
 	public $Source = false;
@@ -100,8 +100,8 @@ abstract class Control //extends rRoot
 	{
 		$str = " id='" . $this->Id . "'";
 		$str.= " name='" . $this->Name . "'";		
-		$str.= ($this->Type==1)? " required='required' ":"";
-		$str.= ($this->Type==2)? " readonly='readonly' ":"";
+		$str.= ($this->Type==1)? " required ":"";
+		$str.= ($this->Type==2)? " readonly ":"";
 		if(count($this->Events)>0){
 			$keys = array_keys($this->Events);
 			foreach($keys as $event){
@@ -114,6 +114,7 @@ abstract class Control //extends rRoot
 	//muestra el control en forma de texto
 	public function __toString()
 	{
+		$id = $this->Id;
 		$hlp = $this->Help;
 		$hli = $this->Helpi;
 		$lbl = $this->Label;
@@ -122,7 +123,7 @@ abstract class Control //extends rRoot
 		$ctr = $this->control();
 		$str = "<label$hid>";
 		$str.= "<div>$lbl $req </div> $ctr ";
-		$str.= "<small class='help-block text-$hli'>$hlp</small>";
+		$str.= "<small class='help-block text-$hli' id='Small$id'>$hlp</small>";
 		$str.= "</label>";
 		return $str;
 	}

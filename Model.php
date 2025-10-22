@@ -171,7 +171,7 @@ class ModelFilter
 	{
 		$this->Key = $field;
 		$this->Val = $value;
-		if(is_numeric($sign) || strtotime($sign)>0){
+		if( (is_int($sign) || is_float($sign)) || strtotime($sign)>0){
 			$this->Val2 = $sign;
 			$this->Sig  = ">=";
 			$this->Sig2 = "<=";
@@ -221,6 +221,8 @@ class Model
 			$this->UserModifica = App::$UserActive->Login;
 		}
 	}
+
+	public function seek() {}
 
 	public function setting($key=false,$value=false)
 	{

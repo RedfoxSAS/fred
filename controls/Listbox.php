@@ -13,12 +13,13 @@ include_once "Control.php";
 
 class Listbox extends Control
 {
-	protected $View = "";
+	protected $View = false;
 	
 	public MotorDbi $Db;
 	public $Items = array();
 	public Model $Model;
 	public $Editable = false;
+	public $Select = false;
 	protected $FlagGroup = false;
 	public $ActiveNone = false;
 	
@@ -26,7 +27,6 @@ class Listbox extends Control
 	{
 		parent::__construct($label,$t,$s,$c);
 		$this->Model = new ListItem(0,"");
-		$this->view("({Id}) {Text}", "Id");
 	}
 	
 	public function items($items,$view = false)
@@ -64,15 +64,22 @@ class Listbox extends Control
 		$this->Items[$key] = new ListItem($key, $value);
 	}
 			
-	public function view($view, $key = false)
+	public function view($view, $key = false, $comment="", $dataset="")
 	{
 		$key = ($key===false)? $this->Model->setting()->Key : $key;
-		$this->View = "<option value='{{$key}}' {Active} >$view</option>";
+		if($this->Select==true){
+			$this->View = "<option value='{{$key}}' {Active} >$view</option>";
+		}else{
+			$this->View = "<option value='$view' data-code='{{$key}}' $dataset {Active} >$comment</option>";
+		}
 		$this->Model->setting("Key", $key);
 	}	
 	
 	public function control()
 	{
+		if(!$this->View){
+			$this->view("({Id}) {Text}", "Id");
+		}
 		$this->loadItems();
 		$val = (string) $this->text();
 		$val = (empty($val))? $this->TextDefault : $val;
@@ -84,12 +91,17 @@ class Listbox extends Control
 		}
 		$atr = $this->attrib();
 		$atr.= " placeholder='" . $this->Comment . "'";
+		$atrv = ($this->Type==1)? " required ":"";
+		$atrv.= ($this->Type==2)? " readonly ":"";
 		$nme = $this->Name;
-		if($this->Editable){
-			$str = "<input class='form-control' list='List$nme' value='$val' $atr>";
-			$str.= "<datalist id='List$nme'>";
+		$id = $this->Id;
+		if($this->Select==false){
+			$str = "<input type='hidden' value='$val' $atr>";
+			$str.= "<input class='form-control' list='Items$id' value='$val' id='View$id' $atrv>";
+			$str.= "<datalist id='Items$id'>";
 			$str.= implode("",$this->Items);
 			$str.= "</datalist>";
+			$str.= $this->scriptEditable($id,$this->Editable);
 			return $str;				
 		}else{
 			$str = "<select class='form-control' value='$val' $atr>";
@@ -113,6 +125,52 @@ class Listbox extends Control
 				}
 			}
 		}		
+	}
+
+	protected function scriptEditable($id,$edit)
+	{
+		$edit = $edit? 1:0;
+		$r = "
+		<script>
+		let dataset$id = false;
+
+		document.addEventListener(\"DOMContentLoaded\", function() {
+			const input$id = document.getElementById(\"View$id\");
+			const datalist$id = document.getElementById(\"Items$id\");
+			const dataSend$id = document.getElementById(\"$id\");
+			const edit$id = $edit;
+			
+			// Inicializar el input visible si ya hay un código cargado
+			if (dataSend$id.value) {
+				const option = [...datalist$id.options].find(opt => opt.dataset.code === dataSend$id.value);
+				if (option) {
+					input$id.value = option.value; // aquí va el código + nombre
+				}
+			}
+
+			 // Manejar cambios en el input
+			input$id.addEventListener(\"change\", function() {
+				const value = input$id.value;
+				const option = [...datalist$id.options].find(opt => opt.value === value);
+				if (option) {
+					// Mostramos la descripción debajo del input
+					dataSend$id.value = option.dataset.code;
+					dataset$id = option.dataset;
+				} else {
+					// Limpia si no coincide
+					if(edit$id){
+						dataSend$id.value = input$id.value;
+					}else{
+						dataSend$id.value = \"\";
+						input$id.value = \"\";
+						alert(\"Debe seleccionar un valor válido de la lista.\");
+					}
+				}
+			});
+		});
+		</script>
+		";
+		return $r;
 	}
 }
 

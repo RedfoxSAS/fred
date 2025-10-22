@@ -36,7 +36,12 @@ class Panel extends Control
 		$cols = 0;
 		$colm = array();
 		$i = 1;
+		$ocultos = array();
 		foreach($this->Controls  as $control){
+			if($control->Type==3){
+				$ocultos[] = $control;
+				continue;
+			}
 			$w = $control->Width;
 			$h = $control->Height;
 			$cols+=$w;
@@ -65,6 +70,7 @@ class Panel extends Control
 			$str.= "<td></td>";
 		}
 		$str.= "</tr></table></div>";
+		$str.= implode("",$ocultos);
 		return $str;
 	}
 	

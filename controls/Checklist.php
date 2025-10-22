@@ -16,7 +16,7 @@ class Checklist extends Listbox
 	public $Multiple = false;
 	public $Columns = 1;
 	
-	public function view($view, $key = false)
+	public function view($view, $key = false, $c=false, $d=false)
 	{
 		$tipo = ($this->Multiple)? "checkbox": "radio";
 		$w = 100 / $this->Columns;
@@ -68,9 +68,9 @@ class Checklist extends Listbox
 		$hid = ($this->Type==3)? " style='display:none' ":"";
 		$ctr = $this->control();
 		$str = "<label $hid style='margin:0px;padding:2px'><div>$lbl";
-		$str.= "$req</div> </label>$ctr ";
+		$str.= "$req</div> $ctr ";
 		$str.= "<small class='help-block text-$hli'>$hlp</small>";
-		$str.= "";
+		$str.= "</label>";
 		return $str;
 	}	
 	
