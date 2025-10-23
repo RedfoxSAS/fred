@@ -21,6 +21,7 @@ class Label extends Control
 	{
 		parent::__construct($label,$t,$s,$c);
 		$this->Active=false;
+		$this->Separator = "";
 	}
 	
 	public function control(){}
@@ -30,7 +31,7 @@ class Label extends Control
 		$hid = ($this->Type==3)? " style='display:none' ":"";
 		$typ = ($this->Type>0)? "h" . $this->Type : "span";
 		$lbl = $this->Label;
-		$txt = $this->Text;
+		$txt = $this->text();
 		$str = "<div class='Control-label' $hid>";
 		$str.= "<$typ>$lbl</$typ>";
 		$str.= "<div>$txt</div>";

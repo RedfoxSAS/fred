@@ -22,6 +22,7 @@ abstract class Control //extends rRoot
 	protected $Events = array();
 	protected $Help = "";
 	protected $Helpi = "black";
+	protected $Separator = ",";
 	
 	public $Name;
 	public $Source = false;
@@ -69,7 +70,7 @@ abstract class Control //extends rRoot
 				$text = $text->$key;
 			}
 			if(is_array($text)){
-				$text = implode(",",$text);
+				$text = implode($this->Separator,$text);
 			}
 			if($this->Capital){
 				$text = strtoupper($text);
