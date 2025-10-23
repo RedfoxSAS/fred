@@ -27,7 +27,9 @@ class Panel extends Control
 
 	public function __toString()
 	{
+		$name = $this->Name;
 		$str = "<div class='form-panel'>";
+		$str.= "<input type='hidden' name='$name' value='$name'>";
 		$str.= "<table><tr>";
 		for($i=0;$i<20;$i++){
 			$str.= "<th></th>";
@@ -100,6 +102,7 @@ class Panel extends Control
 	
 	public function text($data=false)
 	{
+
 		if($data!=false ){
 			$controls = $this->Controls;
 			foreach($controls as $control){
@@ -128,7 +131,8 @@ class Panel extends Control
 				}
 			}
 			//$json = json_encode($clas);
-			return (string) $clas;
+			$text = (string) $clas;
+			return $text;
 		}
 	}
 

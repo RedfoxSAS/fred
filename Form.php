@@ -241,7 +241,7 @@ abstract class Form extends App
 	{
 		$controls = $this->expose();
 		foreach($controls as $control){
-			if($control instanceof Control){
+			if(($control instanceof Control) && !($control instanceof Panel)){
 				if(isset($_POST[$control->Name])){
 					if(!is_null($_POST[$control->Name])){
 						$control->text($_POST[$control->Name]);
