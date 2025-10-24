@@ -222,8 +222,8 @@ class MotorMySql implements MotorDbi
         $this->lastSql = $sql;
         $result = $this->conn->query($sql);
         if (!$result) {
-            error_log("Error en query(): " . $this->conn->error . " | SQL: $sql");
-            return false;
+            //error_log("Error en query(): " . $this->conn->error . " | SQL: $sql");
+            return [];
         }
 
         $key = $model->setting()->Key;
