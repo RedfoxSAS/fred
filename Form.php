@@ -207,7 +207,7 @@ abstract class Form extends App
 			$stl = $this->Style;
 			$str = "
 			<style>$stl</style>
-			<script language='javascript'>$srp</script>
+			
 			<h1>$title</h1>	
 			<form name='$name' id='$name' method='POST' enctype='multipart/form-data' style='width:100%;'>
 				<input type='hidden' name='fred_form_name' value='$name'>
@@ -219,7 +219,7 @@ abstract class Form extends App
 				</section>
 				$print
 			</form>
-			
+			<script language='javascript'>$srp</script>
 			";
 			return $str;
 		}
@@ -241,7 +241,7 @@ abstract class Form extends App
 	{
 		$controls = $this->expose();
 		foreach($controls as $control){
-			if(($control instanceof Control) && !($control instanceof Panel)){
+			if(($control instanceof Control && !$control instanceof Panel) || $control instanceof Detail){
 				if(isset($_POST[$control->Name])){
 					if(!is_null($_POST[$control->Name])){
 						$control->text($_POST[$control->Name]);
