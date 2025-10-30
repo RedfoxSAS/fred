@@ -298,7 +298,8 @@ abstract class Form extends App
 		$controls = $this->expose();
 		foreach($controls as $control){
 			if($control instanceof Control){
-				if($control->Source != false && $control->Active ==true && isset($_POST[$control->Name]) ){
+				//if($control->Source != false && $control->Active ==true && isset($_POST[$control->Name]) ){
+				if($control->Source != false && $control->Active ==true ){
 					$field = $control->Source;
 					if(isset($this->Model->$field)){
 						$this->Model->value($field,$control->text());
