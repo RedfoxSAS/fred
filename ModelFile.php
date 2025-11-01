@@ -108,5 +108,10 @@ class ModelFile
 	{
 		return (string) $this->Text;	
 	}
+
+	public function getPath()
+	{
+		return $this->Base . "/" . $this->Path;
+	}
 	
 }
