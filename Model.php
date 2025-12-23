@@ -83,7 +83,7 @@ class ModelJson
 		$campos = array_keys(get_object_vars($object));
 		foreach($campos as $c){
 			$this->$c = $object->$c;
-		}
+		}	
 	}
 	
 	public function setArray($array)
@@ -198,7 +198,7 @@ class ModelFilter
 	}
 }
 
-class Model
+class Model 
 {
 	public string $Active = ""; //Agregado para identificar que es el registro activo en un list
 	public string $Estado = "";
@@ -222,7 +222,7 @@ class Model
 		}
 	}
 
-	public function seek() {}
+	public function preformat() {}
 
 	public function setting($key=false,$value=false)
 	{
@@ -484,6 +484,11 @@ class Model
 	#convirte el objeto en estring
 	public function __toString()
 	{
+		$method = "preformat";
+        if ($method && method_exists($this, $method)) {
+                $this->$method();
+        }
+		
 		if(!empty(ModelSetting::$Template[get_class($this)])){
 			$data = $this->dataview();
 			$v = $this->view();
@@ -617,6 +622,14 @@ class Model
 				$this->$field = $value;
 			}
 		}
+	}
+
+	public function setObject($object)
+	{
+		$campos = array_keys(get_object_vars($object));
+		foreach($campos as $c){
+			$this->value($c, $object->$c);
+		}	
 	}
 
 	//setea una variable con un valor del tipo referencia Clase-Id

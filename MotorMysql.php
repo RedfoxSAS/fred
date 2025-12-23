@@ -255,7 +255,7 @@ class MotorMySql implements MotorDbi
             if ($metodo && method_exists($nuevo, $metodo)) {
                 $nuevo->$metodo();
             }
-            $nuevo->seek();
+            //$nuevo->seek();
             $lista[(string)($nuevo->$key ?? $i)] = $nuevo;
             
             // Solo generar string si está habilitado

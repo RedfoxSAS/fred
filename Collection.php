@@ -27,10 +27,12 @@ class Collection
 	private $view_td = false;
 	private $view_th = false;
 	private $view_item = false;
+	private $clases;
 	
 	public function __construct(Model $m)
 	{
 		$this->Model = $m;
+		$this->clases = array();
 	}
 	
 	public function filter(ModelFilter $filter,$index=1)
@@ -52,6 +54,11 @@ class Collection
 		}
 	}
 
+	public function styles(string $styles)
+	{
+		$this->clases = explode(",",$styles);
+	}
+
 	#setea los campos a mostrar en formato de tabla
 	public function fields(string $fields)
 	{
@@ -64,12 +71,15 @@ class Collection
 		}else{
 			$fields = explode(",",$fields);
 		}
+		$i = 0;
 		foreach($fields as $f){
+			$clase = (!empty($this->clases[$i]))? $this->clases[$i]:"";
 			if(strpos($f, "}")){
-				$str.= "<td>$f</td> ";
+				$str.= "<td class='$clase'>$f</td>";
 			}else{
-				$str.= "<td>{{$f}}</td> ";
+				$str.= "<td class='$clase'>{{$f}}</td>";
 			}
+			$i++;
 		}
 		$a = "";
 		foreach($this->Model->setting()->Cruds as $name){
@@ -85,8 +95,11 @@ class Collection
 	{
 		$str = "<thead><tr>";
 		$titles = explode(",",$titles);
+		$i = 0;
 		foreach($titles as $f){
-			$str.= "<th>$f</th> ";
+			$clase = (!empty($this->clases[$i]))? $this->clases[$i]:"";
+			$str.= "<th class='$clase'>$f</th>";
+			$i++;
 		}
 		$str.= "</tr></thead>";
 		$this->view_th = $str;		
@@ -106,6 +119,9 @@ class Collection
 			$this->Model->view($this->view_item);
 		}		
 		if(empty($this->Items)){
+			if(empty($this->Db)){
+				return "No hay elementos para mostrar";
+			}
 			$this->Db->setDataStringEnabled(true);
 			$this->loadItems(true);
 			$items = $this->Db->getDataString();

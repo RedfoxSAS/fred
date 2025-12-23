@@ -176,7 +176,7 @@ class Listbox extends Control
 
 class ListItem extends Model
 {
-	public string $Id = "";
+	public $Id = "";
 	public string $Text = "";
 	
 	public function __construct($id, $text)

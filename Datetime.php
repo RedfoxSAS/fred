@@ -167,5 +167,5 @@ class Datetime
 		$this->Y = date("Y",$tim);
 		return date($formato,$tim);
 	}
-	
+
 }
