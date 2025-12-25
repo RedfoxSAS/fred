@@ -34,6 +34,10 @@ class FileBinary extends ModelFile
        
     }
 
+	public function copy($destino)
+	{
+		copy($this->File, $destino);
+	}
 
 	/**
 	 * save(): Mueve el archivo subido al destino definitivo

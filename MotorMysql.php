@@ -31,6 +31,7 @@ class MotorMySql implements MotorDbi
     private int $lastInsertId = 0;
     private int $recordCount = 0;
     private string $dataString = "";
+    private string $lastMsg = "";
 
     private static array $columnCache = [];
 
@@ -140,7 +141,7 @@ class MotorMySql implements MotorDbi
             } else if($r>0){
                 $this->msg("$ms sin cambios", 1);
                 $model->saveFiles();
-                return false;
+                return true;
             } else {
                 $this->msg("$ms no se pudo modificar", 3);
                 return false;
@@ -548,6 +549,7 @@ class MotorMySql implements MotorDbi
 
     public function msg(string $mensaje, int $t = 0): void
     {
+        $this->lastMsg = $mensaje;
         if ($this->enableMessages){
             if (class_exists('Fred\Modal')) {
                 Modal::msg($mensaje, $t);
@@ -564,6 +566,7 @@ class MotorMySql implements MotorDbi
 
     // Getters
     public function getLastSql(): string { return $this->lastSql; }
+    public function getLastMsg(): string { return $this->lastMsg; }
     public function getAffectedRows(): int { return $this->lastAffectedRows; }
     public function getInsertId(): int { return $this->lastInsertId; }
     public function getRecordCount(): int { return $this->recordCount; }

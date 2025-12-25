@@ -54,6 +54,11 @@ abstract class Controller extends App
 		$this->authorize($name,true); 
 		$this->startComponents();
 	}
+
+	public function setModel(Model $model)
+	{
+		$this->Model = $model;
+	}
 	
 	public function setPrimaryKey($val)
 	{

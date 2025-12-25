@@ -113,5 +113,10 @@ class ModelFile
 	{
 		return $this->Base . "/" . $this->Path;
 	}
+
+	public function getFilePath()
+	{
+		return $this->File;
+	}
 	
 }
