@@ -154,14 +154,17 @@ class MotorMySql implements MotorDbi
             $key = $model->setting()->Key;
             $val = $model->value($key);
 
-            if ($r !== false && $this->lastInsertId > 0) {
+            if ($r !== false) {
                 if ($this->lastInsertId > (int)$val) {
                     $model->$key = $this->lastInsertId;
                 }
                 $model->setting("Exists", true);
                 $this->msg("Nuevo registro $ms creado exitosamente$e.", 0);
                 $model->saveFiles();
-                return $this->lastInsertId;
+                if($this->lastInsertId > 0){
+                    return $this->lastInsertId;
+                }
+                return true;
             } else {
                 $this->msg("Error al crear el registro $ms, Verifique los datos.", 3);
                 return false;
@@ -301,8 +304,8 @@ class MotorMySql implements MotorDbi
 
         $this->lastInsertId = $this->conn->insert_id;
         $this->lastAffectedRows = $this->conn->affected_rows;
-        return $result;
-        return $this->lastInsertId ?: $result;
+        //return $result;
+        return $this->lastInsertId ?: $this->lastAffectedRows;
     }
 
     public function runSql($sql): array

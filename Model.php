@@ -161,42 +161,58 @@ class ModelSetting
 
 class ModelFilter
 {
-	public $Key;
-	public $Sig;
-	public $Val;
-	public $Val2 = false;
-	public $Sig2 = false;
-	
-	public function __construct($field,$value,$sign="=")
-	{
-		$this->Key = $field;
-		$this->Val = $value;
-		if( (is_int($sign) || is_float($sign)) || strtotime($sign)>0){
-			$this->Val2 = $sign;
-			$this->Sig  = ">=";
-			$this->Sig2 = "<=";
-			
-		}else{
-			$this->Sig = $sign;
-		}
-	}
-	
-	public function __toString()
-	{
-		$val = $this->Val;
-		$val = (is_numeric($val))? $val : "'$val'";
-		$r = $this->Key . " " . $this->Sig . " " . $val;
-		
-		if($this->Val2 != false){
-			$val2 = $this->Val2;
-			$val2 = (is_numeric($val2))? $val2 : "'$val2'";
-			$r.= " AND " . $this->Key . " " . $this->Sig2 . " " . $val2;
-			$r = "($r)";
-		}
+    public $Key;
+    public $Sig;
+    public $Val;
+    public $Val2 = null;
+    public $Sig2 = null;
 
-		return $r;
-	}
+    public function __construct($field, $value, $sign = "=")
+    {
+        $this->Key = $field;
+        $this->Val = $value;
+
+        // Rango SOLO si el signo es numérico o fecha válida
+        if (
+            (is_int($sign) || is_float($sign)) ||
+            (is_string($sign) && strtotime($sign) !== false)
+        ) {
+            $this->Val2 = $sign;
+            $this->Sig  = ">=";
+            $this->Sig2 = "<=";
+        } else {
+            $this->Sig = $sign;
+        }
+    }
+
+    private function formatValue($val): string
+    {
+        if ($val === null) {
+            return "NULL";
+        }
+
+        // SOLO números reales sin comillas
+        if (is_int($val) || is_float($val)) {
+            return (string)$val;
+        }
+
+        // TODO string va entre comillas
+        return "'" . addslashes((string)$val) . "'";
+    }
+
+    public function __toString()
+    {
+        $r = $this->Key . " " . $this->Sig . " " . $this->formatValue($this->Val);
+
+        if ($this->Val2 !== null) {
+            $r .= " AND " . $this->Key . " " . $this->Sig2 . " " . $this->formatValue($this->Val2);
+            $r = "($r)";
+        }
+
+        return $r;
+    }
 }
+
 
 class Model 
 {

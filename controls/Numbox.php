@@ -86,6 +86,9 @@ class Numbox extends Control
         $this->Step = $step;
         if (empty($this->Text)) {
             $this->Text = $min;
+            if (!empty($this->TextDefault)) {
+                 $this->Text = $this->TextDefault;
+            }
         }
     }
 
