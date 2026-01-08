@@ -18,6 +18,11 @@ class FileBinary extends ModelFile
 	/**
 	 * setText(): Aquí recibimos la ruta temporal del archivo subido (no el contenido)
 	 */
+
+	public function isLoaded(){
+		return $this->IsUploaded;
+	}
+	
 	public function setText($sourcePath)
     {
         if (!empty($sourcePath) && file_exists($sourcePath)) {
@@ -66,6 +71,7 @@ class FileBinary extends ModelFile
 			copy($this->File, $destino );
             //$base = str_replace("d:/xampp/htdocs", "", $this->File); // ajusta si usas otra ruta base
 			$this->DownloadUrl = $url;
+			$this->IsUploaded = true;
 		}
 	}
 
