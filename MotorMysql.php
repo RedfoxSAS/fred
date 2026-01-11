@@ -138,7 +138,7 @@ class MotorMySql implements MotorDbi
                 $this->msg("($this->lastAffectedRows) $ms actualizado exitosamente$e.", 0);
                 $model->saveFiles();
                 return $r;
-            } else if($r>0){
+            } else if($this->lastAffectedRows==0){
                 $this->msg("$ms sin cambios", 1);
                 $model->saveFiles();
                 return true;
@@ -301,10 +301,9 @@ class MotorMySql implements MotorDbi
             error_log("Error en runMdl: " . $this->conn->error . " | SQL: $mdl");
             return false;
         }
-
         $this->lastInsertId = $this->conn->insert_id;
         $this->lastAffectedRows = $this->conn->affected_rows;
-        //return $result;
+
         return $this->lastInsertId ?: $this->lastAffectedRows;
     }
 
