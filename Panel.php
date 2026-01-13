@@ -42,7 +42,7 @@ class FrmPanel extends Form
 					$signo = "LIKE";
 					$campos = explode(",",$control->Source);
 					
-					$cdin = "%";
+					$cdin = ($control->Comment===false)? "": "%";
 					if($control instanceof Datebox){
 						//$signo = (strpos($control->Name,"Inicio")>0)? "<=" : ">=" ;
 						$cdin = "";
@@ -97,6 +97,7 @@ class FrmPanel extends Form
 				}else{
 					$name = "Fred_" . $this->Name . "_" . $control->Name;
 					if(!empty($_SESSION[$name])){
+						$_SESSION[$name];
 						$control->text($_SESSION[$name]);
 					}
 				}
@@ -115,9 +116,8 @@ class FrmPanel extends Form
 			$controls = $this->expose();
 			foreach($controls as $control){
 				if($control instanceof Control){
-					$text = "";
-					$control->Text = "";
-					$_SESSION["Fred." . $this->Name . "." . $control->Name] = $text;
+					$control->Text = $control->TextDefault;
+					$_SESSION["Fred_" . $this->Name . "_" . $control->Name] = false;
 				}
 			}
 		}

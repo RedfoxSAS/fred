@@ -196,6 +196,9 @@ class ModelFilter
             return (string)$val;
         }
 
+		if(strstr($val,"CONCAT")!==false){
+			return $val;
+		}
         // TODO string va entre comillas
         return "'" . addslashes((string)$val) . "'";
     }

@@ -34,6 +34,7 @@ abstract class Controller extends App
 	//protected $ModelCrud;
 	protected $ListTitle = "";
 	protected $ListField = "";
+	protected $ListStyles = false;
 	protected $ListUrl = false;
 	protected $ListView = false;
 
@@ -140,6 +141,9 @@ abstract class Controller extends App
 		
 		$lista = new Collection($model);
 		$lista->Url = $this->ListUrl;
+		if($this->ListStyles!=false){
+			$lista->styles($this->ListStyles);
+		}
 		$lista->fields($this->ListField);
 		$lista->titles($this->ListTitle);
 		$lista->view($this->ListView);
