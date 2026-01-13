@@ -120,7 +120,6 @@ form label div {
 		width:5%;vertical-align:top;margin:0px;padding:0.01rem;border:0px solid blue;
 	}
 	
-	
 	/* BARRA DE NAVERGACION */
 	/* Oculta botón de abrir o cerrar */
 	.nav-button,
@@ -273,7 +272,7 @@ form label div {
 	form .form-buttons
 	{
 		border-top:1px solid #ccc;
-		text-align:center;
+		text-align:left;
 		margin-top:18pt;
 	}
 	
