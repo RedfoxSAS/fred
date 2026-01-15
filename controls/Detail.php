@@ -23,6 +23,7 @@ class Detail extends Panel
 	private $boton = 1;
 	public $BtnAdd;
 	public $ColWidth = false;
+	public $View = "";
 
 	public function __construct($w,$b=1)
 	{
@@ -80,7 +81,9 @@ class Detail extends Panel
 		$str.= "<div style='width:$t%;'>$tab</div>";
 		
 		$text = $this->text();
+		$view = $this->View;
 		$str.= "<input type='hidden' value='$text' name='$name' id='$id'>";
+		$str.= "<input type='hidden' value='$view' name='Views$name' id='Views$id'>";
 		$str.= $scr;
 		$str.= "</div>";
 
@@ -93,7 +96,7 @@ class Detail extends Panel
 		parent::add($control,$col,$row);
 	}
 	
-	public function text($text=false)
+	public function text($text=false,$view=false)
 	{
 		if($text===false){
 			return (string) $this->Text;
@@ -111,6 +114,15 @@ class Detail extends Panel
 				$text = strtoupper($text);
 			}
 			$this->Text = $text;
+
+			if($view!==false){
+				$this->View = $view;
+			}else{
+				$name = $this->Name;
+				if(!empty($_POST["Views$name"])){
+					$this->View = $_POST["Views$name"];
+				}
+			}
 		}
 	}
 
@@ -118,23 +130,29 @@ class Detail extends Panel
 	{
 		$flagTotal = ($this->TotalKey)? "true": "false";
 		$keyTotal =  ($this->TotalKey)? $this->TotalKey: "total";
+		$keyTotal = explode(",",$keyTotal);
+		$keyTotalJson = json_encode($keyTotal);
 		$name = $this->Id;
-		$items = ($this->Text!=""&&$this->Text!="{}")? $this->Text : "[]";
+		$items = ($this->Text!="" && $this->Text!="{}")? $this->Text : "[]";
+		$views = ($this->View!="" && $this->View!="{}")? $this->View : $items;
 		$moneda = ($this->Currency)? "'".$this->Currency."'" : 0;
 
 		$txt = "
 		<script language='javascript'>
 			
 			let flagTotal$name = $flagTotal;
-			let vars$name = {};
-
+			let totalKeys = $keyTotalJson;
+	
 			let items$name = $items;
-			let views$name = $items;
-			let suma$keyTotal = 0;
+			let views$name = $views;
+			
+			let vars$name = {};
+			let suma$name = {};
 		";
 
 		foreach ($this->Controls as $control) {
 			$txt .= "vars" . $name . "['" . $control->Source . "'] = '" . $control->Id . "';\n";
+			$txt .= "suma" . $name . "['" . $control->Source . "'] = 0 ;\n";
 		}
 
 		$txt .= "
@@ -167,26 +185,38 @@ class Detail extends Panel
 			}
 
 			function updateTotal$name() {
-				total = 0;
-				if(flagTotal$name!=false){
-					items$name.forEach(item => {
-						console.log(item);
-						total += parseFloat(item.$keyTotal || 0);
+				if(!flagTotal$name) return;
+
+				totalKeys.forEach(key => {
+					suma$name [key] = 0;
+				});
+
+				items$name.forEach(item => {
+					totalKeys.forEach(key => {
+						suma$name [key] += parseFloat(item[key] || 0);
 					});
-					suma$keyTotal = total;
-					const campo = document.getElementById('DetailTotal$name');
-					if (campo) {
-						campo.valor = total;
-						let formatoCO = formatoNumeroCO(total,$moneda);
-						campo.innerHTML = '<b>Suma $keyTotal: </b>' + formatoCO;
-					}
-				}
+				});
+
+				console.log('Totales:', suma$name);
+				
+				//const campo = document.getElementById('DetailTotal$name');
+				//if (campo) {
+					//campo.valor = total;
+					//let formatoCO = formatoNumeroCO(total);
+					//campo.innerHTML = '<b>Suma: </b>' + formatoCO;
+				//}
+				
+
 			}
 
 			function prepareToSend$name() {
 				const send = document.getElementById('$name');
 				if (send) {
 					send.value = JSON.stringify(items$name);
+				}
+				const view = document.getElementById('Views$name');
+				if (view) {
+					view.value = JSON.stringify(views$name);
 				}
 			}
 
@@ -218,6 +248,7 @@ class Detail extends Panel
 
 				var i = 0;
 				str = \"\";
+				
 				views$name.forEach(item => {
 					str += '<tr>';
 					for (const [key, value] of Object.entries(vars$name)) {
@@ -228,6 +259,26 @@ class Detail extends Panel
 					str += '</tr>';
 					i++;
 				});
+
+				//agregando los totales
+				if(flagTotal$name){
+					str += '<tr>';
+					for (const [key, value] of Object.entries(suma$name)) {
+						// Accede dinámicamente a las propiedades de 'item'
+						if(value){
+							let val = parseInt(value, 10).toLocaleString('es-CO', {
+								minimumFractionDigits: 0,
+								maximumFractionDigits: 0
+							});
+							str += '<th>' + (val || '') + '</th>';
+						}else{
+							str += '<td></td>';
+						}
+					}
+					str += '<td></td>';
+					str += '</tr>';
+					i++;
+				}
 				
 				tbody.innerHTML = str;
 
