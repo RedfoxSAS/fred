@@ -93,7 +93,7 @@ class Msg
 	
 	public function getClass($type)
 	{
-		$tipos = array("primary","secondary","success","danger","warnign","info","light","dark","link");
+		$tipos = array("primary","secondary","success","danger","warning","info","light","dark","link");
 		if(isset($tipos[$type])){
 			return $tipos[$type];
 		}
