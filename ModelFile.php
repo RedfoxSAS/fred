@@ -118,5 +118,10 @@ class ModelFile
 	{
 		return $this->File;
 	}
+
+	public function getName()
+	{
+		return $this->Name;
+	}
 	
 }
