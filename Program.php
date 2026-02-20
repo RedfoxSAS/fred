@@ -268,27 +268,11 @@ abstract class Program extends App
 		$this->_clearfiles($ruta);	
 
 		//buscar la existencia de una plantilla
-		$data = (!empty($this->Db->Database))? $this->Db->Database: "fred";
+		$data = (!empty($this->Db->getDatabase()))? $this->Db->getDatabase(): "fred";
 		
-		$vnam = App::$Setting->Data . "/$data/FORMATOS/FPMG.htm";
-		
-		if(file_exists($vnam)){
-			$view = new View($vnam);
-			$view->setVar("Body", $body);
-			$salida = (string) $view;
-			if(strpos($salida,"<head>")!==false){
-				$salida = str_replace("<head>","<head><link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?4'/>",$salida);
-			}
-			
-		}else{
-			$salida = "<html><head><meta charset='UTF-8'>";
-			$salida.= "<link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?4'/></head>";
-			$salida.= "<body><div class='document'><table>";
-			$salida.= "<thead><tr><td><header></header></td></tr></thead>";
-			$salida.= "<tbody><tr><td>$body</td></tr></tbody>";
-			$salida.= "<tfoot><tr><td><footer></footer></td></tr></tfoot>";
-			$salida.= "</table></div></body></html>";
-		}
+		//generar el html
+		$salida = Program::bodyToHtml($body,$data);
+
 		//genera salida
 		file_put_contents($ruta."/".$name, $salida);
 		
@@ -432,6 +416,47 @@ abstract class Program extends App
 		return "Ayuda del sistema";
 	}
 	
-	
+	static public function bodyToHtml($body, $dbName)
+	{
+		$vnam = App::$Setting->Data . "/$dbName/FORMATOS/FPMG.htm";
+		$salida = $body;
+		if(file_exists($vnam)){
+			$view = new View($vnam);
+			$view->setVar("Body", $body);
+			$salida = (string) $view;
+			if(strpos($salida,"<head>")!==false){
+				$salida = str_replace("<head>","<head><link rel=\"stylesheet\" type=\"text/css\" href=\"/fred/assets/fred.print.css?7\"/>",$salida);
+			}
+			
+		}else{
+			/*
+			$salida = "<html><head><meta charset='UTF-8'>";
+			$salida.= "<link rel='stylesheet' type='text/css' href='/fred/assets/fred.print.css?4'/></head>";
+			$salida.= "<body><div class='document'><table>";
+			$salida.= "<thead><tr><td><header></header></td></tr></thead>";
+			$salida.= "<tbody><tr><td>$body</td></tr></tbody>";
+			$salida.= "<tfoot><tr><td><footer></footer></td></tr></tfoot>";
+			$salida.= "</table></div></body></html>";
+			*/
+			$salida = "
+			<html>
+			<head>
+			<meta charset=\"UTF-8\">
+			<link rel=\"stylesheet\" type=\"text/css\" href=\"/fred/assets/fred.print.css?4\"/>
+			</head>
+			<body>
+			<div class=\"page\">
+				<div class=\"background\">
+					<img src=\"fondo.jpg\">
+				</div>
+				<div class=\"document\">
+					$body
+				</div>
+			</div>
+			</body></html>
+			";
+		}
+		return $salida;
+	}
 
 }

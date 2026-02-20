@@ -566,6 +566,46 @@ class MotorMySql implements MotorDbi
         return implode(",", [$this->database, $this->server, $this->user, $this->password]);
     }
 
+    public function cloneDatabase(string $sourceDb, string $targetDb): bool
+    {
+        if (!$this->connect()) {
+            return false;
+        }
+
+        // 1️⃣ Verificar si la BD destino ya existe
+        $check = $this->conn->query("SHOW DATABASES LIKE '$targetDb'");
+        if ($check && $check->num_rows > 0) {
+            // Ya existe, no hacer nada
+            return false;
+        }
+
+        // 2️⃣ Crear base de datos nueva
+        if (!$this->conn->query("CREATE DATABASE `$targetDb` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")) {
+            error_log("Error creando base de datos: " . $this->conn->error);
+            return false;
+        }
+
+        // 3️⃣ Obtener tablas de la base origen
+        $tables = $this->conn->query("SHOW TABLES FROM `$sourceDb`");
+        if (!$tables) {
+            error_log("Error obteniendo tablas: " . $this->conn->error);
+            return false;
+        }
+
+        // 4️⃣ Copiar cada tabla
+        while ($row = $tables->fetch_array()) {
+            $table = $row[0];
+
+            $sql = "CREATE TABLE `$targetDb`.`$table` LIKE `$sourceDb`.`$table`";
+            if (!$this->conn->query($sql)) {
+                error_log("Error copiando tabla $table: " . $this->conn->error);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // Getters
     public function getLastSql(): string { return $this->lastSql; }
     public function getLastMsg(): string { return $this->lastMsg; }
