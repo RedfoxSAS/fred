@@ -273,7 +273,7 @@ class MotorMySql implements MotorDbi
             if ($metodo && method_exists($sumar, $metodo)) {
                 $sumar->$metodo();
             }
-            $lista["summary"] = $sumar;
+            //$lista["summary"] = $sumar;
             if ($this->enableDataString) {
                 $this->dataString .= (string)$sumar;
             }
