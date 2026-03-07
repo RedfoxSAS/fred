@@ -98,4 +98,8 @@ section h4 { font-size: 14pt; margin:0px; margin-top:12pt; margin-bottom:6pt;}
 		z-index : -1;
 		width:22cm;
 	}
+
+	.app-title {
+		display:none;
+	}
 }

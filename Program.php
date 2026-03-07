@@ -425,7 +425,7 @@ abstract class Program extends App
 			$view->setVar("Body", $body);
 			$salida = (string) $view;
 			if(strpos($salida,"<head>")!==false){
-				$salida = str_replace("<head>","<head><link rel=\"stylesheet\" type=\"text/css\" href=\"/fred/assets/fred.print.css?7\"/>",$salida);
+				$salida = str_replace("<head>","<head><link rel=\"stylesheet\" type=\"text/css\" href=\"/fred/assets/fred.print.css?8\"/>",$salida);
 			}
 			
 		}else{
@@ -442,7 +442,7 @@ abstract class Program extends App
 			<html>
 			<head>
 			<meta charset=\"UTF-8\">
-			<link rel=\"stylesheet\" type=\"text/css\" href=\"/fred/assets/fred.print.css?4\"/>
+			<link rel=\"stylesheet\" type=\"text/css\" href=\"/fred/assets/fred.print.css?8\"/>
 			</head>
 			<body>
 			<div class=\"page\">
