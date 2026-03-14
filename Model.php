@@ -353,6 +353,8 @@ class Model
 				$datos[$key] = implode("", $dato);
 			}else if($dato instanceof FileImage){
 				$datos[$key] = "<img src='" . (string) $dato . "' style='width:100%;'>";
+			}else if($dato instanceof \stdClass){
+				$datos[$key] = json_encode($dato);
 			}else{
 				$datos[$key] = (string) $dato;
 				if(strpos($datos[$key],"\n")>0){
