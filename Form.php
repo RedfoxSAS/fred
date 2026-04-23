@@ -39,6 +39,7 @@ include_once "controls/rIndexBox.php";
 
 */
 
+#[ \AllowDynamicProperties ] 
 abstract class Form extends App
 {
 	//Variables del objeto
@@ -155,13 +156,14 @@ abstract class Form extends App
 					$c0 = $c[1];
 					$c0 = str_replace("'","\'",$c0);
 					$c0 = preg_replace('#\{([a-z0-9\-_]*?)\}#is', "' . $\\1 . '", $c0);
-					reset($vars);
-					while( list($key, $val) = each($vars)){
+
+					foreach ($vars as $key => $val) {
 						$$key = $val;
 					}
+
 					@eval ("\$c0 = '$c0';");
-					while( list($key, $val) = each($vars)){
-						unset($$key);
+					foreach ($vars as $key => $val) {
+						$$key = $val;
 					}
 					$c0 = str_replace("\'","'",$c0);
 					$c[1] = $c0;				
@@ -313,7 +315,7 @@ abstract class Form extends App
 	public function run()
 	{
 		if(!empty($this->Model)){
-			if($this->Create == false){
+			if($this->Create == false && !empty($this->Model->setting()->Table) ){
 				$this->Db->open($this->Model);
 			}
 		}

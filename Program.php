@@ -40,6 +40,7 @@ abstract class Program extends App
 	protected $Modal;
 	protected $Ignore = array();
 	
+	
 	protected function finalize()
 	{
 		$_SESSION["rframeDataFlag"] = false;
@@ -123,6 +124,7 @@ abstract class Program extends App
         $mod = false;
         $tot = count($route);
 		$href="";
+
         for($i=1; $i<$tot; $i++){
 			$item = $route[$i];
 			$href.="/".$item;
@@ -135,13 +137,13 @@ abstract class Program extends App
 				if($app instanceof Controller){
 					$app->Db = App::$Database;
 					$app->setPrimaryKey($item);
-					if($met!="update"){
+					$metodos = $app->getSkipView();
+					if(!in_array($met, $metodos)){
 						$datos["current"] = $i;
 						$datos["amount"] = $tot-1;
 						$this->Body[] = $app->view($datos);
 					}
 					$met = false;
-					
 				}
 			}else{
 				if(file_exists(App::$Setting->Path."/".$item)){

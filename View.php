@@ -49,22 +49,28 @@ Class View
 		}
 	}
 	
-	public function proccess(){
-		$this->vars["My"] = "/" . App::$Setting->Host . "/usr/" . App::dbname();
-		$this->Text = str_replace("'","\'",$this->Text);
-		$this->Text = str_replace("\r","",$this->Text);
-		$this->Text = preg_replace('#\{([a-z0-9\-_]*?)\}#is', "' . $\\1 . '", $this->Text);
-		reset($this->vars);
-		while( list($key, $val) = each($this->vars)){
-			$$key = $val;
-		}
-		eval ("\$this->Text = '$this->Text';");
-		while( list($key, $val) = each($this->vars)){
-			unset($$key);
-		}
-		$this->Text = str_replace("\'","'",$this->Text);
-		return $this->Text;
-	}
+public function proccess(){
+    $this->vars["My"] = "/" . App::$Setting->Host . "/usr/" . App::dbname();
+    $this->Text = str_replace("'","\'",$this->Text);
+    $this->Text = str_replace("\r","",$this->Text);
+    $this->Text = preg_replace('#\{([a-z0-9\-_]*?)\}#is', "' . $\\1 . '", $this->Text);
+    
+    // REEMPLAZO DEL PRIMER WHILE (Crear variables dinámicas)
+    foreach ($this->vars as $key => $val) {
+        $$key = $val;
+    }
+
+    eval ("\$this->Text = '$this->Text';");
+
+    // REEMPLAZO DEL SEGUNDO WHILE (Limpiar variables)
+    foreach ($this->vars as $key => $val) {
+        unset($$key);
+    }
+
+    $this->Text = str_replace("\'","'",$this->Text);
+    return $this->Text;
+}
+
 	
 	public static function clean($text)
 	{

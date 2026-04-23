@@ -38,10 +38,10 @@ class MotorMySql implements MotorDbi
     public function __construct($base = false, $serv = false, $user = false, $pass = false)
     {
         if ($base instanceof MotorMySql) {
-        $this->cloneFrom($base);
-        if ($serv) {
-            $this->database = $serv;
-        }
+            $this->cloneFrom($base);
+            if ($serv) {
+                $this->database = $serv;
+            }
 		} elseif (is_string($base)) {
 			$this->setCredentials($base, $serv ?: "", $user ?: "", $pass ?: "");
 		}
@@ -112,6 +112,17 @@ class MotorMySql implements MotorDbi
         }
     }
 
+    private function __query($sql)
+    {
+        try {
+            $result = $this->conn->query($sql);
+            return $result;
+        } catch (\Throwable $e) { // Throwable captura tanto Errores como Excepciones
+            $this->dataString = $e->getMessage(); 
+            return false;
+        }
+    }
+
     public function cloneFrom(MotorMySql $db): void
     {
         $this->database = $db->database;
@@ -121,6 +132,19 @@ class MotorMySql implements MotorDbi
         // Copiar también la configuración
         $this->enableMessages = $db->enableMessages;
         $this->enableDataString = $db->enableDataString;
+    }
+
+    public function getClone()
+    {
+        $m = new MotorMySql();
+        $m->database = $this->database;
+        $m->user = $this->user;
+        $m->password = $this->password;
+        $m->server = $this->server;
+        // Copiar también la configuración
+        $m->enableMessages = $this->enableMessages;
+        $m->enableDataString = $this->enableDataString;
+        return $m;
     }
 
     // --- Implementación de MotorDbi ---
@@ -181,7 +205,7 @@ class MotorMySql implements MotorDbi
         $sql = $this->createSqlOpen($model);
         $this->lastSql = $sql;
 
-        $result = $this->conn->query($sql);
+        $result = $this->__query($sql);
         if (!$result) {
             error_log("Error en open(): " . $this->conn->error . " | SQL: $sql");
             return false;
@@ -224,7 +248,7 @@ class MotorMySql implements MotorDbi
         }
 		
         $this->lastSql = $sql;
-        $result = $this->conn->query($sql);
+        $result = $this->__query($sql);
         if (!$result) {
             //error_log("Error en query(): " . $this->conn->error . " | SQL: $sql");
             return [];
@@ -295,7 +319,8 @@ class MotorMySql implements MotorDbi
         }
 
         $this->lastSql = $mdl;
-        $result = $this->conn->query($mdl);
+
+        $result = $this->__query($mdl);
 
         if ($result === false) {
             error_log("Error en runMdl: " . $this->conn->error . " | SQL: $mdl");
@@ -318,7 +343,7 @@ class MotorMySql implements MotorDbi
         }
 
         $this->lastSql = $sql;
-        $result = $this->conn->query($sql);
+        $result = $this->__query($sql);
 
         if (!$result) {
             error_log("Error en runSql: " . $this->conn->error . " | SQL: $sql");
@@ -349,7 +374,7 @@ class MotorMySql implements MotorDbi
         }
 
         $safeTable = "`" . str_replace("`", "``", $tablename) . "`";
-        $result = $this->conn->query("SHOW COLUMNS FROM $safeTable");
+        $result = $this->__query("SHOW COLUMNS FROM $safeTable");
         if (!$result) {
             return [];
         }
@@ -406,7 +431,7 @@ class MotorMySql implements MotorDbi
         if (!$this->connect()) {
             return false;
         }
-        $result = $this->conn->query("SHOW TABLES");
+        $result = $this->__query("SHOW TABLES");
         $this->lastSql = "SHOW TABLES";
         return $result !== false;
     }
@@ -573,20 +598,20 @@ class MotorMySql implements MotorDbi
         }
 
         // 1️⃣ Verificar si la BD destino ya existe
-        $check = $this->conn->query("SHOW DATABASES LIKE '$targetDb'");
+        $check = $this->__query("SHOW DATABASES LIKE '$targetDb'");
         if ($check && $check->num_rows > 0) {
             // Ya existe, no hacer nada
             return false;
         }
 
         // 2️⃣ Crear base de datos nueva
-        if (!$this->conn->query("CREATE DATABASE `$targetDb` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")) {
+        if (!$this->__query("CREATE DATABASE `$targetDb` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")) {
             error_log("Error creando base de datos: " . $this->conn->error);
             return false;
         }
 
         // 3️⃣ Obtener tablas de la base origen
-        $tables = $this->conn->query("SHOW TABLES FROM `$sourceDb`");
+        $tables = $this->__query("SHOW TABLES FROM `$sourceDb`");
         if (!$tables) {
             error_log("Error obteniendo tablas: " . $this->conn->error);
             return false;
@@ -597,7 +622,7 @@ class MotorMySql implements MotorDbi
             $table = $row[0];
 
             $sql = "CREATE TABLE `$targetDb`.`$table` LIKE `$sourceDb`.`$table`";
-            if (!$this->conn->query($sql)) {
+            if (!$this->__query($sql)) {
                 error_log("Error copiando tabla $table: " . $this->conn->error);
                 return false;
             }

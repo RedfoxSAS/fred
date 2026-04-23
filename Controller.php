@@ -42,6 +42,7 @@ abstract class Controller extends App
 	protected $ForeignKeys = array();
 	protected $Controls = array();
 	
+	private array $skipViewMethods = ['update'];
 		
 	public function __construct()
 	{		
@@ -54,6 +55,16 @@ abstract class Controller extends App
 		$name.= "_printer";
 		$this->authorize($name,true); 
 		$this->startComponents();
+	}
+
+	public function skipViewOn(string $method)
+	{
+		$this->skipViewMethods[] = $method;
+	}
+
+	public function getSkipView()
+	{
+		return $this->skipViewMethods;
 	}
 
 	public function setModel(Model $model)

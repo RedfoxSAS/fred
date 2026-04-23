@@ -46,6 +46,7 @@ class ModelStatic
 	public function Items(){}
 }
 
+#[ \AllowDynamicProperties ] 
 class ModelJson
 {
 	
@@ -216,7 +217,7 @@ class ModelFilter
     }
 }
 
-
+#[ \AllowDynamicProperties ] 
 class Model 
 {
 	public string $Active = ""; //Agregado para identificar que es el registro activo en un list
@@ -277,7 +278,9 @@ class Model
 
 	public function className()
 	{
-		return basename(get_class($this));
+		//return basename(get_class($this));
+		$nombre = strrchr(get_class($this), '\\') ? substr(strrchr(get_class($this), '\\'), 1) : get_class($this);
+		return $nombre;
 	}
 	/*
 	public function getRelations()
@@ -310,7 +313,8 @@ class Model
 			$dato = $this->$key;
 			if($dato instanceof Model){
 				if($plano==true){
-					$datos = array_merge($datos, $dato->data($plano));
+					//$datos = array_merge($datos, $dato->data($plano));
+					$datos += $dato->data($plano);
 					$k = $dato->setting()->Key;
 					$datos[$key] = $dato->$k;
 				}else{
@@ -340,10 +344,12 @@ class Model
 			$dato = ($this->Setting->Summary==true)? "<b>".$this->$key."</b>":$this->$key;
 			//$dato = $this->$key;
 			if($dato instanceof Model){
-				$datos = array_merge($datos, $dato->dataview());
+				//$datos = array_merge($datos, $dato->dataview());
+				$datos +=  $dato->dataview();
 				$datos[$key] = (string) $dato;
 			}else if($dato instanceof ModelJson){
-				$datos = array_merge($datos, $dato->dataview());
+				//$datos = array_merge($datos, $dato->dataview());
+				$datos +=  $dato->dataview();
 				$datos[$key] = (string) $dato;
 				//$campos = array_keys(get_object_vars($dato));
 				//foreach($campos as $c){
@@ -637,6 +643,7 @@ class Model
 					$k = $this->$field->setting()->Key;
 					$this->$field->$k = $value;
 				}else{
+					//echo "$field : $value <br>";
 					$this->$field = $value;
 				}
 			}else{

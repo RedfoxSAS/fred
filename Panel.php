@@ -52,7 +52,7 @@ class FrmPanel extends Form
 						}else{
 							if($this->DSFlag == true){
 								foreach($campos as $c){
-									if( strlen($control->text()) > 0) {
+									if( strlen((string)$control->text()) > 0) {
 										if($this->DSDate!=$control->text()){
 											$f = new ModelFilter($c, $this->DSDate, $control->text());
 											$model->filter($f, "PanelFiltroFecha");
@@ -68,7 +68,7 @@ class FrmPanel extends Form
 							
 						}
 						foreach($campos as $c){
-							if( strlen($control->Text) > 0) {
+							if( strlen((string)$control->Text) > 0 ) {
 								
 								$f = new ModelFilter($c, $cdin . $control->text() . $cdin , $signo);
 								$model->filter($f, $control->Name);

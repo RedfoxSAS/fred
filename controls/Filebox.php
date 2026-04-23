@@ -19,10 +19,11 @@ class Filebox extends Control
 		$this->N = Control::$Numero;
 		$this->Name = "file_data" . $this->N;
 
+		$web = App::$Setting->Web;
 		$host = App::$Setting->Host;
 		$user = App::$UserActive->Login;
 		$this->url = "/$host/tmp/out.$user."  . $this->Id ;
-		$this->file = "d:/xampp/htdocs". $this->url;
+		$this->file = $web . $this->url;
 		
 	}
 
@@ -48,6 +49,7 @@ class Filebox extends Control
 	public function __toString()
 	{
 		$this->help("No hay formato cargado");
+
 		if(!empty($this->Text)){
 			$url = $this->url;
 			$extension = ".html";

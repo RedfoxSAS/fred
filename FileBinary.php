@@ -66,7 +66,7 @@ class FileBinary extends ModelFile
             $extension = pathinfo($this->File, PATHINFO_EXTENSION);
             
             $url = "/$host/tmp/out.$user.$extension" ;
-            $destino = "d:/xampp/htdocs". $url;
+            $destino = App::$Setting->Web . $url;
             
 			copy($this->File, $destino );
             //$base = str_replace("d:/xampp/htdocs", "", $this->File); // ajusta si usas otra ruta base

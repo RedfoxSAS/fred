@@ -32,10 +32,12 @@ class AppSetting
 	public static function load($host,$default)
 	{
 		$file = "app/$host/config.json";
+		
 		if(!file_exists($file)){
 			$file = "app/$default/config.json";
 			$host = $default;
 		}
+		
 		$json = file_get_contents($file, FILE_USE_INCLUDE_PATH);
 		$data = json_decode($json,true);
 		$keys = array_keys($data);

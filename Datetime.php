@@ -62,7 +62,7 @@ class Datetime
 		$this->Time = date("H:i:s",$tiempo);
 		$this->d = date("d",$tiempo);
 		$this->m = date("m",$tiempo);
-		$this->Y = date("Y",$tiempo);
+		$this->y = date("Y",$tiempo);
 	}
 	
 	public function __toString()
@@ -164,7 +164,7 @@ class Datetime
 		$this->Time = date("H:i:s",$tim);
 		$this->d = date("d",$tim);
 		$this->m = date("m",$tim);
-		$this->Y = date("Y",$tim);
+		$this->y = date("Y",$tim);
 		return date($formato,$tim);
 	}
 

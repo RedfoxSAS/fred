@@ -25,6 +25,8 @@ class Map
 	private $Icon = false;
 	private $Select = false;
 	public $Zoom = 15;
+
+	public $Title = "";
 	
 	//public $form = "formMapa";
 	//public $Style = "";
@@ -163,6 +165,9 @@ class Map
 	public function script()
 	{
 		$point = $this->Points;
+		if(is_array($point)){
+			$point = implode("",$point);
+		}
 		$auto = ($this->Auto)? 'true' : 'false';
 		$icon = ($this->Icon)? "icono = \"".$this->Icon."\";" : "";
 		$alto = $this->Height;
