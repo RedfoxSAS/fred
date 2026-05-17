@@ -82,7 +82,7 @@ abstract class WebService extends App
             $this->User = new User();
             $this->User->load(WebService::$Data["username"]);
             if(!empty($this->User->Db)){
-                $this->Db->Database =  $this->User->Db;
+                $this->Db->setDatabase($this->User->Db);
             }
         }
     }
