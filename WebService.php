@@ -171,6 +171,11 @@ abstract class WebService extends App
 		}		
 	}
 
-	
+	public function success($message, $status=true, $code=200)
+	{
+		Program::$Json->success = $status;
+        Program::$Json->message.= $message;
+		Program::$Json->code = $code;
+	}
 }
 
