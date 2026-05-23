@@ -3,8 +3,12 @@
 namespace Fred;
 use Fred;
 
-$fred = "D:\\XAMPP\\fred";
-$public = "D:\\XAMPP\\htdocs";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$fred = "/var/www/fred";
+$public = "/var/www/html";
 
 $inc_path = get_include_path();
 $inc_path.= PATH_SEPARATOR;
@@ -25,9 +29,12 @@ $controlador = App::setting($host,"redfox_com_co",$fred,$public);
 
 if($controlador!=false){
 	
-	include $controlador;
-	$app = new Main();
+    $c =  (string) $controlador;   
+    include_once $c;
+
+	$app = new ProgramMain();
 	$app->run($route);
+    
 	echo $app;
 	
 }else{
