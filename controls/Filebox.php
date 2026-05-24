@@ -97,7 +97,7 @@ class Filebox extends Control
 	
 	public function readFile()
 	{
-
+		print_r($_FILES);
 		if (!empty($_FILES[$this->Id]['tmp_name'])) {
 			$name = $_FILES[$this->Id]['tmp_name'];
 
