@@ -97,6 +97,7 @@ class Filebox extends Control
 	
 	public function readFile()
 	{
+
 		if (!empty($_FILES[$this->Id]['tmp_name'])) {
 			$name = $_FILES[$this->Id]['tmp_name'];
 
@@ -104,7 +105,7 @@ class Filebox extends Control
 				// Devuelve ruta temporal para archivos binarios
 				return $name;
 			}
-
+			echo "cargado " . $name;
 			$text = @file_get_contents($name);
 			return (!empty($text)) ? $text : false;
 
@@ -113,6 +114,7 @@ class Filebox extends Control
 			if ($this->ReturnPath === true) {
 				return false;
 			}
+			echo "interno " . $this->file;
 			$text = @file_get_contents($this->file);
 			return (!empty($text)) ? $text : false;
 		}
