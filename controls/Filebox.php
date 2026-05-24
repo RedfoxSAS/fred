@@ -107,6 +107,7 @@ class Filebox extends Control
 			}
 			echo "cargado " . $name;
 			$text = @file_get_contents($name);
+			echo $text;
 			return (!empty($text)) ? $text : false;
 
 		} else {
