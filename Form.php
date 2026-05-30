@@ -30,6 +30,7 @@ include_once "controls/Checklist.php";
 include_once "controls/Filebox.php";
 
 include_once "Auditoria.php";
+include_once "MotorDbi.php";
 /*
 include_once "controls/rCheckList.php";
 
@@ -67,7 +68,7 @@ abstract class Form extends App
 	# funciones del formulario ==============================
    
     //constructor del formulario
-	public function __construct($title=false)
+	public function __construct($title=false, MotorDbi $db=Null)
 	{
 		parent::__construct();
 		Form::$Number++;
@@ -79,6 +80,9 @@ abstract class Form extends App
 		}
 		if(!empty(App::$Database)){
 			$this->Db = App::$Database;
+		}
+		if($db!=Null){
+			$this->Db = $db;
 		}
 		$this->Body = new Panel();
 		$this->startComponents();

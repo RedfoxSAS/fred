@@ -74,7 +74,6 @@ class ModelFile
 
 		$this->File = $this->Base . "/" . $this->Path . "/" . $name;
 		$dir = $this->Base . "/" . $this->Path;
-		//echo $dir."<br>";
 		if (!is_dir($dir)) {
 			// Intentar crear el directorio con permisos (por ejemplo, 0755)
 			if (mkdir($dir, 0777, true)) {
