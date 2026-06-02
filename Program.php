@@ -26,6 +26,7 @@ abstract class Program extends App
 	public static $View = "";
 	public static $Type = "html";
 	public static $Json;
+	public static $PrintView = null;
 	
 	private $Body = array();
 	private $Menu ;
@@ -420,15 +421,22 @@ abstract class Program extends App
 	
 	static public function bodyToHtml($body, $dbName)
 	{
-		$vnam = App::$Setting->Data . "/$dbName/FORMATOS/FPMG.htm";
+		$view = Program::$PrintView;
+		if($view == null){
+			$vnam = App::$Setting->Data . "/$dbName/FORMATOS/FPMG.htm";
+			if(file_exists($vnam)){
+				$view = new View($vnam);
+			}
+		}
+		
 		$salida = $body;
-		if(file_exists($vnam)){
-			$view = new View($vnam);
+		if($view!=null){
 			$view->setVar("Body", $body);
 			$salida = (string) $view;
 			if(strpos($salida,"<head>")!==false){
 				$salida = str_replace("<head>","<head><link rel=\"stylesheet\" type=\"text/css\" href=\"/fred/assets/fred.print.css?8\"/>",$salida);
 			}
+			return $salida;
 			
 		}else{
 			/*

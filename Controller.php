@@ -318,6 +318,11 @@ abstract class Controller extends App
 		$this->Db->open($this->Model);
 	}
 
+	public function printView($name)
+	{
+		Program::$PrintView = $name;
+	}
+
 
 }
 
