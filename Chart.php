@@ -63,7 +63,7 @@ class Chart
 		$htm = "
 		<script src=\"/fred/assets/chartjs.min.js\"></script>
 		<script src=\"/fred/assets/chartjs.utils.js\"></script>
-		<div id=\"chart-container\" style=\"$w;$h\">
+		<div id=\"chart-container\" style=\"$w;$h\" class=\"chart-print-container\">
 			<canvas id=\"chart-canvas\" style=\"$w;$h\"></canvas>
 		</div>
 		";
