@@ -177,5 +177,10 @@ abstract class WebService extends App
         Program::$Json->message.= $message;
 		Program::$Json->code = $code;
 	}
+
+	public function finallize()
+	{
+		return false;
+	}
 }
 
