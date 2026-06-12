@@ -109,9 +109,9 @@ abstract class Form extends App
 	}
 	
 	//adicionar un boton al panel de botones
-	public function button(Control $control)
+	public function button(Control $control, $pos=false)
 	{
-		$pos = count($this->Buttons) + 3;
+		$pos = ($pos)? $pos: count($this->Buttons) + 3;
 		$this->Buttons[$pos] = $control;
 	}
 	
@@ -175,7 +175,7 @@ abstract class Form extends App
 				if($c != false){
 					@$b = new Button($c[0],8);
 					@$b->link($c[1],$c[2],"_self");
-					$this->Buttons[$name] = $b;
+					$this->button($b);
 				}
 			}
 		}
@@ -192,6 +192,7 @@ abstract class Form extends App
 			$ctrid = "<input type='hidden' name='$nam' value='$val'>";
 		}
 		*/
+		ksort($this->Buttons);
 		 
 		if($this->View!=false){
 			$w = $this->View;

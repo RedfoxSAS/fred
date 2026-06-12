@@ -174,13 +174,14 @@ abstract class Program extends App
 		//corre los metodos del controlador
 		if($met!=false){
 			$this->ejecutar($app, $nme, $met,$datos);
+			
 		}else if($mod!=false){
 			$met = $mod;
 			//$this->ejecutar($this, $nme, $met,$datos);
 		}
 			
 		Program::$Panel->crud(Controller::$Cruds,Controller::$Keys);
-		
+		$app->finallize();
 		//$this->finalize();
 		//unset($_SESSION["GET"]["confirm"]);
 		
@@ -284,8 +285,8 @@ abstract class Program extends App
 		$b1 = new Button("Imprimir",8);
 		$b1->Icon = "print";
 		$b1->event("click","modal_print('$url')");
-		Program::$Panel->Btnprint = $b1;
-			
+		//Program::$Panel->Btnprint = $b1;
+		Program::$Panel->button($b1);
 	}
 
 	private function _clearfiles($folder)
@@ -467,6 +468,11 @@ abstract class Program extends App
 			";
 		}
 		return $salida;
+	}
+
+	public function finallize()
+	{
+		return false;
 	}
 
 }

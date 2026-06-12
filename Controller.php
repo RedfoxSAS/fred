@@ -323,6 +323,11 @@ abstract class Controller extends App
 		Program::$PrintView = $name;
 	}
 
+	public function finallize()
+	{
+		return true;
+	}
+
 
 }
 
