@@ -23,7 +23,7 @@ class Textbox extends Control
 		if($this->Length != false && is_numeric($this->Length)){
 			$atr.= " maxlength='" . $this->Length . "'";
 		}
-		$str = "<input class='form-control'  type='text' value='$val' $atr>";
+		$str = "<input class='form-control'  type='text' autocomplete='off' value='$val' $atr>";
 		if($this->Rows > 1){
 			$atr.= " rows='" . $this->Rows . "'";
 			$str = "<textarea class='form-control' $atr>$val</textarea>";

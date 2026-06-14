@@ -97,7 +97,7 @@ class Listbox extends Control
 		$id = $this->Id;
 		if($this->Select==false){
 			$str = "<input type='hidden' value='$val' $atr>";
-			$str.= "<input class='form-control' list='Items$id' value='$val' id='View$id' $atrv>";
+			$str.= "<input class='form-control' list='Items$id' autocomplete='off' value='$val' id='View$id' $atrv>";
 			$str.= "<datalist id='Items$id'>";
 			$str.= implode("",$this->Items);
 			$str.= "</datalist>";
