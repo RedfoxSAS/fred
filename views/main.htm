@@ -26,38 +26,46 @@
     <title>{Title}</title>
 
     <link rel="icon" sizes="192x192" href="{Icon}" />
+     <!--Scripts-->
+    {Scripts}   
+    
     <!--Estilos-->
     {Styles}
-
-    <!--Scripts-->
-    {Scripts}
   </head>
 
   <body>
+    <!--cabecera princila-->
     <header class="header" x-data="{ open: false }">
       <div class="header-logo">
         <a href="/dashboard" title="Pagina principal">
           <img src="{Logo}" />
         </a>
       </div>
-      {Menu} {User}
+      {Menu}
+      <div class='app-route'>{Route}</div>
+      {User}
     </header>
 
+    <!--panel lateral de menus adicionales y formulario de filtros-->
     <div class="panel-options">
-		{Panel}
-	</div>
+		  {Panel}
+	  </div>
 
+    <!--cuerpo principal-->
     <div id="appbody" class="body" style="z-index: 0; margin: 0px">
-		{Body}
-	</div>
+      {Body}
+    </div>
 
+    <!--definicion del footer-->
     <footer>
     </footer>
 
     {Window}
-  </body>
+  
+    <!--escript de cierre de prorgama-->
+    <script language="javascript">
+      {Jsvars}
+    </script>
 
-  <script language="javascript">
-    {Jsvars}
-  </script>
+  </body>
 </html>

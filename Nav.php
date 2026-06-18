@@ -56,15 +56,22 @@ class Nav
 		
 		$ul = implode("",$ul);
 		$str = "
-		<button class=\"b-nav-open\" x-on:click=\"open = true\">Abrir</button>
-		<nav class=\"nav\" x-bind:class=\"open ? 'nav-show' : ''\">
-		<ul>
-			<div class=\"nav-button\" x-on:click=\"open = false\">
-				<button class=\"b-nav-close\">Cerrar</button>
-			</div>
-			$ul
-			<a href=\"/help\" class='nav-help'><i class=\"fa fa-circle-question\"></i> Ayuda</a>
-		</ul>
+		<a
+            class=\"navbar-toggler\"
+            type=\"button\"
+            data-toggle=\"collapse\"
+            data-target=\"#navbarSupportedContent\"
+            aria-controls=\"navbarSupportedContent\"
+            aria-expanded=\"false\"
+            aria-label=\"Toggle navigation\"
+          >          
+		  <span class=\"fa fa-bars\"></span>
+        </a>
+		<nav class=\"navbar navbar-expand-md collapse\" id=\"navbarSupportedContent\">
+			<ul class=\"\">
+				$ul
+				<a href=\"/help\" class='nav-help'><i class=\"fa fa-circle-question\"></i> Ayuda</a>
+			</ul>
 		</nav>
 		";
 		return $str;

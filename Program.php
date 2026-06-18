@@ -35,7 +35,7 @@ abstract class Program extends App
 	public $Titles = array();
 	protected $Logo = "/fred/assets/images/logo.png";
 	protected $Icon = "/fred/assets/images/favicon.ico";
-	protected $Look = "/fred/assets/fred.clasic.css?22";
+	protected $Look = "/fred/assets/fred.clasic.css?5";
 	protected $Login = "views/login.htm";
 	
 	protected $Modal;
@@ -59,7 +59,7 @@ abstract class Program extends App
 
 		Program::$View = "views/main.htm";
 		$this->Modal = new Modal();
-		Program::$Panel = new FrmPanel("Opciones de filtrado");
+		Program::$Panel = new FrmPanel("");
 		Program::$Panel->Name = "PanelOptions";
 		
 		App::loadUser();
@@ -211,7 +211,7 @@ abstract class Program extends App
 			$body = (string) implode("",$this->Body);
 			$body = View::clean($body);
 			//$body = "<section class='AppTitle'><h1>".implode(" / ",$this->Titles)."</h1></section>" . $body;
-			$body = "<div class='app-title'>".$this->Route."</div>" . $body;
+			//$body = "<div class='app-title'>".$this->Route."</div>" . $body;
 			$this->export($body);
 			
 			if(Program::$View instanceof View){

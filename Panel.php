@@ -122,5 +122,42 @@ class FrmPanel extends Form
 			}
 		}
 	}
+
+	public function __toString()
+	{
+		$this->Style = "
+		/* Estilo opcional para que el usuario sepa que el título es cliqueable */
+		.tool-collapse {
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.tool-collapse:after {
+			content: '\f078'; /* Flecha hacia abajo de FontAwesome */
+			font-family: 'Font Awesome 6 Free', 'FontAwesome';
+			font-size: 14px;
+		}
+		#contenedorFiltros > h1 {display:none;}
+		";
+	
+		$form = parent::__toString();
+		$r = "
+		<!-- Convertimos el H1 en el disparador del colapso -->
+		<h1 class=\"tool-collapse\" 
+			data-toggle=\"collapse\" 
+			data-target=\"#panel-tools\" 
+			aria-expanded=\"true\" 
+			aria-controls=\"panel-tools\">
+			Panel de Herramientas
+		</h1>	
+
+		<!-- Envolvemos el formulario en este nuevo div con la clase collapse y show (para que inicie abierto) -->
+		<div class=\"collapse panel-tools\" id=\"panel-tools\">
+			$form
+		</div>
+		";
+		return $r;
+	}
 }
 

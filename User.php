@@ -141,11 +141,13 @@ Class User extends Model
 	
 	public function headView()
 	{
-		$str = "<div>";
-		$str.= "<a href='/logoff' style='color:white;margin.right:8px;'>";
+		$nombres = explode(' ', preg_replace('/\s+/', ' ', trim($this->Nombre)));
+		$nombre = implode(' ', array_slice($nombres, 0, 2));
+		$str = "<div class='user-tag'>";
+		$str.= "<a href='/logoff'>";
 		$str.= "<i class='fa fa-door-open'></i>";
 		$str.= "</a> ";
-		$str.= $this->Nombre;
+		$str.= $nombre;
 		$str.= "</div>";
 		return $str;
 	}

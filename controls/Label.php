@@ -35,7 +35,7 @@ class Label extends Control
 		$str = "<div class='Control-label' $hid>";
 		$str.= "<$typ>$lbl</$typ>";
 		$str.= "<div>$txt</div>";
-		$str.= "<div>";
+		$str.= "</div>";
 		return $str;	
 	}
 }
