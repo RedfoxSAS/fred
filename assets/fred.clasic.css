@@ -206,7 +206,7 @@ body {
     }
     .navbar ul li ul li{
         border: none;
-        width: 47.5%;
+        width: 46%;
         display: inline-block;
         margin: 5px;
         /* Fondo sutil para los subelementos estilo tarjeta */
