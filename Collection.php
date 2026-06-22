@@ -28,6 +28,9 @@ class Collection
 	private $view_th = false;
 	private $view_item = false;
 	private $clases;
+
+	private $_titles = false;
+	private $_fields = false;
 	
 	public function __construct(Model $m)
 	{
@@ -60,24 +63,31 @@ class Collection
 	}
 
 	#setea los campos a mostrar en formato de tabla
+	
 	public function fields(string $fields)
 	{
-		$str = "<tr>";
-		if($this->Url!=false){
-			$str = "<tr onclick=\"location.href='" . $this->Url . "'\" style=\"cursor:pointer;\">";
-		}
 		if(strpos($fields,";")>0){
 			$fields = explode(";",$fields);
 		}else{
 			$fields = explode(",",$fields);
 		}
+		$this->_fields = $fields;
+	}
+	private function _createViewFields()
+	{
+		$str = "<tr>";
+		if($this->Url!=false){
+			$str = "<tr onclick=\"location.href='" . $this->Url . "'\" style=\"cursor:pointer;\">";
+		}
+
 		$i = 0;
-		foreach($fields as $f){
+		foreach($this->_fields as $f){
 			$clase = (!empty($this->clases[$i]))? $this->clases[$i]:"";
+			$dlabel = (!empty($this->_titles[$i]))? $this->_titles[$i]:"";
 			if(strpos($f, "}")){
-				$str.= "<td class='$clase'>$f</td>";
+				$str.= "<td data-label='$dlabel' class='$clase'>$f</td>";
 			}else{
-				$str.= "<td class='$clase'>{{$f}}</td>";
+				$str.= "<td data-label='$dlabel' class='$clase'>{{$f}}</td>";
 			}
 			$i++;
 		}
@@ -93,10 +103,14 @@ class Collection
 	
 	public function titles(string $titles)
 	{
-		$str = "<thead><tr>";
 		$titles = explode(",",$titles);
+		$this->_titles = $titles;
+	}
+	private function _createViewTitles()
+	{
+		$str = "<thead><tr>";
 		$i = 0;
-		foreach($titles as $f){
+		foreach($this->_titles as $f){
 			$clase = (!empty($this->clases[$i]))? $this->clases[$i]:"";
 			$str.= "<th class='$clase'>$f</th>";
 			$i++;
@@ -113,6 +127,8 @@ class Collection
 	public function __toString()
 	{
 		$items = "";
+		$this->_createViewTitles();
+		$this->_createViewFields();
 		if($this->view_item==false){
 			$this->Model->view($this->view_td);
 		}else{

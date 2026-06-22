@@ -167,30 +167,92 @@ body {
         top: 40px;
         left: 0px;
         width: 100%;
-        background-color: #2aacb8;
-        color: black;
+        /* Fondo oscuro sofisticado para que resalte la barra superior #2aacb8 */
+        background-color: #1a232a; 
+        color: #ffffff;
 
         /* Limita la altura máxima para forzar el scroll */
         max-height: 300px; 
+        /* Borde inferior sutil en lugar de un bloque grueso */
+        border-bottom: 4px solid #2aacb8;
+        /* Sombra suave para dar profundidad */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
-	.navbar ul{
-		list-style: none;
-	}
+    .navbar ul{
+        list-style: none;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+    .navbar ul li {
+        /* Sin bordes negros ni márgenes que separen los bloques */
+        border: none;
+        margin: 0px;
+        background-color: transparent;
+        /* Línea divisoria muy fina entre opciones principales */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    /* Efecto al presionar un botón del menú principal */
+    .navbar ul li:active {
+        background-color: rgba(255, 255, 255, 0.03);
+    }
     .navbar ul li a {
-	    display: flex;
-	    padding: 0.3rem;
-	    text-decoration: none;
-	    color: #191C26;
+        /* Removido el border-bottom negro anterior */
+    }
+    /* Contenedor del submenú */
+    .navbar ul li ul {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 5px 10px;
+    }
+    .navbar ul li ul li{
+        border: none;
+        width: 47.5%;
+        display: inline-block;
+        margin: 5px;
+        /* Fondo sutil para los subelementos estilo tarjeta */
+        background-color: rgba(255, 255, 255, 0.04);
+        border-radius: 4px;
+    }
+    .navbar ul li ul li a{
+        /* Removido el border-bottom anterior */
+    }
+    .navbar ul li a {
+        display: flex;
+        padding: 0.8rem 1.2rem; /* Más espacio para los dedos al tocar */
+        text-decoration: none;
+        /* Blanco suave para alta legibilidad */
+        color: #f1f5f9; 
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+    /* Resalta el enlace del submenú con tu color de marca */
+    .navbar ul li ul li a {
+        display: flex;
+        padding: 0.6rem;
+        text-decoration: none;
+        color: #e2e8f0;
+        font-size: 0.9rem;
+    }
+    /* Color de los enlaces en general para asegurar consistencia */
+    .navbar a {
+        color: #f1f5f9;
+    }
+    /* Cambio de color interactivo si se usa mouse */
+    .navbar ul li a:hover {
+        color: #2aacb8;
     }
     .user-tag {
-       display:none;    
+       display: none;    
     }
-
 }
+
+
+
+
 /* ===================  PANEL DE OPCIONES Y FILTROS ===============0*/
 .panel-options > h1 {font-size:14pt;}
 .panel-tools  { width:100%; padding:0px 0px 8px 0px;}
-.panel-tools table {width:100%;}
+.panel-tools table {width:100%; }
 .panel-tools form, .panel-options .btn { margin:0px; padding:0px; width:100%;}
 .panel-tools .form-panel label  { width:100%; padding:0px;margin:0px;width:100%;font-size:9pt;}
 .panel-tools .btn-link { text-align:left;	 color:black; }
@@ -329,33 +391,105 @@ form label div {
 }
 
 /* ======================= COLECCIONES Y/O TABLAS ===============================*/
-.collection 
-{
-	width:100%;
+.collection {
+    width: 100%;
 }
-.collection i 
-{
-	display:inline-block;
+.collection i {
+    display: inline-block;
 }
-.collection-text
-{
-	max-height:54pt;
-	overflow:clip;
-}	
-.collection-text p
-{
-	margin:0px;margin-left:0px;
+.collection-text {
+    max-height: 54pt;
+    overflow: clip;
+}    
+.collection-text p {
+    margin: 0px;
+    margin-left: 0px;
 }
-.collection-crud
-{
-	border: 0px solid white;
+.collection-crud {
+    border: 0px solid white;
 }
+
 @media all and (min-width: 769px) {
+    /* Aquí tu diseño normal de PC */
+}
+
+@media screen and (max-width: 768px) {
+    /* Ocultar el encabezado tradicional de la tabla */
+    .collection thead {
+        display: none;
+    }
+
+    /* Forzar a la tabla y sus componentes a actuar como bloques (cajas) */
+    .collection, 
+    .collection tbody, 
+    .collection tr, 
+    .collection td {
+        display: block;
+        width: 100%;
+    }
+
+    /* Convertir cada fila en una caja/tarjeta elegante */
+    .collection tr {
+        background-color: #ffffff;
+        margin-bottom: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Estilo para cada celda dentro de la caja */
+    .collection td {
+        text-align: right; /* Empuja el valor hacia la derecha */
+        padding: 8px 10px;
+        border-bottom: 1px solid #f1f5f9;
+        position: relative;
+        font-size: 0.9rem;
+    }
+
+    /* Quitar la línea divisoria a la última celda de la caja */
+    .collection td:last-child {
+        border-bottom: none;
+    }
+
+    /* Inyectar el título de la columna dinámicamente a la izquierda */
+    .collection td::before {
+        content: attr(data-label); /* Toma el texto de data-label */
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #64748b; /* Color gris elegante para los títulos */
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    /* Ajustar las insignias (badges) para que no rompan el diseño */
+    .collection td .badge {
+        display: inline-block;
+        margin-left: 5px;
+        vertical-align: middle;
+    }
+
+    /* Centrar o acomodar el botón de acción al final de la caja */
+    .collection-crud {
+        text-align: center !important;
+        background-color: #f8fafc;
+        margin-top: 5px;
+        padding: 10px !important;
+        border-radius: 4px;
+    }
     
+    .collection-crud a {
+        display: block;
+        width: 100%;
+        color: #2aacb8; /* Usando tu color de marca */
+        text-decoration: none;
+        font-weight: bold;
+    }
 }
-@media screen and (max-width:768px){
-   
-}
+
 
 /* ========================= FORMATOS GENERALES DE TEXTO  ============== */
 .body h1 {
