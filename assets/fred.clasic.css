@@ -252,7 +252,7 @@ body {
 /* ===================  PANEL DE OPCIONES Y FILTROS ===============0*/
 .panel-options > h1 {font-size:14pt;}
 .panel-tools  { width:100%; padding:0px 0px 8px 0px;}
-.panel-tools table {width:100%; }
+.panel-tools table {width:100%;}
 .panel-tools form, .panel-options .btn { margin:0px; padding:0px; width:100%;}
 .panel-tools .form-panel label  { width:100%; padding:0px;margin:0px;width:100%;font-size:9pt;}
 .panel-tools .btn-link { text-align:left;	 color:black; }
@@ -295,6 +295,9 @@ body {
         display: none;
     }
 }
+
+
+
 /* CUERPO PRINCIPAL */
 .body {
     padding:0.7rem;
@@ -308,6 +311,8 @@ body {
         margin:0;
     }  
 }
+
+
 /* ===================== FORMULARIOS Y CONTROLES =================================*/
 /* Estilo para la rejilla tabla de los paneles*/
 .form-panel table
@@ -387,8 +392,50 @@ form label div {
  
 }
 @media screen and (max-width:768px){
-   
+/* Ocultar el encabezado tradicional de la tabla */
+    .form-panel thead {
+        display: none;
+    }
+
+    /* Forzar a la tabla y sus componentes a actuar como bloques (cajas) */
+    .body .form-panel table,
+    .body .form-panel tbody, 
+    .body .form-panel tr, 
+    .body .form-panel td {
+        display: block;
+        width: 100%;
+    }
+
+    /* Convertir cada fila en una caja/tarjeta elegante */
+    .body .form-panel tr {
+        background-color: #ffffff;
+        margin-bottom: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .check-label 
+	{ 
+		display:block !important;
+		padding:0.2rem;
+		width:20% !important;
+		color:black;
+	}
+	.check-group 
+	{
+		margin-bottom:12px;
+	}
+	.group-title 
+	{
+		margin:0px;
+		background-color:#fff;
+		width:100%;
+		font-size:11pt;
+	}
 }
+
 
 /* ======================= COLECCIONES Y/O TABLAS ===============================*/
 .collection {
@@ -420,11 +467,13 @@ form label div {
     }
 
     /* Forzar a la tabla y sus componentes a actuar como bloques (cajas) */
-    .collection, 
+    .collection,
+    .collection table,
     .collection tbody, 
     .collection tr, 
     .collection td {
-        display: block;
+        display: block !important;
+        height: auto !important;
         width: 100%;
     }
 
@@ -436,15 +485,26 @@ form label div {
         border-radius: 8px;
         padding: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        display: grid !important;
+        grid-template-columns: 1fr !important;
     }
 
     /* Estilo para cada celda dentro de la caja */
     .collection td {
-        text-align: right; /* Empuja el valor hacia la derecha */
-        padding: 8px 10px;
+        display:inline-block !important;
+        flex-direction:column !important;
+        height:auto !important;
+        min-height:max-content !important;
+        white-space:normal !important;
+        word-break:break-word !important;
+        overflow: visible !important;
+        text-align: left; /* alinea el valor a la izquierda */
+        padding: 2px 2px;
         border-bottom: 1px solid #f1f5f9;
         position: relative;
+        margin-left:6px;
         font-size: 0.9rem;
+        width:100%;
     }
 
     /* Quitar la línea divisoria a la última celda de la caja */
@@ -454,22 +514,24 @@ form label div {
 
     /* Inyectar el título de la columna dinámicamente a la izquierda */
     .collection td::before {
-        content: attr(data-label); /* Toma el texto de data-label */
-        position: absolute;
-        left: 10px;
-        width: 45%;
+        content: attr(data-label) ": "; /* Toma el texto de data-label */
+        position: relative;
+        width: 100%;
         text-align: left;
         font-weight: bold;
         color: #64748b; /* Color gris elegante para los títulos */
         font-size: 0.85rem;
         text-transform: uppercase;
+        padding-right:5px;
     }
 
     /* Ajustar las insignias (badges) para que no rompan el diseño */
     .collection td .badge {
-        display: inline-block;
         margin-left: 5px;
         vertical-align: middle;
+        display:inline-block;
+        max-width:80px;
+        min-width:20px;
     }
 
     /* Centrar o acomodar el botón de acción al final de la caja */
@@ -477,17 +539,23 @@ form label div {
         text-align: center !important;
         background-color: #f8fafc;
         margin-top: 5px;
-        padding: 10px !important;
+        padding: 4px !important;
         border-radius: 4px;
+        height:32px;
+        border:0px solid blue;
     }
     
     .collection-crud a {
         display: block;
-        width: 100%;
         color: #2aacb8; /* Usando tu color de marca */
         text-decoration: none;
         font-weight: bold;
+        font-size:15pt;
+        position:relative;
+        border:0px solid red;
+        display:inline;
     }
+
 }
 
 

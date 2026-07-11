@@ -30,11 +30,11 @@ class Panel extends Control
 		$name = $this->Name;
 		$str = "<div class='form-panel'>";
 		$str.= "<input type='hidden' name='$name' value='$name'>";
-		$str.= "<table><tr>";
+		$str.= "<table><thead><tr>";
 		for($i=0;$i<20;$i++){
 			$str.= "<th></th>";
 		}
-		$str.= "</tr><tr>";
+		$str.= "</tr></thead><tbody><tr>";
 		$cols = 0;
 		$colm = array();
 		$i = 1;
@@ -71,7 +71,7 @@ class Panel extends Control
 		for($n = $cols ; $n<20; $n++){
 			$str.= "<td></td>";
 		}
-		$str.= "</tr></table></div>";
+		$str.= "</tr></tbody></table></div>";
 		$str.= implode("",$ocultos);
 		return $str;
 	}
