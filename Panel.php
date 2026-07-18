@@ -144,12 +144,12 @@ class FrmPanel extends Form
 		$form = parent::__toString();
 		$r = "
 		<!-- Convertimos el H1 en el disparador del colapso -->
-		<h1 class=\"tool-collapse\" 
+		<h1 class=\"tool-title\" 
 			data-toggle=\"collapse\" 
 			data-target=\"#panel-tools\" 
 			aria-expanded=\"true\" 
 			aria-controls=\"panel-tools\">
-			Panel de Herramientas
+			Panel de Herramientas <i class='fa fa-angle-down'></i> 
 		</h1>	
 
 		<!-- Envolvemos el formulario en este nuevo div con la clase collapse y show (para que inicie abierto) -->
