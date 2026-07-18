@@ -90,16 +90,20 @@ class MotorMySql implements MotorDbi
             return true;
         }
 		
-        $this->conn = new \mysqli($this->server, $this->user, $this->password, $this->database);
+        try{
+            $this->conn = new \mysqli($this->server, $this->user, $this->password, $this->database);
 
-        if ($this->conn->connect_error) {
-            error_log("Error de conexión a MySQL: " . $this->conn->connect_error);
-            return false;
-        }
+            if ($this->conn->connect_error) {
+                error_log("Error de conexión a MySQL: " . $this->conn->connect_error);
+                return false;
+            }
 
-        if (!$this->conn->set_charset("utf8mb4")) {
-            error_log("Error al establecer charset utf8mb4: " . $this->conn->error);
-            return false;
+            if (!$this->conn->set_charset("utf8mb4")) {
+                error_log("Error al establecer charset utf8mb4: " . $this->conn->error);
+                return false;
+            }
+        }catch (\Throwable $e){
+            $this->msg("Error conectado a la base de datos");
         }
 
         return true;
