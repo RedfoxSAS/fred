@@ -156,15 +156,23 @@ body {
     
 }
 @media screen and (max-width:768px){
+    .header {
+        height:48px;
+    }
+    .header-logo {
+        left:2px;
+        top:2px;
+        width:48px;
+    }
     .header-logo img{
         height:42px;
-    }    
+    }   
     .navbar {
         /* Permite scroll vertical con barra visible */
         overflow-y: scroll; 
         overflow-x: hidden;
         position: absolute;
-        top: 40px;
+        top: 48px;
         left: 0px;
         width: 100%;
         /* Fondo oscuro sofisticado para que resalte la barra superior #2aacb8 */
@@ -241,8 +249,28 @@ body {
     .navbar ul li a:hover {
         color: #2aacb8;
     }
-    .user-tag {
-       display: none;    
+
+    .navbar-toggler {
+		display: block;
+        position:absolute;
+        top:6px;
+        right:6px;
+        z-index:1000;
+        font-size:1.8rem;
+	}
+    .user-tag, .app-route  {
+        display: block;
+        width:100%; 
+        border:0px solid red;
+        position:absolute;
+        top:2px;
+        left:50px;
+        color:white;
+        font-weight:bold;
+    }
+    .app-route {
+        top:22px !important;  
+        color:black;
     }
 }
 
@@ -250,7 +278,7 @@ body {
 
 
 /* ===================  PANEL DE OPCIONES Y FILTROS ===============0*/
-.panel-options > h1 {font-size:14pt;}
+.panel-options > h1 {font-size:12pt;}
 .panel-tools  { width:100%; padding:0px 0px 8px 0px;}
 .panel-tools table {width:100%;}
 .panel-tools form, .panel-options .btn { margin:0px; padding:0px; width:100%;}
@@ -282,7 +310,7 @@ body {
 @media screen and (max-width:768px){
     .panel-options {
         position:fixed;
-        top:40px;
+        top:48px;
 		width:100%;
 		display:block;
 		padding:0.7% 1rem 0% 1rem;
@@ -294,6 +322,8 @@ body {
     .panel-tools.collapse:not(.show) {
         display: none;
     }
+    .panel-options > h1 {font-size:14pt;}
+
 }
 
 
