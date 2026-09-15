@@ -55,7 +55,7 @@ class Table extends Control
 	
 	public function titles(string $titles,$w=false)
 	{
-		$str = "<tr>";
+		$str = "<thead><tr>";
 		$titles = explode(",",$titles);
 		$i=0;
 		$h = ($w!=false)? explode(",",$w): array();
@@ -64,7 +64,7 @@ class Table extends Control
 			$str.= "<th $css>$f</th> ";
 			$i++;
 		}
-		$str.= "</tr>";
+		$str.= "</tr></thead>";
 		$this->view_th = $str;		
 	}
 	
@@ -75,6 +75,58 @@ class Table extends Control
 		$str.= $this->view_th;
 		$str.= implode("",$this->Items);
 		$str.= "</table>";
+		return $str;
+	}
+
+	public function group($field)
+	{
+		$items = array();
+		$grupo = new TableGroup();
+		$anterior = null; // Cambiado a null para un control más preciso
+
+		foreach($this->Items as $item){
+			$actual = $item->$field;
+
+			// Si cambia el valor (y no es la primerísima iteración)
+			if($anterior !== null && $actual != $anterior){
+				$items[] = $grupo; // Guardamos el grupo que acabamos de completar
+				$grupo = new TableGroup(); // Creamos uno nuevo para el siguiente bloque
+			}
+			
+			$grupo->add($item);
+			$anterior = $actual;
+		}
+
+		// ¡IMPORTANTE! Guardar el último grupo generado tras salir del bucle
+		if (!$grupo->isEmpty()) { // O simplemente $items[] = $grupo; si siempre hay elementos
+			$items[] = $grupo;
+		}
+
+		$this->Items = $items;
+	}
+
+}
+
+class TableGroup 
+{
+	public $Items = array();
+
+	public function add($item)
+	{
+		$this->Items[] = $item;
+	}
+
+	public function isEmpty()
+	{
+		if(count($this->Items)>0) return false;
+		return true;
+	}
+
+	public function __toString()
+	{
+		$str = "<tbody>";
+		$str.= implode("",$this->Items);
+		$str.= "</tbody>";
 		return $str;
 	}
 }

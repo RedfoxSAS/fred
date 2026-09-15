@@ -339,11 +339,11 @@ class MotorMySql implements MotorDbi
     public function runSql($sql): array
     {
         if (!is_string($sql)) {
-            return false;
+            return [];
         }
 
         if (!$this->connect()) {
-            return false;
+            return [];
         }
 
         $this->lastSql = $sql;
@@ -351,7 +351,7 @@ class MotorMySql implements MotorDbi
 
         if (!$result) {
             error_log("Error en runSql: " . $this->conn->error . " | SQL: $sql");
-            return false;
+            return [];
         }
 
         $data = [];
