@@ -1,0 +1,62 @@
+/* Contenedor principal estilo Pinterest */
+.pinterest-gallery {
+    column-count: 4;       /* Número de columnas en pantallas grandes */
+    column-gap: 15px;       /* Espacio entre columnas */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* Cada tarjeta de imagen */
+.gallery-item {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;    /* Espacio vertical entre imágenes */
+    break-inside: avoid;    /* Evita que una tarjeta se parta entre dos columnas */
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Configuración de la imagen */
+.gallery-item img {
+    width: 100%;
+    height: auto;           /* Permite alturas variables (esencial para Pinterest) */
+    display: block;
+}
+
+/* Nombre de la imagen en la parte inferior */
+.gallery-item-name {
+    padding: 10px 12px;
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    text-align: center;
+    background: #fff;
+}
+
+/* Responsive para pantallas medianas (Tablets) */
+@media (max-width: 900px) {
+    .pinterest-gallery {
+        column-count: 3;
+    }
+}
+
+/* Responsive para pantallas pequeñas (Móviles) */
+@media (max-width: 600px) {
+    .pinterest-gallery {
+        column-count: 2; /* Cambia a 1 si prefieres una sola columna en móvil */
+        column-gap: 10px;
+    }
+    .gallery-item {
+        margin-bottom: 10px;
+    }
+}
