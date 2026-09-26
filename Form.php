@@ -276,9 +276,12 @@ abstract class Form extends App
 			if($control instanceof Control){
 				if($control->Source != false){
 					$field = $control->Source;
-					if(!empty($this->Model->$field)){
-						$control->text($this->Model->value($field));
-					}else if(!is_null($control->TextDefault)){
+					$modelValue = $this->Model->value($field);
+
+					// Verificamos que no sea estrictamente una cadena vacía ni null
+					if ($modelValue !== '' && $modelValue !== null) {
+						$control->text($modelValue);
+					} else if (!is_null($control->TextDefault)) {
 						$control->Text = $control->TextDefault;
 					}
 				}

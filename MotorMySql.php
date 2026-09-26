@@ -489,7 +489,9 @@ class MotorMySql implements MotorDbi
 
         $sets = [];
         foreach ($fields as $field => $meta) {
-            $value = (empty($data[$field]))? $meta : $data[$field];
+            //$value = (empty($data[$field]))? $meta : $data[$field];
+            $value = (($data[$field] ?? '') === '') ? $meta : $data[$field];
+
             $escaped = $this->escape($value);
             $sets[] = "`$field` = $escaped";
         }
@@ -508,7 +510,8 @@ class MotorMySql implements MotorDbi
         $values = [];
         foreach ($fields as $field => $meta) {
             $columns[] = "`$field`";
-            $value = (empty($data[$field]))? $meta : $data[$field];
+            //$value = (empty($data[$field]))? $meta : $data[$field];
+            $value = (($data[$field] ?? '') === '') ? $meta : $data[$field];
             $values[] = $this->escape($value);
         }
 
