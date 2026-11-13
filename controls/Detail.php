@@ -255,7 +255,7 @@ class Detail extends Panel
 						// Accede dinámicamente a las propiedades de 'item'
 						str += '<td>' + (item[key] || '') + '</td>';
 					}
-					str += '<td><i class=\"fa fa-times\" onclick=\"delItem$name(' + i + ')\"></i></td>';
+					str += '<td><i class=\"fa fa-times\" style=\"cursor: pointer;\" onclick=\"delItem$name(' + i + ')\" title=\"Editar / Eliminar\"></i></td>';
 					str += '</tr>';
 					i++;
 				});
@@ -293,14 +293,34 @@ class Detail extends Panel
 
 			function delItem$name(id)
 			{
+				let item = items$name.at(id);
+				let view = views$name.at(id);
+
 				items$name.splice(id, 1);
 				views$name.splice(id, 1);
+				
+				updateTotal$name(); // <-- Mover ANTES de fillTable
 				prepareToSend$name();
 				fillTable$name();
-				updateTotal$name();
 
-				document.dispatchEvent(new CustomEvent(\"itemDeleted\", { detail: { id } }));
+				for (const [key, value] of Object.entries(vars$name)) {
+					const vistaName = \"View\" + value;
+					const element = document.getElementById(value);
+					const vista = document.getElementById(vistaName);
+					if (element) {
+						element.value = item[key];
+						if(vista){
+							vista.value = view[key];
+						}else{
+							view[key] = element.value;
+						}
+					}
+				}
+
+				// Enviar también 'item' y 'view' en el detalle del evento
+				document.dispatchEvent(new CustomEvent(\"itemDeleted\", { detail: { id, item, view } }));
 			}
+
 
 			function formatoNumeroCO(valor, useCurrency = false) {
 				let opciones = {
